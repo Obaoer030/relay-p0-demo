@@ -7,7 +7,13 @@ export const WORKSPACE_CHANNEL = 'relay:workspace-channel'
 export function isWorkspaceState(value: unknown): value is WorkspaceState {
   if (!value || typeof value !== 'object') return false
   const state = value as Partial<WorkspaceState>
-  return state.version === WORKSPACE_VERSION && Array.isArray(state.matters) && Array.isArray(state.people) && Array.isArray(state.activity) && typeof state.reduceMotion === 'boolean'
+  return state.version === WORKSPACE_VERSION &&
+    typeof state.activeUserId === 'string' &&
+    Array.isArray(state.users) &&
+    Array.isArray(state.matters) &&
+    Array.isArray(state.people) &&
+    Array.isArray(state.activity) &&
+    typeof state.reduceMotion === 'boolean'
 }
 
 export function readWorkspaceState(now = new Date()): WorkspaceState {

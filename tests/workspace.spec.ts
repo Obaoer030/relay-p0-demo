@@ -8,7 +8,7 @@ test('complete workspace exposes real seeded modules and navigation', async ({ p
 
   await page.getByRole('link', { name: '事项', exact: true }).click()
   await expect(page.getByRole('heading', { name: '所有事项' })).toBeVisible()
-  await expect(page.getByText('8 个事项')).toBeVisible()
+  await expect(page.getByText('10 个事项')).toBeVisible()
 
   await page.getByRole('link', { name: '协作', exact: true }).click()
   await expect(page.getByRole('heading', { name: '协作进度' })).toBeVisible()
@@ -30,6 +30,7 @@ test('a judge can create, persist, edit, transfer, and find a matter', async ({ 
 
   await expect(page.getByRole('heading', { name: '周日确认新家燃气开通' })).toBeVisible()
   await expect(page.getByText('木木拍下燃气表编号并发给林然')).toBeVisible()
+  await expect.poll(() => page.evaluate(() => window.localStorage.getItem('relay:workspace-state'))).toContain('周日确认新家燃气开通')
   await page.reload()
   await expect(page.getByRole('heading', { name: '周日确认新家燃气开通' })).toBeVisible()
 
@@ -37,7 +38,7 @@ test('a judge can create, persist, edit, transfer, and find a matter', async ({ 
   await page.getByLabel('当前负责人').selectOption('木木')
   await page.getByLabel('当前状态').selectOption('relayed')
   await page.getByRole('button', { name: '保存事项' }).click()
-  await expect(page.getByText('当前负责人').locator('..').getByText('木木')).toBeVisible()
+  await expect(page.locator('.workspace-detail-hero__owner').getByText('木木')).toBeVisible()
 
   await page.goto('/matters')
   await page.getByPlaceholder('搜索标题、下一步或场景').fill('燃气')
@@ -65,5 +66,66 @@ test('mobile workspace uses bottom navigation without horizontal overflow', asyn
 
   await page.getByRole('link', { name: '事项', exact: true }).click()
   await expect(page.getByRole('heading', { name: '所有事项' })).toBeVisible()
+  await page.locator('.workspace-mobile-header').getByLabel('切换用户视角').selectOption('xiaoyu')
+  await expect(page.getByText('5 个事项')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+})
+
+test('four perspectives expose distinct seeded datasets from the same workspace state', async ({ page }) => {
+  await page.goto('/matters')
+  await expect(page.getByText('10 个事项')).toBeVisible()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('xiaoyu')
+  await expect(page.getByText('5 个事项')).toBeVisible()
+  await expect(page.getByText('整理下月露营装备清单')).toBeVisible()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('sister')
+  await expect(page.getByText('3 个事项')).toBeVisible()
+  await expect(page.getByText('给妈妈续配慢病处方')).toBeVisible()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('chenyu')
+  await expect(page.getByText('3 个事项')).toBeVisible()
+  await expect(page.getByText('续办小区停车证')).toBeVisible()
+})
+
+test('an invitation flows from Lin Ran to Xiaoyu and completion is visible to both', async ({ page }) => {
+  await page.goto('/handoffs')
+  await expect(page.getByText('去物业代领新的门禁卡')).toBeVisible()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('xiaoyu')
+  await expect(page.getByRole('heading', { name: '等我确认' })).toBeVisible()
+  await page.getByText('去物业代领新的门禁卡').click()
+  await expect(page.getByRole('button', { name: /可以，我来处理/ })).toBeVisible()
+  await page.getByRole('button', { name: /可以，我来处理/ }).click()
+  await expect(page.locator('.workspace-detail-hero__owner').getByText('小雨')).toBeVisible()
+  await expect(page.getByText('下一步由我处理')).toBeVisible()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('linran')
+  await expect(page.getByText('对方已经确认负责下一步')).toBeVisible()
+  await expect(page.locator('.workspace-detail-hero__owner').getByText('小雨')).toBeVisible()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('xiaoyu')
+  await page.getByRole('button', { name: /标记为已完成/ }).click()
+  await expect(page.getByRole('heading', { name: '这件事已经完成' })).toBeVisible()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('linran')
+  await expect(page.getByRole('heading', { name: '这件事已经完成' })).toBeVisible()
+  await page.goto('/activity')
+  await expect(page.getByText('小雨完成了“去物业代领新的门禁卡”')).toBeVisible()
+})
+
+test('an invitee can decline and the matter returns to the creator', async ({ page }) => {
+  await page.goto('/matters')
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('chenyu')
+  await page.getByText('参加周日晚家庭视频').click()
+  await page.getByRole('button', { name: /这次我不方便/ }).click()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('sister')
+  await page.getByText('参加周日晚家庭视频').click()
+  await expect(page.getByText('下一步由我处理')).toBeVisible()
+  await expect(page.locator('.workspace-detail-hero__owner').getByText('姐姐')).toBeVisible()
+
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('chenyu')
+  await expect(page.getByRole('heading', { name: '所有事项' })).toBeVisible()
+  await expect(page.getByText('参加周日晚家庭视频')).toHaveCount(0)
 })

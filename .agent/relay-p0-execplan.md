@@ -2,14 +2,16 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — plain-language workflow and copy revision
+> Status: complete — green multi-perspective Calm Tech Glass checkpoint
 > Last updated: 2026-08-29
 
 ## Outcome contract
 
 Deliver a deterministic, mobile-first React + TypeScript + Vite demo that makes
 the bounded responsibility transfer from Lin Ran to Xiaoyu immediately clear.
-The only approved visual system is Warm Editorial. The golden path must work
+The current approved visual system is Calm Tech Glass: a restrained blue-gray
+product interface with high-opacity glass reserved for navigation and key
+layers, clear text hierarchy, and no neon or generic AI motifs. The golden path must work
 offline, require no typing or network, synchronize same-origin tabs, and pass
 the repository's single `npm run verify` quality gate.
 
@@ -104,6 +106,20 @@ the repository's single `npm run verify` quality gate.
 - [x] Update automated expectations and versioned visual baselines.
 - [x] Verify the revised workflow at 375×812 and 1440×900.
 - [x] Run `npm run verify` and leave a green checkpoint.
+
+### M8 — Multi-perspective shared demo and Calm Tech Glass
+
+- [x] Record the new multi-role and glass visual decision in the context pack
+  and ADR-003.
+- [x] Add four deterministic user perspectives and related seed data.
+- [x] Add the top-right perspective switcher across desktop and mobile.
+- [x] Make invitation acceptance, decline, ownership, completion, and activity
+  visible across related perspectives from one shared state source.
+- [x] Apply the Calm Tech Glass visual system with accessible fallbacks and no
+  generic AI-template motifs.
+- [x] Add complete multi-perspective flow, responsive, offline, sync, and visual
+  test evidence.
+- [x] Run `npm run verify`, ten golden runs, visual QA, and leave a green commit.
 
 ## Checkpoints
 
@@ -263,6 +279,43 @@ the repository's single `npm run verify` quality gate.
   they are not exposed to users.
 - Next concrete goal: none within this revision; preserve the green checkpoint.
 
+### 2026-08-29 — Multi-perspective shared demo and Calm Tech Glass
+
+- Completed outcome: added four switchable perspectives (林然、小雨、姐姐、
+  陈宇), fourteen deterministic matters, related activity records, and a
+  top-right desktop/mobile perspective control. Every perspective reads and
+  updates one shared reducer state; switching roles never duplicates or resets
+  a matter.
+- Flow evidence: browser tests prove distinct per-role datasets, invitation from
+  林然 to 小雨, acceptance, visibility from both sides, completion by the active
+  owner, and decline returning responsibility to the creator. Matter creation,
+  editing, persistence, search, activity, and module navigation remain covered.
+- Visual outcome: replaced the earlier warm-only surface treatment with Calm
+  Tech Glass: neutral canvas, steel blue, dark navy, restrained coral warmth,
+  translucent navigation/key layers, opaque content cards, text-first status
+  semantics, and backdrop-filter fallbacks. Purple neon, glowing AI orbs,
+  gradient text, magic/sparkle motifs, and decorative motion are absent.
+- Evidence: final `npm run verify` passed lint, strict typecheck, 18 unit tests,
+  production build, and 18 Chromium E2E tests. The suite includes 500ms
+  same-origin synchronization, offline completion with zero external requests,
+  reduced motion, invalid tokens, ≥44px controls, and 200%-equivalent layout.
+  Final `npm run test:golden` passed 10/10 consecutive deterministic runs.
+- Visual evidence: regenerated and inspected nine versioned baselines. Desktop
+  1440×900 and mobile 375×812 cover 林然 and 小雨 overviews, matter lists,
+  the helper request, and both demo states. No horizontal overflow, clipped
+  controls, unreadable status, or hidden perspective switcher was observed.
+- Changed files: workspace model/seed/reducer/persistence and perspective
+  selectors; app shell, switcher, overview, matters, collaboration, detail,
+  people, activity, editor, and settings screens; Calm Tech Glass styles;
+  browser/unit/visual tests and baselines; ADR-003, context pack, and this plan.
+- Unresolved risk: this remains a no-auth local demo. Browser tabs on one origin
+  synchronize, but separate physical devices do not share data without a later
+  authorized backend and identity/security phase. Public deployment and a
+  WeChat Mini Program were not started.
+- Next concrete goal: none within the authorized local-demo scope; preserve this
+  green checkpoint until deployment or real cross-device data is separately
+  authorized.
+
 ## Final P0 acceptance evidence
 
 | Acceptance item | Evidence |
@@ -278,15 +331,17 @@ the repository's single `npm run verify` quality gate.
 | Reduced motion preserves meaning | E2E checks the controller toggle, near-zero animation duration, Xiaoyu ownership, both semantic rails, and persistent release copy. |
 | Golden path succeeds ten consecutive times | `npm run test:golden`: 10 passed with one worker and deterministic reset. |
 | Error, empty, decline, and completion states are clear | E2E covers safe invalid token, pre-share helper empty state, respectful decline returning responsibility, acceptance, and distinct completion. |
+| Four user perspectives share one state | Workspace E2E asserts distinct seeded counts for 林然、小雨、姐姐、陈宇, then proves acceptance and completion remain visible after switching back and forth. |
+| Top-right switcher works on desktop and mobile | Versioned 1440×900 and 375×812 screenshots include the current role control; E2E switches all four roles and checks the resulting headings and data. |
 | Targets and zoom resilience | Product and presenter controls are asserted at ≥44px; a 720×450 CSS viewport (1440×900 at 200% equivalent) completes acceptance without horizontal overflow. |
 | Production/offline/local assets | E2E runs against `vite preview` after a production build; the loaded app completes offline and observed requests stay on the local origin. |
 | Direct routes and SPA fallback | Production-preview E2E opens `/`, `/demo`, `/r/demo-cat-checkup`, and an invalid token directly; `vercel.json` carries the SPA rewrite artifact. |
 
 ## Decision notes
 
-- The handoff context pack overrides the older PRD color direction: use warm
-  cream, deep brown, restrained brick/coral, and warm taupe rather than purple
-  or green as the primary system.
+- The explicit 2026-08-29 user decision recorded in ADR-003 supersedes the
+  earlier warm-only direction. Calm Tech Glass uses a neutral blue-gray system
+  with restrained warmth and avoids generic AI-template styling.
 - `/demo` owns the formal presentation path; `/` and `/r/:token` remain truthful
   product views. The two phones share the same provider in one DOM.
 - Completion is distinct from acceptance. Acceptance moves execution ownership;

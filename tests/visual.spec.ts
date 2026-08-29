@@ -28,6 +28,13 @@ test('complete workspace is visible at 1440x900', async ({ page }) => {
     animations: 'disabled',
     caret: 'hide',
   })
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('xiaoyu')
+  await expect(page.getByRole('heading', { name: '早上好，小雨' })).toBeVisible()
+  await expect(page).toHaveScreenshot('workspace-xiaoyu-overview-1440x900.png', {
+    animations: 'disabled',
+    caret: 'hide',
+  })
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('linran')
   await page.goto('/matters')
   await expect(page).toHaveScreenshot('workspace-matters-1440x900.png', {
     animations: 'disabled',
@@ -42,6 +49,13 @@ test('complete workspace fits 375x812', async ({ page }) => {
     animations: 'disabled',
     caret: 'hide',
   })
+  await page.locator('.workspace-mobile-header').getByLabel('切换用户视角').selectOption('xiaoyu')
+  await expect(page.getByRole('heading', { name: '早上好，小雨' })).toBeVisible()
+  await expect(page).toHaveScreenshot('workspace-xiaoyu-overview-375x812.png', {
+    animations: 'disabled',
+    caret: 'hide',
+  })
+  await page.locator('.workspace-mobile-header').getByLabel('切换用户视角').selectOption('linran')
   await page.goto('/matters')
   await expect(page).toHaveScreenshot('workspace-matters-375x812.png', {
     animations: 'disabled',

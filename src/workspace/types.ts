@@ -1,5 +1,16 @@
 export type WorkspaceMatterStatus = 'mine' | 'waiting' | 'relayed' | 'completed'
+export type WorkspaceDisplayStatus = WorkspaceMatterStatus | 'incoming'
 export type WorkspacePriority = 'low' | 'normal' | 'high'
+export type WorkspaceUserId = 'linran' | 'xiaoyu' | 'sister' | 'chenyu'
+
+export type WorkspaceUser = {
+  id: WorkspaceUserId
+  name: string
+  initial: string
+  role: string
+  note: string
+  tone: 'coral' | 'sand' | 'sage' | 'blue'
+}
 
 export type WorkspaceMatter = {
   id: string
@@ -10,8 +21,11 @@ export type WorkspaceMatter = {
   boundary: string
   dueAt?: string
   status: WorkspaceMatterStatus
+  creatorId: WorkspaceUserId
+  ownerId: WorkspaceUserId | 'landlord' | 'mumu'
   ownerName: string
-  handoffTargetId?: string
+  participantIds: WorkspaceUserId[]
+  handoffTargetId?: WorkspaceUserId | 'mumu'
   category: string
   priority: WorkspacePriority
   createdAt: string
@@ -41,6 +55,8 @@ export type ActivityEntry = {
 
 export type WorkspaceState = {
   version: number
+  activeUserId: WorkspaceUserId
+  users: WorkspaceUser[]
   matters: WorkspaceMatter[]
   people: TrustedPerson[]
   activity: ActivityEntry[]
@@ -51,7 +67,11 @@ export type WorkspaceAction =
   | { type: 'add-matter'; matter: WorkspaceMatter }
   | { type: 'update-matter'; matter: WorkspaceMatter }
   | { type: 'delete-matter'; id: string; at?: string }
-  | { type: 'set-status'; id: string; status: WorkspaceMatterStatus; ownerName?: string; targetId?: string; at?: string }
+  | { type: 'set-status'; id: string; status: WorkspaceMatterStatus; ownerName?: string; targetId?: WorkspaceUserId | 'mumu'; at?: string }
+  | { type: 'set-active-user'; userId: WorkspaceUserId }
+  | { type: 'accept-handoff'; id: string; at?: string }
+  | { type: 'decline-handoff'; id: string; at?: string }
+  | { type: 'complete-matter'; id: string; at?: string }
   | { type: 'set-reduce-motion'; value: boolean }
   | { type: 'reset'; now?: Date }
   | { type: 'hydrate'; state: WorkspaceState }

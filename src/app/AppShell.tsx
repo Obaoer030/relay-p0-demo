@@ -1,6 +1,7 @@
 import { Activity, BookOpenText, CircleUserRound, Handshake, LayoutDashboard, ListChecks, Plus, Settings } from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { BrandMark } from '../components/BrandMark'
+import { PerspectiveSwitcher } from './PerspectiveSwitcher'
 
 const links = [
   { to: '/', label: '总览', icon: LayoutDashboard, end: true },
@@ -32,9 +33,19 @@ export function AppShell() {
       </aside>
 
       <div className="workspace-main">
+        <header className="workspace-topbar">
+          <div>
+            <span className="workspace-live-dot" />
+            <p><strong>共享演示状态</strong><small>切换视角不会复制或重置事项</small></p>
+          </div>
+          <PerspectiveSwitcher />
+        </header>
         <header className="workspace-mobile-header">
           <BrandMark compact />
-          <NavLink to="/settings" aria-label="设置"><Settings size={20} /></NavLink>
+          <div className="workspace-mobile-header__actions">
+            <PerspectiveSwitcher compact />
+            <NavLink to="/settings" aria-label="设置"><Settings size={20} /></NavLink>
+          </div>
         </header>
         <Outlet />
       </div>

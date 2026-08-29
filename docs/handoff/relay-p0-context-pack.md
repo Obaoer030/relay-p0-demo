@@ -1,5 +1,35 @@
 # Relay P0 long-run context pack
 
+## 2026-08-29 multi-perspective and Calm Tech Glass addendum
+
+The user explicitly requires the complete workspace to demonstrate data moving
+between multiple people, not only a single Lin Ran view. The workspace now has
+four deterministic demo perspectives (Lin Ran, Xiaoyu, Sister, and Chen Yu), a
+top-right perspective switcher, perspective-specific seeded matters, and shared
+matter transitions. Switching perspective must not clone or reset data: when an
+invitee accepts, declines, or completes a matter, every related perspective sees
+the same updated record and activity history.
+
+The user also explicitly replaced the previous flat Warm Editorial treatment
+with a more technological Apple-inspired glass direction, then clarified that
+it need not remain warm. The approved design language is **Calm Tech Glass**:
+
+- use a light neutral canvas, steel-blue primary accent, dark navy ink, and a
+  small amount of coral only for human warmth or attention;
+- add translucent layered navigation, real backdrop blur, fine luminous
+  borders, and restrained depth;
+- keep body text and critical state surfaces sufficiently opaque for contrast;
+- use glass to explain hierarchy and interaction, not as decorative noise;
+- avoid the generic “AI look”: purple neon gradients, glowing orbs, sparkles,
+  magic-wand or neural icons, excessive pills, gradient text, decorative grids,
+  and motion without product meaning;
+- preserve reduced-motion meaning and a solid-color fallback when backdrop blur
+  is unavailable.
+
+This addendum overrides the earlier prohibition on glassmorphism because it is
+an explicit user decision recorded here. It does not authorize a database,
+identity system, public deployment, runtime AI, or real cross-device claims.
+
 ## 2026-08-29 plain-language product copy addendum
 
 User testing feedback rejected “接棒 / 接住” as invented product language that
