@@ -26,6 +26,8 @@ test('a judge can create, persist, edit, transfer, and find a matter', async ({ 
   await page.getByLabel('完成标准 *').fill('表号和开通材料清单已经确认')
   await page.getByLabel('什么情况要先联系我').fill('如需签约或产生费用，先联系林然。')
   await page.getByLabel('分类').selectOption('搬家')
+  await page.getByLabel('这一步由谁处理').selectOption('invite')
+  await page.getByLabel('邀请谁确认').selectOption('xiaoyu')
   await page.getByRole('button', { name: '保存事项' }).click()
 
   await expect(page.getByRole('heading', { name: '周日确认新家燃气开通' })).toBeVisible()
@@ -33,12 +35,11 @@ test('a judge can create, persist, edit, transfer, and find a matter', async ({ 
   await expect.poll(() => page.evaluate(() => window.localStorage.getItem('relay:workspace-state'))).toContain('周日确认新家燃气开通')
   await page.reload()
   await expect(page.getByRole('heading', { name: '周日确认新家燃气开通' })).toBeVisible()
-
-  await page.getByRole('link', { name: '编辑' }).click()
-  await page.getByLabel('当前负责人').selectOption('木木')
-  await page.getByLabel('当前状态').selectOption('relayed')
-  await page.getByRole('button', { name: '保存事项' }).click()
-  await expect(page.locator('.workspace-detail-hero__owner').getByText('木木')).toBeVisible()
+  await expect(page.getByText('正在等待对方确认是否负责')).toBeVisible()
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('xiaoyu')
+  await page.getByRole('button', { name: /可以，我来处理/ }).click()
+  await expect(page.locator('.workspace-detail-hero__owner').getByText('小雨')).toBeVisible()
+  await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('linran')
 
   await page.goto('/matters')
   await page.getByPlaceholder('搜索标题、下一步或场景').fill('燃气')
@@ -46,7 +47,7 @@ test('a judge can create, persist, edit, transfer, and find a matter', async ({ 
   await expect(page.getByText('周日确认新家燃气开通')).toBeVisible()
 
   await page.goto('/activity')
-  await expect(page.getByText('更新了“周日确认新家燃气开通”')).toBeVisible()
+  await expect(page.getByText('小雨确认负责“周日确认新家燃气开通”')).toBeVisible()
 })
 
 test('product background explains why Relay is independent from chat', async ({ page }) => {
@@ -122,7 +123,7 @@ test('an invitation flows from Lin Ran to Xiaoyu and completion is visible to bo
   await expect(page.locator('.workspace-detail-hero__owner').getByText('小雨')).toBeVisible()
 
   await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('xiaoyu')
-  await page.getByRole('button', { name: /标记为已完成/ }).click()
+  await page.getByRole('button', { name: /确认完成并同步结果/ }).click()
   await expect(page.getByRole('heading', { name: '这件事已经完成' })).toBeVisible()
 
   await page.locator('.workspace-topbar').getByLabel('切换用户视角').selectOption('linran')

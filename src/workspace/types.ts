@@ -31,6 +31,8 @@ export type WorkspaceMatter = {
   createdAt: string
   updatedAt: string
   completedAt?: string
+  completionNote?: string
+  adjustmentNote?: string
 }
 
 export type TrustedPerson = {
@@ -67,11 +69,12 @@ export type WorkspaceAction =
   | { type: 'add-matter'; matter: WorkspaceMatter }
   | { type: 'update-matter'; matter: WorkspaceMatter }
   | { type: 'delete-matter'; id: string; at?: string }
-  | { type: 'set-status'; id: string; status: WorkspaceMatterStatus; ownerName?: string; targetId?: WorkspaceUserId | 'mumu'; at?: string }
   | { type: 'set-active-user'; userId: WorkspaceUserId }
-  | { type: 'accept-handoff'; id: string; at?: string }
-  | { type: 'decline-handoff'; id: string; at?: string }
-  | { type: 'complete-matter'; id: string; at?: string }
+  | { type: 'accept-handoff'; id: string; actorId?: WorkspaceUserId; at?: string }
+  | { type: 'request-adjustment'; id: string; note: string; actorId?: WorkspaceUserId; at?: string }
+  | { type: 'decline-handoff'; id: string; actorId?: WorkspaceUserId; at?: string }
+  | { type: 'complete-matter'; id: string; note: string; actorId?: WorkspaceUserId; at?: string }
+  | { type: 'reopen-matter'; id: string; at?: string }
   | { type: 'set-reduce-motion'; value: boolean }
   | { type: 'reset'; now?: Date }
   | { type: 'hydrate'; state: WorkspaceState }

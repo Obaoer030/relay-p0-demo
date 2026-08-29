@@ -1,126 +1,78 @@
 import { expect, test } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => window.localStorage.clear())
+  await page.addInitScript(() => {
+    if (!sessionStorage.getItem('relay:test-initialized')) {
+      localStorage.clear()
+      sessionStorage.setItem('relay:test-initialized', '1')
+    }
+  })
 })
 
-test('required routes and safe invalid-token state render from the production build', async ({ page }) => {
-  for (const path of ['/', '/demo', '/r/demo-cat-checkup']) {
-    await page.goto(path)
-    await expect(page.locator('#root')).not.toBeEmpty()
-  }
-
+test('required routes use the complete workspace and invalid tokens disclose nothing', async ({ page }) => {
+  await page.goto('/demo')
+  await expect(page).toHaveURL(/\/\?demo=complete$/)
+  await expect(page.getByRole('heading', { name: '早上好，林然' })).toBeVisible()
+  await expect(page.getByText('演示阶段')).toHaveCount(0)
+  await page.goto('/r/demo-cat-checkup')
+  await expect(page.getByRole('heading', { name: '周六带布丁完成复诊' })).toBeVisible()
   await page.goto('/r/not-a-real-token')
-  await expect(page.getByRole('heading', { name: '没有可以打开的事项' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '这个协作链接不可用' })).toBeVisible()
   await expect(page.getByText('周六带布丁完成复诊')).toHaveCount(0)
 })
 
-test('same-origin helper acceptance reaches the owner view within 500ms', async ({ context }) => {
+test('same-origin helper acceptance reaches the full owner workspace within 500ms', async ({ context }) => {
   const owner = await context.newPage()
   const helper = await context.newPage()
-
-  await owner.goto('/demo')
-  await owner.getByRole('button', { name: '重置' }).click()
+  await owner.goto('/matters/ws-cat-checkup')
+  await expect(owner.getByText('正在等待对方确认是否负责')).toBeVisible()
   await helper.goto('/r/demo-cat-checkup')
-  await expect(helper.getByRole('heading', { name: '发出邀请后，事情会在这里展开' })).toBeVisible()
-
-  await owner.getByRole('button', { name: /先倒出来/ }).click()
-  await owner.getByRole('button', { name: '下一步：确认发给小雨的内容' }).click()
-  await owner.getByRole('button', { name: '发给小雨' }).click()
-  await expect(helper.getByRole('button', { name: '可以，我来处理' })).toBeVisible({ timeout: 500 })
-
-  const startedAt = Date.now()
+  const started = Date.now()
   await helper.getByRole('button', { name: '可以，我来处理' }).click()
-  await expect(owner.getByText('这一步已经由小雨负责。')).toBeVisible({ timeout: 500 })
-  expect(Date.now() - startedAt).toBeLessThan(500)
-  await expect(owner.getByLabel('负责人状态：这一步由小雨负责').first()).toHaveAttribute('data-owner', 'xiaoyu')
+  await expect(owner.getByText('对方已经确认负责下一步')).toBeVisible({ timeout: 500 })
+  expect(Date.now() - started).toBeLessThan(500)
+  await expect(owner.locator('.workspace-detail-hero__owner').getByText('小雨')).toBeVisible()
 })
 
-test('decline, completion, and repeated actions preserve legal whole states', async ({ page }) => {
-  await page.goto('/demo')
-  await page.getByRole('button', { name: '已邀请', exact: true }).click()
-  await page.getByRole('button', { name: '这次我不方便' }).click()
-  await expect(page.getByText('小雨这次不方便。这件事仍由你处理。')).toBeVisible()
-  await expect(page.getByLabel(/负责人状态：小雨这次不方便/)).toBeVisible()
-
-  await page.getByRole('button', { name: '已确认', exact: true }).click()
-  const complete = page.getByRole('button', { name: '这一步已完成' })
-  await complete.click()
-  await expect(page.getByRole('heading', { name: '布丁已经安全回家' })).toBeVisible()
-  await expect(complete).toHaveCount(0)
-  await expect(page.getByLabel('负责人状态：小雨已完成这一步')).toBeVisible()
+test('adjustment, reconfirmation, completion result, and reopen form one legal lifecycle', async ({ context }) => {
+  const owner = await context.newPage()
+  const helper = await context.newPage()
+  await owner.goto('/matters/ws-cat-checkup')
+  await helper.goto('/r/demo-cat-checkup')
+  await helper.getByRole('button', { name: '需要先调整约定' }).click()
+  await helper.getByLabel('需要调整什么？').fill('请把接猫时间改到 10:00 以后')
+  await helper.getByRole('button', { name: '发送建议' }).click()
+  await expect(owner.getByText('请把接猫时间改到 10:00 以后')).toBeVisible({ timeout: 500 })
+  await owner.getByRole('link', { name: '编辑' }).click()
+  await owner.getByLabel('明确的下一步 *').fill('10:20 接到布丁，11:00 前到达诊所')
+  await owner.getByRole('button', { name: '保存事项' }).click()
+  await expect(helper.getByRole('button', { name: '可以，我来处理' })).toBeVisible({ timeout: 500 })
+  await helper.getByRole('button', { name: '可以，我来处理' }).click()
+  await helper.getByLabel('完成结果').fill('布丁已回家，复诊结论已发给林然')
+  await helper.getByRole('button', { name: '确认完成并同步结果' }).click()
+  await expect(owner.getByText('布丁已回家，复诊结论已发给林然').first()).toBeVisible({ timeout: 500 })
+  await owner.getByRole('button', { name: '重新打开事项' }).click()
+  await expect(owner.getByText('下一步由我处理')).toBeVisible()
 })
 
-test('reduced motion preserves the responsibility transfer semantics', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/demo')
-  await page.getByLabel('减少动态').check()
-  await page.getByRole('button', { name: '已邀请', exact: true }).click()
-  await page.getByRole('button', { name: '可以，我来处理' }).click()
-
-  const rails = page.getByLabel('负责人状态：这一步由小雨负责')
-  await expect(rails).toHaveCount(2)
-  await expect(rails.first()).toHaveAttribute('data-owner', 'xiaoyu')
-  await expect(page.getByText('只要没有超出约定范围，你不需要继续催问。')).toBeVisible()
-  const animationDuration = await page.locator('.responsibility-rail__active').first().evaluate((node) =>
-    Number.parseFloat(getComputedStyle(node).animationDuration),
-  )
-  expect(animationDuration).toBeLessThanOrEqual(0.001)
-})
-
-test('mobile product views have no horizontal overflow and keep critical targets at least 44px', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 812 })
+test('desktop keeps the system cursor and adds a visible pointer locator', async ({ page }) => {
   await page.goto('/')
+  await page.mouse.move(420, 260)
+  await expect(page.locator('.relay-signal-cursor')).toBeVisible()
+  await expect(page.locator('.relay-signal-cursor')).toContainText('指针')
+  expect(await page.locator('body').evaluate((node) => getComputedStyle(node).cursor)).not.toBe('none')
+  expect(await page.evaluate(() => ({ x: document.documentElement.style.getPropertyValue('--signal-x'), y: document.documentElement.style.getPropertyValue('--signal-y') }))).toEqual({ x: '420px', y: '260px' })
+})
 
-  const mobileMetrics = await page.evaluate(() => {
-    const buttons = [...document.querySelectorAll('button')]
-      .filter((button) => {
-        const style = getComputedStyle(button)
-        return style.display !== 'none' && style.visibility !== 'hidden'
-      })
-      .map((button) => {
-        const rect = button.getBoundingClientRect()
-        return { label: button.getAttribute('aria-label') ?? button.textContent?.trim(), width: rect.width, height: rect.height }
-      })
-    return {
-      fits: document.documentElement.scrollWidth <= document.documentElement.clientWidth,
-      buttons,
-    }
-  })
-
-  expect(mobileMetrics.fits).toBe(true)
-  expect(mobileMetrics.buttons.every(({ width, height }) => width >= 44 && height >= 44)).toBe(true)
-
+test('reduced motion and mobile layouts retain meaning without overflow', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await expect(page.locator('.relay-signal-cursor')).toBeHidden()
+  await expect(page.locator('.workspace-route-scan')).toHaveCSS('animation-name', 'none')
+  await page.setViewportSize({ width: 375, height: 812 })
   await page.goto('/r/demo-cat-checkup')
-  await expect(page.getByRole('heading', { name: '发出邀请后，事情会在这里展开' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '可以，我来处理' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
-})
-
-test('presenter controls expose 44px interaction targets', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/demo')
-  const targets = await page.locator('.demo-controller button, .motion-toggle').evaluateAll((elements) =>
-    elements.map((element) => {
-      const rect = element.getBoundingClientRect()
-      return { width: rect.width, height: rect.height }
-    }),
-  )
-
-  expect(
-    targets.every(({ width, height }) => width >= 44 && height >= 44),
-    JSON.stringify(targets),
-  ).toBe(true)
-})
-
-test('the demo remains operable at a 200-percent-equivalent CSS viewport', async ({ page }) => {
-  await page.setViewportSize({ width: 720, height: 450 })
-  await page.goto('/demo')
-  await page.getByRole('button', { name: '已邀请', exact: true }).click()
-  await page.getByRole('button', { name: '可以，我来处理' }).click()
-
-  await expect(page.getByLabel('负责人状态：这一步由小雨负责').last()).toBeVisible()
-  await expect(page.getByRole('button', { name: '这一步已完成' })).toBeVisible()
-  expect(await page.evaluate(() =>
-    document.documentElement.scrollWidth <= document.documentElement.clientWidth,
-  )).toBe(true)
+  const primary = await page.getByRole('button', { name: '可以，我来处理' }).boundingBox()
+  expect(primary?.height).toBeGreaterThanOrEqual(44)
 })

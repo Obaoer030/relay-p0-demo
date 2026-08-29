@@ -8,8 +8,8 @@ export function SignalInteractionLayer() {
   const location = useLocation()
 
   useEffect(() => {
-    const finePointer = window.matchMedia('(pointer: fine)').matches
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const finePointer = typeof window.matchMedia === 'function' && window.matchMedia('(pointer: fine)').matches
+    const reducedMotion = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!finePointer || reducedMotion) return
 
     const root = document.documentElement
@@ -72,6 +72,7 @@ export function SignalInteractionLayer() {
         <i className="relay-signal-cursor__core" />
         <i className="relay-signal-cursor__node relay-signal-cursor__node--a" />
         <i className="relay-signal-cursor__node relay-signal-cursor__node--b" />
+        <span>指针</span>
       </div>
       <i key={location.pathname} className="workspace-route-scan" aria-hidden="true" />
     </>

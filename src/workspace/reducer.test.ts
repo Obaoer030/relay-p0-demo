@@ -26,11 +26,13 @@ describe('workspaceReducer', () => {
     expect(removed.activity[0].kind).toBe('deleted')
   })
 
-  it('moves responsibility and records a whole status transition', () => {
+  it('records an adjustment request and clears it after the creator updates the agreement', () => {
     const initial = createWorkspaceState(NOW)
-    const next = workspaceReducer(initial, { type: 'set-status', id: 'ws-spare-key', status: 'relayed', ownerName: '小雨', targetId: 'xiaoyu', at: AT })
-    expect(next.matters.find((item) => item.id === 'ws-spare-key')).toMatchObject({ status: 'relayed', ownerId: 'xiaoyu', ownerName: '小雨', handoffTargetId: 'xiaoyu' })
-    expect(next.activity[0]).toMatchObject({ kind: 'status', actor: '林然' })
+    const requested = workspaceReducer(initial, { type: 'request-adjustment', id: 'ws-cat-checkup', actorId: 'xiaoyu', note: '请改到十点以后', at: AT })
+    const matter = requested.matters.find((item) => item.id === 'ws-cat-checkup')!
+    expect(matter).toMatchObject({ status: 'waiting', ownerId: 'linran', adjustmentNote: '请改到十点以后' })
+    const updated = workspaceReducer(requested, { type: 'update-matter', matter: { ...matter, nextAction: '10:30 接到布丁', updatedAt: AT } })
+    expect(updated.matters.find((item) => item.id === matter.id)).toMatchObject({ status: 'waiting', adjustmentNote: undefined })
   })
 
   it('resets all interactive demo data', () => {
@@ -56,9 +58,13 @@ describe('workspaceReducer', () => {
     expect(getPerspectiveStatus(shared, 'xiaoyu')).toBe('mine')
     expect(getPerspectiveStatus(shared, 'linran')).toBe('relayed')
 
-    const completed = workspaceReducer(accepted, { type: 'complete-matter', id: invitation.id, at: AT })
-    expect(completed.matters.find((item) => item.id === invitation.id)?.status).toBe('completed')
+    const completed = workspaceReducer(accepted, { type: 'complete-matter', id: invitation.id, note: '门禁卡已放入信箱', at: AT })
+    expect(completed.matters.find((item) => item.id === invitation.id)).toMatchObject({ status: 'completed', completionNote: '门禁卡已放入信箱' })
     expect(visibleMattersFor(completed.matters, 'linran').some((item) => item.id === invitation.id)).toBe(true)
+
+    const linran = workspaceReducer(completed, { type: 'set-active-user', userId: 'linran' })
+    const reopened = workspaceReducer(linran, { type: 'reopen-matter', id: invitation.id, at: AT })
+    expect(reopened.matters.find((item) => item.id === invitation.id)).toMatchObject({ status: 'mine', ownerId: 'linran', completionNote: undefined })
   })
 
   it('returns a declined invitation to the creator and removes it from the invitee view', () => {

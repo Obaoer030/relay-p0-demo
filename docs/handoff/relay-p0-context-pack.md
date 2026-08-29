@@ -1,5 +1,31 @@
 # Relay P0 long-run context pack
 
+## 2026-08-29 single-workspace lifecycle addendum
+
+The user explicitly rejected keeping a separate roadshow-stage data model next
+to the complete product demo. Relay now has one runtime truth:
+`WorkspaceState`. `/demo` is an entry into the complete interactive workspace,
+and `/r/demo-cat-checkup` is a focused projection of the same matter record.
+There is no presenter-only state machine in the running application.
+
+The complete matter SOP is also explicit and command-driven:
+
+```text
+记录事项 → 选择自己处理或邀请协作 → 对方确认 / 提出调整 / 拒绝
+→ 按约定处理 → 填写完成结果 → 发起者可重新打开
+```
+
+- Forms edit matter content; they cannot directly manufacture lifecycle status
+  or ownership.
+- Changing a material agreement after acceptance sends it back for confirmation.
+- Completion records an outcome, not only a status badge.
+- Desktop testing keeps the native pointer and adds a visible locator halo;
+  touch and reduced-motion modes retain safe fallbacks.
+
+This decision is recorded in ADR-005. It does not add authentication, a
+database, runtime AI, paid services, deployment, or production cross-device
+claims.
+
 ## 2026-08-29 reference-driven interface addendum
 
 The user rejected the first Calm Tech Glass implementation as visibly too

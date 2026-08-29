@@ -2,7 +2,6 @@ import { Activity, BookOpenText, CircleUserRound, Handshake, LayoutDashboard, Li
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { BrandMark } from '../components/BrandMark'
 import { PerspectiveSwitcher } from './PerspectiveSwitcher'
-import { SignalInteractionLayer } from './SignalInteractionLayer'
 
 const links = [
   { to: '/', label: '总览', icon: LayoutDashboard, end: true },
@@ -19,7 +18,6 @@ export function AppShell() {
 
   return (
     <div className="workspace-app">
-      <SignalInteractionLayer />
       <div className="workspace-signal-field" aria-hidden="true" />
 
       <header className="workspace-system-rail">
@@ -39,7 +37,7 @@ export function AppShell() {
         <div className="workspace-system-actions">
           <NavLink to="/about" aria-label="产品故事"><BookOpenText size={17} /></NavLink>
           <NavLink to="/settings" aria-label="设置"><Settings size={17} /></NavLink>
-          <NavLink to="/demo" className="workspace-demo-link"><MonitorPlay size={16} /><span>路演</span></NavLink>
+          <NavLink to="/demo" className="workspace-demo-link"><MonitorPlay size={16} /><span>完整演示</span></NavLink>
         </div>
       </header>
 

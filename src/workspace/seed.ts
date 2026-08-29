@@ -1,6 +1,6 @@
 import type { ActivityEntry, TrustedPerson, WorkspaceMatter, WorkspaceState, WorkspaceUser } from './types'
 
-export const WORKSPACE_VERSION = 3
+export const WORKSPACE_VERSION = 4
 
 const localIso = (base: Date, days: number, hour: number, minute = 0) => {
   const result = new Date(base)
@@ -30,7 +30,7 @@ function matter(value: Omit<WorkspaceMatter, 'createdAt' | 'updatedAt'>, now: Da
 export function createWorkspaceState(now = new Date()): WorkspaceState {
   const matters: WorkspaceMatter[] = [
     matter({ id: 'ws-access-card', title: '去物业代领新的门禁卡', context: '林然出差前赶不上物业工作时间，授权书已经放在门卫。', nextAction: '小雨周五 17:30 前带授权书到物业前台领取', doneDefinition: '门禁卡已领到并放入林然家信箱', boundary: '如果物业要求签新合同、补缴费用或提供额外证件，请先联系林然。', dueAt: localIso(now, 1, 17, 30), status: 'waiting', creatorId: 'linran', ownerId: 'linran', ownerName: '林然', participantIds: ['linran', 'xiaoyu'], handoffTargetId: 'xiaoyu', category: '住房', priority: 'high' }, now, 1),
-    matter({ id: 'ws-cat-checkup', title: '周六带布丁完成复诊', context: '周五临时出差，周日晚返回。小雨住得离诊所更近。', nextAction: '08:40 接到布丁，09:20 前到达诊所', doneDefinition: '布丁完成复诊并安全回家，复诊结论发给林然', boundary: '如建议手术、住院、更改方案或产生重大费用，请先联系林然。', dueAt: localIso(now, 2, 9, 30), status: 'relayed', creatorId: 'linran', ownerId: 'xiaoyu', ownerName: '小雨', participantIds: ['linran', 'xiaoyu'], handoffTargetId: 'xiaoyu', category: '宠物', priority: 'high' }, now, 2),
+    matter({ id: 'ws-cat-checkup', title: '周六带布丁完成复诊', context: '周五临时出差，周日晚返回。小雨住得离诊所更近。', nextAction: '08:40 接到布丁，09:20 前到达诊所', doneDefinition: '布丁完成复诊并安全回家，复诊结论发给林然', boundary: '如建议手术、住院、更改方案或产生重大费用，请先联系林然。', dueAt: localIso(now, 2, 9, 30), status: 'waiting', creatorId: 'linran', ownerId: 'linran', ownerName: '林然', participantIds: ['linran', 'xiaoyu'], handoffTargetId: 'xiaoyu', category: '宠物', priority: 'high' }, now, 2),
     matter({ id: 'ws-spare-key', title: '把备用钥匙放到门卫', context: '小雨接布丁时需要备用钥匙。', nextAction: '装入写有小雨名字的信封，交给门卫', doneDefinition: '门卫确认已经代为保管', boundary: '只用于本次接送布丁，完成后归还。', dueAt: localIso(now, 1, 18), status: 'mine', creatorId: 'linran', ownerId: 'linran', ownerName: '林然', participantIds: ['linran'], category: '生活', priority: 'normal' }, now, 1),
     matter({ id: 'ws-heater', title: '确认热水器维修时间', context: '已经把三个可上门时段发给房东。', nextAction: '等待房东确认维修师傅上门时间', doneDefinition: '具体日期和两小时时间窗确定', boundary: '涉及更换设备或费用时先确认报价。', status: 'waiting', creatorId: 'linran', ownerId: 'landlord', ownerName: '房东', participantIds: ['linran'], category: '住房', priority: 'normal' }, now, 4),
     matter({ id: 'ws-mom-report', title: '替妈妈取体检报告', context: '姐姐离医院更近，妈妈不熟悉自助机。', nextAction: '姐姐周三下班后去自助机领取', doneDefinition: '报告已取到并交给妈妈', boundary: '只领取材料，不代替妈妈确认医疗方案。', dueAt: localIso(now, 4, 19), status: 'relayed', creatorId: 'linran', ownerId: 'sister', ownerName: '姐姐', participantIds: ['linran', 'sister'], handoffTargetId: 'sister', category: '家人', priority: 'high' }, now, 5),
@@ -47,7 +47,7 @@ export function createWorkspaceState(now = new Date()): WorkspaceState {
 
   const activity: ActivityEntry[] = [
     { id: 'activity-1', matterId: 'ws-access-card', kind: 'status', title: '林然邀请小雨代领门禁卡', detail: '正在等待小雨确认是否负责。', actor: '林然', at: localIso(now, 0, 9, 10) },
-    { id: 'activity-2', matterId: 'ws-cat-checkup', kind: 'status', title: '小雨确认负责布丁复诊', detail: '这一步现在由小雨负责。', actor: '小雨', at: localIso(now, 0, 8, 40) },
+    { id: 'activity-2', matterId: 'ws-cat-checkup', kind: 'status', title: '林然邀请小雨负责布丁复诊', detail: '正在等待小雨确认下一步和边界。', actor: '林然', at: localIso(now, 0, 8, 40) },
     { id: 'activity-3', matterId: 'ws-carrier-return', kind: 'status', title: '小雨邀请林然取回航空箱', detail: '正在等待林然确认时间。', actor: '小雨', at: localIso(now, -1, 21) },
     { id: 'activity-4', matterId: 'ws-mom-report', kind: 'status', title: '姐姐开始处理体检报告', detail: '林然可以在事项中查看完成进度。', actor: '姐姐', at: localIso(now, -1, 18) },
     { id: 'activity-5', matterId: 'ws-family-call', kind: 'status', title: '姐姐邀请陈屿参加家庭视频', detail: '等待陈屿确认周日晚时间。', actor: '姐姐', at: localIso(now, -1, 12) },

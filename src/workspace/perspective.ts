@@ -30,7 +30,7 @@ export const visibleMattersFor = (matters: WorkspaceMatter[], userId: WorkspaceU
   matters.filter((matter) => isMatterVisibleTo(matter, userId))
 
 export const canRespondToMatter = (matter: WorkspaceMatter, userId: WorkspaceUserId) =>
-  matter.status === 'waiting' && matter.handoffTargetId === userId
+  matter.status === 'waiting' && !matter.adjustmentNote && matter.handoffTargetId === userId
 
 export const canCompleteMatter = (matter: WorkspaceMatter, userId: WorkspaceUserId) =>
   matter.status !== 'completed' && matter.ownerId === userId

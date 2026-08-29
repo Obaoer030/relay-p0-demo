@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — green Relay Signal OS checkpoint
+> Status: complete — green single-workspace lifecycle checkpoint
 > Last updated: 2026-08-29
 
 ## Outcome contract
@@ -134,6 +134,54 @@ the repository's single `npm run verify` quality gate.
   with touch/reduced-motion fallbacks.
 - [x] Regenerate and inspect 375×812 and 1440×900 evidence.
 - [x] Run `npm run verify`, ten golden runs, and leave a green commit.
+
+### M10 — Single workspace and complete matter lifecycle
+
+- [x] Record the single-state, complete-SOP and pointer decisions in the context
+  pack and ADR-005.
+- [x] Remove the roadshow runtime model and project `/demo` and `/r` from
+  `WorkspaceState`.
+- [x] Replace raw status editing with invite, accept, adjustment, decline,
+  completion-result and reopen commands.
+- [x] Keep the native desktop pointer and add a high-contrast test locator.
+- [x] Migrate acceptance, sync, golden-path and visual tests to the complete
+  product flow.
+- [x] Run `npm run verify`, ten golden runs, dual-viewport visual QA, and leave
+  a green commit.
+
+## M10 checkpoint — Single workspace and complete matter lifecycle
+
+- Completed outcome: removed the separate roadshow reducer/provider/screens and
+  made `WorkspaceState` the only runtime truth. `/demo` enters the complete
+  workspace and `/r/demo-cat-checkup` is a focused, no-account projection of
+  the same `ws-cat-checkup` record.
+- SOP outcome: new matters choose self-processing or a real invite; forms no
+  longer expose raw status or owner mutation. The legal flow now includes
+  accept, request adjustment, edit-and-reconfirm, decline, completion result,
+  and creator reopen, with activity records for every transition.
+- Desktop test outcome: the native cursor is no longer hidden. A high-contrast
+  locator labelled “指针” follows the exact pointer coordinates on fine-pointer
+  devices; touch and reduced-motion modes suppress the overlay safely.
+- Evidence: final `npm run verify` passed lint, strict TypeScript, 6 unit tests,
+  production build, and 18 Chromium E2E tests. Browser tests prove complete
+  CRUD/SOP flow, four perspectives, invalid-token privacy, 500ms same-origin
+  synchronization, offline completion, reduced motion, pointer fallback, and
+  responsive overflow behavior.
+- Reliability evidence: `npm run test:golden` passed 20/20 executions (the
+  complete no-typing product path and offline path repeated ten times).
+- Visual evidence: regenerated and inspected 1440×900 complete-demo/workspace
+  views and 375×812 workspace/public-collaboration views. Navigation, main
+  actions, decision boundary and user switching are readable with no horizontal
+  overflow.
+- Changed files: ADR-005 and context pack; runtime provider/routes; workspace
+  types/reducer/persistence/seed; matter editor/detail/share/settings; pointer
+  interaction/CSS; unit, acceptance, golden, workspace and visual tests.
+- Unresolved risk: same-origin local data is still a deliberate P0 boundary;
+  real cross-device accounts and conflict resolution require a separately
+  authorized backend. No production claim is made.
+- Next concrete goal: none inside the approved P0 contract. Preserve this green
+  checkpoint until deployment or production infrastructure is separately
+  authorized.
 
 ## Checkpoints
 

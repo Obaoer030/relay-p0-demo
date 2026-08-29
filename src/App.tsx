@@ -1,8 +1,6 @@
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { AppShell } from './app/AppShell'
-import { DEMO_TOKEN } from './domain/seed'
-import { DemoPage } from './screens/DemoPage'
-import { HelperView, InvalidShareView } from './screens/HelperView'
+import { SignalInteractionLayer } from './app/SignalInteractionLayer'
 import { WorkspaceAbout } from './screens/WorkspaceAbout'
 import { WorkspaceActivity } from './screens/WorkspaceActivity'
 import { WorkspaceHandoffs } from './screens/WorkspaceHandoffs'
@@ -12,23 +10,16 @@ import { WorkspaceMatters } from './screens/WorkspaceMatters'
 import { WorkspaceOverview } from './screens/WorkspaceOverview'
 import { WorkspacePeople } from './screens/WorkspacePeople'
 import { WorkspaceSettings } from './screens/WorkspaceSettings'
-import { useRelay } from './store/RelayContext'
+import { WorkspaceShareView } from './screens/WorkspaceShareView'
 
 function ShareRoute() {
   const { token } = useParams()
-  const { state } = useRelay()
-  return (
-    <main className="standalone-page standalone-page--helper">
-      <div className="standalone-phone">
-        {token === DEMO_TOKEN ? <HelperView state={state} /> : <InvalidShareView />}
-      </div>
-    </main>
-  )
+  return <WorkspaceShareView token={token} />
 }
 
 export function App() {
   return (
-    <Routes>
+    <><SignalInteractionLayer /><Routes>
       <Route element={<AppShell />}>
         <Route index element={<WorkspaceOverview />} />
         <Route path="matters" element={<WorkspaceMatters />} />
@@ -41,9 +32,9 @@ export function App() {
         <Route path="about" element={<WorkspaceAbout />} />
         <Route path="settings" element={<WorkspaceSettings />} />
       </Route>
-      <Route path="/demo" element={<DemoPage />} />
+      <Route path="/demo" element={<Navigate to="/?demo=complete" replace />} />
       <Route path="/r/:token" element={<ShareRoute />} />
       <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    </Routes></>
   )
 }
