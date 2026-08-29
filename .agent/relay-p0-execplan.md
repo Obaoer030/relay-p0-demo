@@ -56,10 +56,11 @@ the repository's single `npm run verify` quality gate.
 
 ### M2 — Deterministic domain core
 
-- [ ] Define fixture, relative next-Saturday date, reducer, and legal stages.
-- [ ] Add persistence with `seedVersion` migration and safe parsing.
-- [ ] Add `BroadcastChannel` and `storage` event synchronization.
-- [ ] Cover state transitions, reset, migration, idempotency, and sync primitives.
+- [x] Define fixture, relative next-Saturday date, reducer, and legal stages.
+- [x] Add persistence with `seedVersion` migration and safe parsing.
+- [x] Add `BroadcastChannel` and `storage` event synchronization.
+- [x] Cover state transitions, reset, migration, and idempotency; browser-level
+  synchronization timing remains scheduled for M5.
 
 ### M3 — Bounded handoff experience
 
@@ -112,6 +113,22 @@ the repository's single `npm run verify` quality gate.
   persistence, and synchronization are not implemented.
 - Next concrete goal: implement the complete deterministic domain core and its
   unit-test suite before building product surfaces.
+
+### 2026-08-29 — Deterministic state core
+
+- Completed outcome: versioned five-matter fixture, strictly-next-Saturday date,
+  legal whole-state reducer, idempotent share/accept/decline/complete actions,
+  complete stage jumps, safe local persistence, and same-origin synchronization
+  provider are implemented.
+- Evidence: lint and strict typecheck passed; Vitest passed 13 tests covering
+  transitions, illegal/duplicate actions, completion separation, declines,
+  reset/date recomputation, deep fixture independence, and stale/corrupt cache
+  migration.
+- Changed files: `src/domain/**`, `src/store/**`, `src/main.tsx`.
+- Unresolved risk: synchronization is implemented but its 500ms browser timing
+  contract is not yet proven; product UI still does not expose the flow.
+- Next concrete goal: build the shared responsibility components and complete
+  both Lin Ran and Xiaoyu product surfaces against this state source.
 
 ## Decision notes
 
