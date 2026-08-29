@@ -44,4 +44,22 @@ describe('Agent workflow guard', () => {
     expect(guarded.question).toBeUndefined()
     expect(guarded.draft.missingFields).toEqual([])
   })
+
+  it('replaces an invitee-availability question with the actual blocking field', () => {
+    const inconsistentResponse = {
+      ...response,
+      question: '小雨下周三上午9点有时间陪妈妈去医院复诊吗？',
+      draft: { ...response.draft, missingFields: ['具体医院名称'] },
+    }
+    const guarded = guardAgentTurn(inconsistentResponse, { input: '下周三上午9点请小雨陪妈妈去医院复诊', transcript: [], currentUserId: 'linran', users })
+    expect(guarded.status).toBe('needs_input')
+    expect(guarded.question).toBe('请补充具体医院名称。')
+    expect(guarded.draft.missingFields).toEqual(['具体医院名称'])
+  })
+
+  it('does not preserve a model assumption that the invitee is available', () => {
+    const assumptionResponse = { ...response, draft: { ...response.draft, assumptions: ['小雨下周三上午有时间', '医院由家人熟悉'] } }
+    const guarded = guardAgentTurn(assumptionResponse, { input: '周六上午 9:30 请小雨带布丁复诊', transcript: [], currentUserId: 'linran', users })
+    expect(guarded.draft.assumptions).toEqual(['医院由家人熟悉'])
+  })
 })

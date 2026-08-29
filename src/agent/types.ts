@@ -38,7 +38,7 @@ export type AgentTurnResponse = {
   message: string
   question?: string
   draft: AgentPlanDraft
-  engine: 'minimax' | 'local-demo'
+  engine: 'minimax'
   notice?: string
 }
 
@@ -51,6 +51,6 @@ export function isAgentTurnResponse(value: unknown): value is AgentTurnResponse 
   const draft = value.draft
   if (!['title', 'context', 'category', 'boundary'].every((key) => typeof draft[key] === 'string') || !priorities.has(draft.priority as WorkspacePriority)) return false
   if (!Array.isArray(draft.missingFields) || !draft.missingFields.every((item) => typeof item === 'string') || !Array.isArray(draft.assumptions) || !draft.assumptions.every((item) => typeof item === 'string')) return false
-  if (!Array.isArray(draft.steps) || draft.steps.length === 0 || draft.steps.length > 6) return false
-  return draft.steps.every((step) => isRecord(step) && ['id', 'title', 'nextAction', 'ownerName', 'doneDefinition'].every((key) => typeof step[key] === 'string') && userIds.has(step.ownerId as WorkspaceUserId) && (step.dueDate === undefined || typeof step.dueDate === 'string'))
+  if (!Array.isArray(draft.steps) || draft.steps.length === 0 || draft.steps.length > 10) return false
+  return draft.steps.every((step) => isRecord(step) && ['id', 'title', 'nextAction', 'ownerName', 'doneDefinition'].every((key) => typeof step[key] === 'string') && userIds.has(step.ownerId as WorkspaceUserId) && (step.dueDate === undefined || (typeof step.dueDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(step.dueDate))))
 }

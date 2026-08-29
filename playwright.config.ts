@@ -19,7 +19,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'RELAY_AGENT_MODE=fallback npm run preview -- --port 4173',
+    command: 'MINIMAX_API_KEY= npm run preview -- --port 4173',
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: false,
     timeout: 120_000,

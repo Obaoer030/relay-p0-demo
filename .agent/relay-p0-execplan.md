@@ -2,28 +2,29 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — M13 matters console visual refinement
+> Status: in progress — M14 MiniMax atomic planning and online publication
 > Last updated: 2026-08-30
 
 ## Outcome contract
 
 Deliver a deterministic, mobile-first React + TypeScript + Vite demo that makes
-the bounded responsibility transfer from Lin Ran to Xiaoyu immediately clear.
+clear matter ownership, next actions, and completion evidence across the full
+interactive workspace.
 The current approved visual system is Relay Signal OS: a reference-driven,
 original interface with floating system navigation, strict grid and data
 structure, a responsibility-signal hero, and purposeful interaction feedback.
 The original golden path must work offline, require no typing or network,
 synchronize same-origin tabs, and pass the repository's single
 `npm run verify` quality gate. The separately authorized text Agent adds an
-optional MiniMax-backed, human-confirmed planning path and a single-process
+MiniMax-backed, human-confirmed planning path and a single-process
 shared demo room for phone/computer demonstrations.
 
 ## Boundaries
 
-- P0 only: no database, auth, analytics, payments, PWA, production cross-device
-  claims, deployment, committed credentials, or paid-service dependency. The
-  authorized M11 exception is an optional server-side MiniMax text Agent; a
-  labelled deterministic local engine remains usable without a key.
+- No database, auth, analytics, payments, PWA, committed credentials, or
+  production cross-device claims. M14 explicitly authorizes the configured
+  server-side MiniMax service and public GitHub/Vercel publication; the browser
+  still receives no key and there is no local Agent plan fallback.
 - One state source using Context + `useReducer`.
 - Persist with `localStorage`; synchronize with `BroadcastChannel` plus the
   `storage` event fallback.
@@ -187,6 +188,25 @@ shared demo room for phone/computer demonstrations.
   zero horizontal overflow.
 - [x] Regenerate and inspect both matters-page visual baselines.
 - [x] Run `npm run verify` and ten consecutive golden/offline repetitions.
+
+### M14 — MiniMax atomic planning and latest-online publication
+
+- [x] Reproduce the complex-task failure and isolate timeout, prompt,
+  granularity and local-template causes.
+- [x] Remove runtime local-plan fallback and preserve the original input on
+  missing credentials, timeout, malformed output or provider failure.
+- [x] Enforce atomic, independently confirmable steps with one MiniMax re-split
+  pass and reject any still-coarse response.
+- [x] Add unit and browser regression for a seven-checkpoint healthcare chain,
+  one-question workflow guards and failure/retry behavior.
+- [x] Add Vercel server functions so the production browser calls MiniMax with
+  a server-only credential.
+- [x] Run full verification, ten golden repetitions, live MiniMax smoke and
+  375×812 / 1440×900 visual QA.
+- [ ] Merge the latest publication collateral, preserve the actual workspace
+  screenshot `relay-cover-v4.png`, and leave a green commit.
+- [ ] Push the green version to GitHub, deploy to Vercel, and verify the stable
+  production URL plus its Agent endpoint.
 
 ## M12 checkpoint — 10 scenarios / 30 user cases
 

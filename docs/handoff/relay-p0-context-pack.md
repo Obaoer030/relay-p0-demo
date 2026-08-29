@@ -1,5 +1,26 @@
 # Relay P0 long-run context pack
 
+## 2026-08-30 latest-online Demo source-of-truth addendum
+
+The user clarified that “Demo” always means the newest deployed software build,
+not an older presenter route, design document, or historical visual direction.
+Submission collateral must therefore be derived from the current complete Relay
+workspace and must be rechecked against the live production URL whenever the
+software changes.
+
+The current Demo is the blue-violet **Relay Signal OS** workspace: floating
+system navigation, cyan/violet responsibility signals, black display type,
+precise grid surfaces, and a restrained acid-lime primary action. The older
+Warm Editorial two-phone stage is not a valid visual source for the cover or
+submission copy. In the current build, `/demo` redirects into the same complete
+workspace rather than representing a separate product.
+
+Submission descriptions should objectively explain the working product:
+structured matter capture, clear next-step ownership and boundaries, invitation
+responses, responsibility changes, completion results, multiple perspectives,
+search/filtering, trusted people, and activity history. A life scenario may be
+mentioned briefly as an example, but should not dominate the description.
+
 ## 2026-08-29 text-first coordination Agent addendum
 
 The user has explicitly authorized a new post-P0 direction: Relay should accept
@@ -24,8 +45,12 @@ The Agent is not the source of truth and cannot create commitments by itself:
 - Workspace reducer commands remain the only way to change responsibility;
 - API credentials are server-only environment variables and never enter the
   browser bundle, localStorage, fixtures, logs, screenshots, or Git history;
-- missing credentials and provider failures use a clearly labelled,
-  deterministic local fallback so the hackathon path remains demonstrable.
+- missing credentials and provider failures preserve the original input and
+  expose an explicit retry state; Relay never substitutes a simplified local
+  plan for a failed MiniMax response;
+- every independently completable and confirmable action must become its own
+  checkpoint. The server reviews plan granularity and asks MiniMax to re-split
+  once before rejecting a still-coarse response.
 
 The same server also provides a credential-free demo room projection so a
 phone and computer connected to the same Relay server can share state. This is

@@ -20,8 +20,8 @@ export function WorkspaceAgentComposer({ onManual }: { onManual: () => void }) {
   const [input, setInput] = useState('')
   const [transcript, setTranscript] = useState<AgentTranscriptMessage[]>([])
   const [draft, setDraft] = useState<AgentPlanDraft | null>(null)
-  const [status, setStatus] = useState<'idle' | 'loading' | 'needs_input' | 'ready'>('idle')
-  const [engine, setEngine] = useState<'minimax' | 'local-demo' | null>(null)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'needs_input' | 'ready' | 'error'>('idle')
+  const [engine, setEngine] = useState<'minimax' | null>(null)
   const [notice, setNotice] = useState('')
   const [error, setError] = useState('')
   const thread = useRef<HTMLDivElement | null>(null)
@@ -46,8 +46,11 @@ export function WorkspaceAgentComposer({ onManual }: { onManual: () => void }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ input: value, transcript: requestTranscript, currentUserId: currentUser.id, users: state.users.map(({ id, name, role }) => ({ id, name, role })) }),
       })
-      if (!response.ok) throw new Error('agent-service-unavailable')
       const payload: unknown = await response.json()
+      if (!response.ok) {
+        const code = payload && typeof payload === 'object' && 'error' in payload ? String(payload.error) : 'minimax-unavailable'
+        throw new Error(code)
+      }
       if (!isAgentTurnResponse(payload)) throw new Error('invalid-agent-response')
       const assistantContent = [payload.message, payload.question].filter(Boolean).join('\n')
       setTranscript((messages) => [...messages, { role: 'assistant', content: assistantContent }])
@@ -55,9 +58,14 @@ export function WorkspaceAgentComposer({ onManual }: { onManual: () => void }) {
       setStatus(payload.status)
       setEngine(payload.engine)
       setNotice(payload.notice ?? '')
-    } catch {
-      setStatus('idle')
-      setError('Agent 服务暂时没有响应。你可以重试，或切换到手动创建。')
+    } catch (caught) {
+      setTranscript((messages) => messages.at(-1)?.role === 'user' && messages.at(-1)?.content === value ? messages.slice(0, -1) : messages)
+      setInput(value)
+      setStatus('error')
+      const code = caught instanceof Error ? caught.message : 'minimax-unavailable'
+      setError(code === 'minimax-not-configured'
+        ? 'MiniMax 尚未配置，暂时不能生成计划。请配置服务端 API Key 后重试。'
+        : 'MiniMax 没有完成这次拆分。原输入已保留，请直接重试；Relay 不会生成简化模板。')
     }
   }
 
@@ -125,7 +133,7 @@ export function WorkspaceAgentComposer({ onManual }: { onManual: () => void }) {
 
       <aside className="workspace-agent-plan" aria-live="polite">
         {!draft ? <div className="workspace-agent-plan-empty"><MessageSquareText size={28} /><p className="micro-label">LIVE PLAN</p><h2>计划会在这里形成</h2><p>负责人、步骤、完成标准和决策边界会随着你的补充实时更新。</p></div> : <>
-          <header><div><p className="micro-label">LIVE PLAN · {draft.steps.length} STEPS</p><h2>{draft.title}</h2></div><span data-engine={engine}>{engine === 'minimax' ? 'MiniMax 在线' : '本地演示引擎'}</span></header>
+          <header><div><p className="micro-label">LIVE PLAN · {draft.steps.length} STEPS</p><h2>{draft.title}</h2></div><span data-engine={engine}>MiniMax 在线</span></header>
           {notice && <p className="workspace-agent-notice">{notice}</p>}
           {draft.missingFields.length > 0 && <div className="workspace-agent-missing"><CircleAlert size={17} /><div><strong>发布前还缺</strong><p>{draft.missingFields.join(' · ')}</p></div></div>}
           <div className="workspace-agent-steps">{draft.steps.map((step, index) => <article key={step.id}><b>{String(index + 1).padStart(2, '0')}</b><div><h3>{step.title}</h3><p>{step.nextAction}</p><label><span>建议负责人</span><select aria-label={`步骤 ${index + 1} 负责人`} value={step.ownerId} onChange={(event) => updateOwner(step.id, event.target.value as WorkspaceUserId)}>{state.users.map((user) => <option key={user.id} value={user.id}>{user.name}</option>)}</select></label><small><CheckCircle2 size={13} /> {step.doneDefinition}</small></div></article>)}</div>

@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test'
+import { installAgentFixture } from './agentFixture.ts'
 
 test.beforeEach(async ({ page, request }) => {
   await request.delete('/api/workspace')
+  await installAgentFixture(page)
   await page.clock.setFixedTime(new Date('2026-08-29T08:00:00.000Z'))
 })
 

@@ -1,13 +1,13 @@
 import react from '@vitejs/plugin-react'
 import { loadEnv } from 'vite'
 import { defineConfig } from 'vitest/config'
-import { relayServerPlugin } from './server/relayServerPlugin.ts'
+import { relayServerPlugin } from './server/relayServerPlugin.js'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const agentMode = process.env.RELAY_AGENT_MODE ?? env.RELAY_AGENT_MODE
+  const apiKey = process.env.MINIMAX_API_KEY ?? env.MINIMAX_API_KEY
   return {
-    plugins: [react(), relayServerPlugin({ apiKey: env.MINIMAX_API_KEY, baseUrl: env.MINIMAX_BASE_URL || 'https://api.minimaxi.com/v1', model: env.MINIMAX_MODEL || 'MiniMax-M2.7', agentMode: agentMode === 'fallback' ? 'fallback' : 'auto' })],
+    plugins: [react(), relayServerPlugin({ apiKey, baseUrl: env.MINIMAX_BASE_URL || 'https://api.minimaxi.com/v1', model: env.MINIMAX_MODEL || 'MiniMax-M2.7' })],
     test: {
       environment: 'jsdom',
       include: ['src/**/*.test.{ts,tsx}'],

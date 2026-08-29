@@ -15,7 +15,7 @@
 
 ## MiniMax Agent 配置
 
-仓库默认使用标明来源的本地演示引擎，不需要凭据。接入 MiniMax 时：
+Agent 只使用真实 MiniMax，不提供本地简化回退。首次运行前：
 
 ```bash
 cp .env.example .env.local
@@ -28,7 +28,8 @@ MINIMAX_API_KEY=你的密钥
 ```
 
 `.env.local` 已被 Git 忽略。密钥由 Vite/Node 服务端读取，不会进入浏览器
-bundle。开发使用 `npm run dev`；构建后的完整 Node 服务使用：
+bundle。MiniMax 未配置或暂时失败时，原输入会保留在输入框中供用户重试，
+不会生成假计划。开发使用 `npm run dev`；构建后的完整 Node 服务使用：
 
 ```bash
 npm run build
