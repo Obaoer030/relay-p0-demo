@@ -5,6 +5,7 @@ import { PageHeader } from '../app/PageHeader'
 import { useWorkspace } from '../workspace/WorkspaceContext'
 import { getActiveUser } from '../workspace/perspective'
 import type { WorkspaceMatter, WorkspacePriority, WorkspaceUserId } from '../workspace/types'
+import { WorkspaceAgentComposer } from './WorkspaceAgentComposer'
 
 const toInputDate = (value?: string) => value ? value.slice(0, 10) : ''
 
@@ -25,6 +26,7 @@ export function WorkspaceMatterEditor() {
   const [assignment, setAssignment] = useState<'self' | 'invite'>('self')
   const availableInvitees = state.users.filter((user) => user.id !== activeUser.id)
   const [inviteeId, setInviteeId] = useState<WorkspaceUserId>(availableInvitees[0]?.id ?? 'xiaoyu')
+  const [creationMode, setCreationMode] = useState<'agent' | 'manual'>('agent')
 
   const submit = (event: FormEvent) => {
     event.preventDefault()
@@ -52,10 +54,20 @@ export function WorkspaceMatterEditor() {
     void navigate(`/matters/${matter.id}`)
   }
 
+  if (!existing && creationMode === 'agent') {
+    return (
+      <main className="workspace-page workspace-editor-page workspace-agent-page">
+        <Link className="workspace-back-link" to="/matters"><ArrowLeft size={17} /> 返回事项</Link>
+        <PageHeader eyebrow="Agent 创建" title="把一件事说出来，Relay 帮你安排清楚" description="Agent 会拆解步骤、建议负责人并发现缺失信息；只有你确认后，计划才会变成真实事项。" />
+        <WorkspaceAgentComposer onManual={() => setCreationMode('manual')} />
+      </main>
+    )
+  }
+
   return (
     <main className="workspace-page workspace-editor-page">
       <Link className="workspace-back-link" to={existing ? `/matters/${existing.id}` : '/matters'}><ArrowLeft size={17} /> 返回事项</Link>
-      <PageHeader eyebrow={existing ? '编辑事项' : '创建事项'} title={existing ? '把信息更新清楚' : '记下一件需要处理的事'} description="把下一步和完成标准写清楚，自己或对方都能直接行动。" />
+      <PageHeader eyebrow={existing ? '编辑事项' : '手动创建'} title={existing ? '把信息更新清楚' : '逐项填写事项信息'} description="把下一步和完成标准写清楚，自己或对方都能直接行动。" actions={!existing ? <button className="workspace-secondary-action" type="button" onClick={() => setCreationMode('agent')}>返回 Agent 创建</button> : undefined} />
       <form className="workspace-form" onSubmit={submit}>
         <section className="workspace-form-section"><h2>事项是什么</h2><label><span>标题 *</span><input required value={title} onChange={(event) => setTitle(event.target.value)} placeholder="例如：确认搬家验房结果" /></label><label><span>背景</span><textarea value={context} onChange={(event) => setContext(event.target.value)} placeholder="为什么现在需要处理？参与者需要知道什么？" /></label></section>
         <section className="workspace-form-section"><h2>下一步怎么做</h2><label><span>明确的下一步 *</span><textarea required value={nextAction} onChange={(event) => setNextAction(event.target.value)} placeholder="写成对方可以直接行动的一句话" /></label><label><span>完成标准 *</span><textarea required value={doneDefinition} onChange={(event) => setDoneDefinition(event.target.value)} placeholder="做到什么程度，这件事就算完成？" /></label><label><span>什么情况要先联系我</span><textarea value={boundary} onChange={(event) => setBoundary(event.target.value)} placeholder="例如：需要额外花费或改变原计划时先联系我" /></label></section>

@@ -35,6 +35,8 @@ export function WorkspaceMatterDetail() {
       <Link className="workspace-back-link" to="/matters"><ArrowLeft size={17} /> 返回全部事项</Link>
       <PageHeader eyebrow={`${matter.category} · ${workspaceStatus[displayStatus].label}`} title={matter.title} description={matter.context} actions={canEdit ? <Link className="workspace-secondary-action" to={`/matters/${matter.id}/edit`}><Pencil size={17} /> 编辑</Link> : undefined} />
 
+      {matter.agentGenerated && matter.planTitle && <div className="workspace-agent-origin"><span>RELAY COORDINATOR</span><strong>{matter.planTitle}</strong><p>Agent 计划第 {matter.planStepIndex}/{matter.planStepTotal} 步 · 发布前已经由发起者确认</p></div>}
+
       <section className="workspace-detail-hero" data-status={displayStatus}>
         <div className="workspace-detail-hero__owner"><span>当前负责人</span><strong>{matter.ownerName}</strong><p>{workspaceStatus[displayStatus].copy}</p></div>
         <div className="workspace-detail-rail" aria-label={`创建人${creator?.name ?? '发起者'}，当前负责人${matter.ownerName}`}><span className={matter.creatorId === matter.ownerId ? 'is-current' : ''}>{creator?.name ?? '发起者'}</span><i /><b className={matter.creatorId === matter.ownerId ? '' : 'is-right'} /><i /><span className={matter.creatorId !== matter.ownerId ? 'is-current' : ''}>{matter.ownerName}</span></div>

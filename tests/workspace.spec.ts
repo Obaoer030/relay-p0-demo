@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test'
 
+test.beforeEach(async ({ request }) => {
+  await request.delete('/api/workspace')
+})
+
 test('complete workspace exposes real seeded modules and navigation', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { name: '早上好，林然' })).toBeVisible()
@@ -20,6 +24,7 @@ test('complete workspace exposes real seeded modules and navigation', async ({ p
 test('a judge can create, persist, edit, transfer, and find a matter', async ({ page }) => {
   await page.goto('/matters')
   await page.getByRole('link', { name: '新建事项' }).click()
+  await page.getByRole('button', { name: '手动填写' }).click()
   await page.getByLabel('标题 *').fill('周日确认新家燃气开通')
   await page.getByLabel('背景').fill('搬家前需要确认燃气表和开通材料。')
   await page.getByLabel('明确的下一步 *').fill('木木拍下燃气表编号并发给林然')

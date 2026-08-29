@@ -13,7 +13,7 @@ export function WorkspaceMatterCard({ matter, compact = false }: { matter: Works
   return (
     <Link to={`/matters/${matter.id}`} className={`workspace-matter-card ${compact ? 'is-compact' : ''}`} data-status={perspectiveStatus}>
       <div className="workspace-matter-card__meta">
-        <span>{matter.category}</span>
+        <span>{matter.agentGenerated && matter.planStepIndex ? `Agent 计划 · ${matter.planStepIndex}/${matter.planStepTotal}` : matter.category}</span>
         {matter.dueAt && <time><Clock3 size={14} /> {formatDueAt(matter.dueAt)}</time>}
       </div>
       <div className="workspace-matter-card__title">

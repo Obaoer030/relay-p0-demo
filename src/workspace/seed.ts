@@ -1,4 +1,4 @@
-import type { ActivityEntry, TrustedPerson, WorkspaceMatter, WorkspaceState, WorkspaceUser } from './types'
+import type { ActivityEntry, TrustedPerson, WorkspaceMatter, WorkspaceState, WorkspaceUser } from './types.ts'
 
 export const WORKSPACE_VERSION = 4
 

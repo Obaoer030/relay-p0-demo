@@ -30,7 +30,8 @@ export async function runGoldenPath(page: Page) {
   await resetWorkspace(page)
 }
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, request }) => {
+  await request.delete('/api/workspace')
   await page.addInitScript(() => {
     if (!sessionStorage.getItem('relay:test-initialized')) {
       localStorage.clear()

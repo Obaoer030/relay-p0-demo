@@ -1,5 +1,5 @@
-import { createWorkspaceState, WORKSPACE_VERSION } from './seed'
-import type { WorkspaceState } from './types'
+import { createWorkspaceState, WORKSPACE_VERSION } from './seed.ts'
+import type { WorkspaceState } from './types.ts'
 
 export const WORKSPACE_STORAGE_KEY = 'relay:workspace-state'
 export const WORKSPACE_CHANNEL = 'relay:workspace-channel'
@@ -19,7 +19,12 @@ const isMatter = (value: unknown) => {
     Array.isArray(value.participantIds) && value.participantIds.every((id) => userIds.has(String(id))) &&
     (value.handoffTargetId === undefined || isString(value.handoffTargetId)) &&
     (value.completionNote === undefined || isString(value.completionNote)) &&
-    (value.adjustmentNote === undefined || isString(value.adjustmentNote))
+    (value.adjustmentNote === undefined || isString(value.adjustmentNote)) &&
+    (value.planId === undefined || isString(value.planId)) &&
+    (value.planTitle === undefined || isString(value.planTitle)) &&
+    (value.planStepIndex === undefined || typeof value.planStepIndex === 'number') &&
+    (value.planStepTotal === undefined || typeof value.planStepTotal === 'number') &&
+    (value.agentGenerated === undefined || typeof value.agentGenerated === 'boolean')
 }
 
 export function isWorkspaceState(value: unknown): value is WorkspaceState {

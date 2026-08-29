@@ -1,5 +1,30 @@
 # Relay P0 long-run context pack
 
+## 2026-08-29 text-first coordination Agent addendum
+
+The user has explicitly authorized a new post-P0 direction: Relay should accept
+ordinary typed language, use a MiniMax-powered coordination Agent to decompose
+it into concrete steps and proposed owners, detect execution-blocking missing
+information, and ask the user to complete that information before publishing.
+Voice capture/transcription is intentionally excluded because the user will use
+the device keyboard's built-in dictation.
+
+The Agent is not the source of truth and cannot create commitments by itself:
+
+- model output is an editable plan draft;
+- the initiator confirms the plan before any matter or invitation is created;
+- each invited person still accepts, requests adjustment, or declines;
+- Workspace reducer commands remain the only way to change responsibility;
+- API credentials are server-only environment variables and never enter the
+  browser bundle, localStorage, fixtures, logs, screenshots, or Git history;
+- missing credentials and provider failures use a clearly labelled,
+  deterministic local fallback so the hackathon path remains demonstrable.
+
+The same server also provides a credential-free demo room projection so a
+phone and computer connected to the same Relay server can share state. This is
+still a demo room, not identity, authorization, or production conflict
+resolution. ADR-006 records the architecture and safety boundary.
+
 ## 2026-08-29 single-workspace lifecycle addendum
 
 The user explicitly rejected keeping a separate roadshow-stage data model next

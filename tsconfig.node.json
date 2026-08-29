@@ -17,6 +17,11 @@
     "vite.config.ts",
     "playwright.config.ts",
     "eslint.config.js",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "server/**/*.ts",
+    "src/agent/types.ts",
+    "src/workspace/persistence.ts",
+    "src/workspace/seed.ts",
+    "src/workspace/types.ts"
   ]
 }

@@ -33,6 +33,11 @@ export type WorkspaceMatter = {
   completedAt?: string
   completionNote?: string
   adjustmentNote?: string
+  planId?: string
+  planTitle?: string
+  planStepIndex?: number
+  planStepTotal?: number
+  agentGenerated?: boolean
 }
 
 export type TrustedPerson = {

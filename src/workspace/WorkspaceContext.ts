@@ -4,6 +4,7 @@ import type { WorkspaceAction, WorkspaceState } from './types'
 export type WorkspaceContextValue = {
   state: WorkspaceState
   dispatch: Dispatch<WorkspaceAction>
+  syncMode: 'connecting' | 'room' | 'local'
 }
 
 export const WorkspaceContext = createContext<WorkspaceContextValue | null>(null)

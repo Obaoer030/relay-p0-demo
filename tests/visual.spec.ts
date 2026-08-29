@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, request }) => {
+  await request.delete('/api/workspace')
   await page.clock.setFixedTime(new Date('2026-08-29T08:00:00.000Z'))
 })
 
@@ -33,6 +34,11 @@ test('complete workspace is visible at 1440x900', async ({ page }) => {
     animations: 'disabled',
     caret: 'hide',
   })
+  await page.goto('/matters/new')
+  await expect(page).toHaveScreenshot('workspace-agent-1440x900.png', {
+    animations: 'disabled',
+    caret: 'hide',
+  })
 })
 
 test('complete workspace fits 375x812', async ({ page }) => {
@@ -58,6 +64,11 @@ test('complete workspace fits 375x812', async ({ page }) => {
   await page.goto('/r/demo-cat-checkup')
   await expect(page.getByRole('button', { name: '可以，我来处理' })).toBeVisible()
   await expect(page).toHaveScreenshot('helper-shared-375x812.png', {
+    animations: 'disabled',
+    caret: 'hide',
+  })
+  await page.goto('/matters/new')
+  await expect(page).toHaveScreenshot('workspace-agent-375x812.png', {
     animations: 'disabled',
     caret: 'hide',
   })

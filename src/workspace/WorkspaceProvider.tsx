@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useMemo, useReducer, useRef } from 'react'
+import { type ReactNode, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { isWorkspaceState, persistWorkspaceState, readWorkspaceState, WORKSPACE_CHANNEL, WORKSPACE_STORAGE_KEY } from './persistence'
 import { workspaceReducer } from './reducer'
 import type { WorkspaceState } from './types'
@@ -8,9 +8,19 @@ type Message = { source: string; state: WorkspaceState }
 
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(workspaceReducer, undefined, readWorkspaceState)
+  const [syncMode, setSyncMode] = useState<'connecting' | 'room' | 'local'>(() => typeof EventSource === 'undefined' ? 'local' : 'connecting')
   const source = useRef(crypto.randomUUID())
   const channel = useRef<BroadcastChannel | null>(null)
   const remote = useRef(false)
+  const roomReady = useRef(false)
+  const stateRef = useRef(state)
+
+  useEffect(() => { stateRef.current = state }, [state])
+
+  const hydrateRemote = (next: WorkspaceState) => {
+    remote.current = true
+    dispatch({ type: 'hydrate', state: { ...next, activeUserId: stateRef.current.activeUserId, reduceMotion: stateRef.current.reduceMotion } })
+  }
 
   useEffect(() => {
     if (typeof BroadcastChannel === 'undefined') return
@@ -18,8 +28,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     channel.current.onmessage = (event: MessageEvent<unknown>) => {
       const message = event.data as Partial<Message>
       if (message.source === source.current || !isWorkspaceState(message.state)) return
-      remote.current = true
-      dispatch({ type: 'hydrate', state: message.state })
+      hydrateRemote(message.state)
     }
     return () => channel.current?.close()
   }, [])
@@ -30,12 +39,50 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       try {
         const parsed: unknown = JSON.parse(event.newValue)
         if (!isWorkspaceState(parsed)) return
-        remote.current = true
-        dispatch({ type: 'hydrate', state: parsed })
+        hydrateRemote(parsed)
       } catch { /* ignore malformed external writes */ }
     }
     window.addEventListener('storage', onStorage)
     return () => window.removeEventListener('storage', onStorage)
+  }, [])
+
+  useEffect(() => {
+    if (typeof EventSource === 'undefined') {
+      return
+    }
+    let cancelled = false
+    const events = new EventSource('/api/workspace/events')
+    events.onopen = () => { if (!cancelled) setSyncMode('room') }
+    events.onerror = () => { if (!cancelled && !roomReady.current) setSyncMode('local') }
+    events.onmessage = (event) => {
+      try {
+        const eventData: unknown = event.data
+        if (typeof eventData !== 'string') return
+        const message = JSON.parse(eventData) as Partial<Message>
+        if (message.source === source.current || !isWorkspaceState(message.state)) return
+        hydrateRemote(message.state)
+      } catch { /* ignore malformed room events */ }
+    }
+
+    void fetch('/api/workspace', { headers: { Accept: 'application/json' } }).then(async (response) => {
+      if (cancelled) return
+      if (response.status === 204) {
+        roomReady.current = true
+        setSyncMode('room')
+        await fetch('/api/workspace', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source: source.current, state: stateRef.current }) })
+        return
+      }
+      if (!response.ok) throw new Error('room-unavailable')
+      const payload = await response.json() as { state?: unknown }
+      if (isWorkspaceState(payload.state)) hydrateRemote(payload.state)
+      roomReady.current = true
+      setSyncMode('room')
+    }).catch(() => { if (!cancelled) setSyncMode('local') })
+
+    return () => {
+      cancelled = true
+      events.close()
+    }
   }, [])
 
   useEffect(() => {
@@ -45,8 +92,11 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       return
     }
     channel.current?.postMessage({ source: source.current, state } satisfies Message)
+    if (roomReady.current) {
+      void fetch('/api/workspace', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source: source.current, state }) }).catch(() => setSyncMode('local'))
+    }
   }, [state])
 
-  const value = useMemo(() => ({ state, dispatch }), [state])
+  const value = useMemo(() => ({ state, dispatch, syncMode }), [state, syncMode])
   return <WorkspaceContext.Provider value={value}>{children}</WorkspaceContext.Provider>
 }

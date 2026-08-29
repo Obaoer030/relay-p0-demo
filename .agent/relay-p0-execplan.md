@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — green single-workspace lifecycle checkpoint
+> Status: complete — M11 text coordination Agent
 > Last updated: 2026-08-29
 
 ## Outcome contract
@@ -12,14 +12,18 @@ the bounded responsibility transfer from Lin Ran to Xiaoyu immediately clear.
 The current approved visual system is Relay Signal OS: a reference-driven,
 original interface with floating system navigation, strict grid and data
 structure, a responsibility-signal hero, and purposeful interaction feedback.
-The golden path must work
-offline, require no typing or network, synchronize same-origin tabs, and pass
-the repository's single `npm run verify` quality gate.
+The original golden path must work offline, require no typing or network,
+synchronize same-origin tabs, and pass the repository's single
+`npm run verify` quality gate. The separately authorized text Agent adds an
+optional MiniMax-backed, human-confirmed planning path and a single-process
+shared demo room for phone/computer demonstrations.
 
 ## Boundaries
 
-- P0 only: no database, auth, runtime AI, analytics, payments, PWA, production
-  cross-device claims, deployment, credentials, or paid services.
+- P0 only: no database, auth, analytics, payments, PWA, production cross-device
+  claims, deployment, committed credentials, or paid-service dependency. The
+  authorized M11 exception is an optional server-side MiniMax text Agent; a
+  labelled deterministic local engine remains usable without a key.
 - One state source using Context + `useReducer`.
 - Persist with `localStorage`; synchronize with `BroadcastChannel` plus the
   `storage` event fallback.
@@ -148,6 +152,57 @@ the repository's single `npm run verify` quality gate.
   product flow.
 - [x] Run `npm run verify`, ten golden runs, dual-viewport visual QA, and leave
   a green commit.
+
+### M11 — Text coordination Agent and shared demo room
+
+- [x] Record the authorized runtime-AI, server credential, no-voice and shared
+  demo-room decisions in the context pack and ADR-006.
+- [x] Define and validate the Agent plan/clarification protocol.
+- [x] Add the MiniMax server proxy, `.env.example`, timeout/error handling and
+  deterministic labelled fallback.
+- [x] Replace new-matter-first forms with typed Agent capture, clarification,
+  editable multi-step review and explicit publish confirmation.
+- [x] Add server-backed cross-browser/device demo-room synchronization while
+  preserving local fallback and reducer guards.
+- [x] Add unit/E2E/visual evidence and leave a green checkpoint.
+
+## M11 checkpoint — Text coordination Agent and shared demo room
+
+- Completed outcome: the new-matter route now starts with a text-first Agent
+  conversation. It asks one focused clarification when needed, produces an
+  editable multi-step plan with real seeded owners, and creates actual matters
+  only after explicit human confirmation. Manual creation remains available.
+- Trust boundary: the browser never receives the MiniMax credential and never
+  treats a draft as accepted work. Server output is schema-validated; provider
+  timeout, malformed output, and missing credentials use a visibly labelled
+  deterministic local demo engine rather than pretending AI succeeded.
+- Shared-room outcome: a single running Relay Node server now shares the same
+  reducer-valid workspace over SSE and HTTP between separate phone and computer
+  browsers. LocalStorage, BroadcastChannel, storage events, and local-only
+  fallback remain intact; active perspective and reduced-motion preference stay
+  device-local.
+- Evidence: final `npm run verify` passed lint, strict TypeScript, 7 unit tests,
+  production build, and 20 Chromium E2E tests. Tests cover Agent clarification,
+  zero mutation before confirmation, three real created matters, human ownership
+  acceptance, and isolated phone/computer browser contexts sharing a room.
+- Reliability evidence: `npm run test:golden` passed both the complete product
+  path and offline path across ten consecutive repetitions (20/20). The Agent
+  creation plus isolated device synchronization suite also passed ten
+  consecutive repetitions (20/20).
+- Visual evidence: regenerated and inspected the Agent composer at 1440×900 and
+  375×812. The desktop two-panel plan layout and mobile single-column capture
+  keep labels, manual fallback, starter prompts, bottom navigation, and publish
+  boundary readable with no horizontal overflow.
+- Changed files: ADR-006, context pack, docs and environment template; Vite and
+  standalone Node middleware; Agent protocol, UI and styles; workspace room
+  synchronization and plan metadata; unit, E2E and visual tests/baselines.
+- Unresolved risk: no live MiniMax call can be verified until the user supplies
+  a key. The shared room is intentionally in-memory and single-process: it is
+  appropriate for one hackathon demo server, not production persistence,
+  authentication, access control, multi-instance deployment, or conflict
+  resolution.
+- Next concrete goal: after the user fills `.env.local`, restart the server and
+  run one credentialed MiniMax smoke test. Do not commit the key.
 
 ## M10 checkpoint — Single workspace and complete matter lifecycle
 
@@ -439,6 +494,10 @@ the repository's single `npm run verify` quality gate.
 | Targets and zoom resilience | Product and presenter controls are asserted at ≥44px; a 720×450 CSS viewport (1440×900 at 200% equivalent) completes acceptance without horizontal overflow. |
 | Production/offline/local assets | E2E runs against `vite preview` after a production build; the loaded app completes offline and observed requests stay on the local origin. |
 | Direct routes and SPA fallback | Production-preview E2E opens `/`, `/demo`, `/r/demo-cat-checkup`, and an invalid token directly; `vercel.json` carries the SPA rewrite artifact. |
+| Text Agent preserves human control | E2E proves incomplete text causes a focused clarification, no matter is created before confirmation, the editable plan then publishes three reducer-backed matters, and another person must still accept her invitation. |
+| Missing/failed MiniMax stays truthful | Unit/API tests validate the response schema; the server reports `local-demo` and the UI labels the deterministic fallback instead of presenting it as a live provider result. |
+| Phone and computer share the demo room | Ten repeated E2E runs use isolated browser contexts, accept an invitation from the phone context, and observe the owner change from the computer context within one second. |
+| MiniMax credential stays server-side | `.env.example` contains only names/defaults, `.env.local` is ignored, browser code contains no API key, and the provider call is implemented only in server middleware. |
 
 ## Decision notes
 

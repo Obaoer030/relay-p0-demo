@@ -2,6 +2,7 @@ import { Activity, BookOpenText, CircleUserRound, Handshake, LayoutDashboard, Li
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { BrandMark } from '../components/BrandMark'
 import { PerspectiveSwitcher } from './PerspectiveSwitcher'
+import { useWorkspace } from '../workspace/WorkspaceContext'
 
 const links = [
   { to: '/', label: '总览', icon: LayoutDashboard, end: true },
@@ -13,6 +14,7 @@ const links = [
 
 export function AppShell() {
   const location = useLocation()
+  const { syncMode } = useWorkspace()
   const currentLabel = links.find((link) => link.end ? location.pathname === link.to : location.pathname.startsWith(link.to))?.label
     ?? (location.pathname === '/about' ? '产品故事' : location.pathname === '/settings' ? '设置' : '事项详情')
 
@@ -47,8 +49,8 @@ export function AppShell() {
             <span>RELAY</span><i>/</i><strong>{currentLabel}</strong>
           </div>
           <div className="workspace-topbar__status">
-            <span className="workspace-local-status"><i /> 本地同步</span>
-            <span className="workspace-shared-state">同一份共享数据</span>
+            <span className="workspace-local-status"><i /> {syncMode === 'room' ? '演示房间在线' : syncMode === 'connecting' ? '正在连接' : '本地模式'}</span>
+            <span className="workspace-shared-state">{syncMode === 'room' ? '手机与电脑共享' : '当前设备共享数据'}</span>
             <PerspectiveSwitcher />
           </div>
         </header>
