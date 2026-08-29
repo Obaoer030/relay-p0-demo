@@ -57,9 +57,9 @@ describe('Agent workflow guard', () => {
     expect(guarded.draft.missingFields).toEqual(['具体医院名称'])
   })
 
-  it('does not preserve a model assumption that the invitee is available', () => {
+  it('drops model assumptions that the user did not authorize', () => {
     const assumptionResponse = { ...response, draft: { ...response.draft, assumptions: ['小雨下周三上午有时间', '医院由家人熟悉'] } }
     const guarded = guardAgentTurn(assumptionResponse, { input: '周六上午 9:30 请小雨带布丁复诊', transcript: [], currentUserId: 'linran', users })
-    expect(guarded.draft.assumptions).toEqual(['医院由家人熟悉'])
+    expect(guarded.draft.assumptions).toEqual([])
   })
 })

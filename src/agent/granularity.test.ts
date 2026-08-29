@@ -42,4 +42,11 @@ describe('Agent plan granularity', () => {
   it('rejects parallel actions that have separate completion evidence', () => {
     expect(reviewPlanGranularity({ ...request, input: '请小雨处理复诊。' }, [step('mixed', '挂号和复诊')])).toContainEqual(expect.stringContaining('继续拆分'))
   })
+
+  it('counts repair and event preparation checkpoints that use ordinary action verbs', () => {
+    const repair = { ...request, input: '陈屿先拍下漏水位置和水表读数，再联系物业报修并取得工单号；姐姐联系两个师傅询价；林然比较报价；小雨在家等师傅，维修后测试十分钟；陈屿最后录入发票。' }
+    const birthday = { ...request, input: '姐姐先确认时间，再预订餐厅；陈屿订购蛋糕；小雨联系亲友，再整理名单；林然准备礼物，聚会前一天核对全部安排。' }
+    expect(requestedCheckpointFloor(repair)).toBe(7)
+    expect(requestedCheckpointFloor(birthday)).toBe(7)
+  })
 })

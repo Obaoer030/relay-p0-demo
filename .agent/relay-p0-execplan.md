@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — M14 MiniMax atomic planning and online publication
+> Status: complete — M15 Agent fidelity hardening
 > Last updated: 2026-08-30
 
 ## Outcome contract
@@ -207,6 +207,45 @@ shared demo room for phone/computer demonstrations.
   screenshot `relay-cover-v4.png`, and leave a green commit.
 - [x] Push the green version to GitHub, deploy to Vercel, and verify the stable
   production URL plus its Agent endpoint.
+
+### M15 — Agent fidelity hardening
+
+- [x] Reproduce the 10-case live findings without publishing generated drafts.
+- [x] Retry malformed MiniMax JSON consistently, including repair turns.
+- [x] Expand ordinary-action recognition for repair, purchasing, event and
+  administrative sequences.
+- [x] Reject unprovided Arabic/Chinese numeric facts, common execution-method
+  additions and assumptions that the user did not explicitly authorize.
+- [x] Add focused protocol, fidelity and granularity regression tests.
+- [x] Run the full quality gate and record the remaining concurrent latency risk.
+
+## M15 checkpoint — Agent fidelity hardening
+
+- Completed outcome: the Agent prompt now requires concise, source-faithful
+  rewriting rather than plausible elaboration. Malformed JSON is normalized to
+  a retryable protocol error; granularity floors recognize more ordinary verbs;
+  unprovided numeric facts, selected high-risk execution details and implicit
+  assumptions trigger correction instead of reaching the plan review UI.
+- Automated evidence: final `npm run verify` passed ESLint, strict TypeScript,
+  25 unit tests, production build and all 53 Chromium E2E tests. New unit cases
+  cover malformed-JSON retry, repair/birthday checkpoint floors, Arabic and
+  Chinese numeric invention, unauthorized assumptions and unsupported methods.
+- Live MiniMax evidence: two local-code rounds each exercised five real calls
+  concurrently. In the final round, pet care, healthcare and travel returned
+  source-faithful 7/9/8-step plans with correct owners, empty assumptions and no
+  invented times, dates or passport-validity rule. Birthday and leak-repair
+  were rejected at the 105-second limit rather than returning a coarse or
+  embellished draft.
+- Changed files: Agent service prompt/retry/validation, granularity and workflow
+  guards, new fidelity guard, focused unit regressions, and this execution plan.
+- Unresolved risk: under five concurrent complex requests, strict correction
+  remains provider-bound and two of five final calls timed out. Semantic
+  inventions without a number or known high-risk phrase can still evade local
+  heuristics; generated plans therefore remain drafts requiring human review.
+- Publication status: this checkpoint is local only; GitHub and the public
+  Vercel deployment were not changed in this task.
+- Next concrete goal: none in this bounded fix. A broader reliability redesign
+  would require a separate decision about latency, retries and model evaluation.
 
 ## M14 checkpoint — MiniMax atomic planning and latest-online publication
 

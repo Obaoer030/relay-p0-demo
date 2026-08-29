@@ -14,7 +14,10 @@ export function guardAgentTurn(response: AgentTurnResponse, request: AgentTurnRe
     const owner = request.users.find((user) => user.id === step.ownerId)
     return owner ? { ...step, ownerName: owner.name } : step
   })
-  const safeAssumptions = response.draft.assumptions.filter((assumption) => !acceptanceField.test(assumption))
+  const assumptionsAuthorized = /可以假设|可以默认|假设为|默认按|默认是/.test(combined)
+  const safeAssumptions = assumptionsAuthorized
+    ? response.draft.assumptions.filter((assumption) => !acceptanceField.test(assumption))
+    : []
 
   if (isCatVisit && !hasSpecificTime) {
     return {
