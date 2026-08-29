@@ -1,7 +1,7 @@
-import { ArrowRight, CheckCircle2, Feather, Handshake, Plus } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Plus, Radio, Sparkles } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { PageHeader } from '../app/PageHeader'
 import { WorkspaceMatterCard } from '../app/WorkspaceMatterCard'
+import { workspaceStatus } from '../app/workspaceStatus'
 import { useWorkspace } from '../workspace/WorkspaceContext'
 import { getActiveUser, getPerspectiveStatus, visibleMattersFor } from '../workspace/perspective'
 
@@ -22,28 +22,80 @@ export function WorkspaceOverview() {
     const incomingOrder = Number(getPerspectiveStatus(b, user.id) === 'incoming') - Number(getPerspectiveStatus(a, user.id) === 'incoming')
     return incomingOrder || (a.dueAt ?? '9').localeCompare(b.dueAt ?? '9')
   })[0]
+  const completion = visible.length === 0 ? 0 : Math.round((completed.length / visible.length) * 100)
+  const relatedUsers = state.users.filter((candidate) => candidate.id !== user.id).slice(0, 3)
 
   return (
     <main className="workspace-page workspace-overview">
-      <PageHeader eyebrow={`今天 · ${user.role}`} title={`早上好，${user.name}`} description="同一件事会根据当前视角显示不同状态，但负责人和进度始终来自同一份共享数据。" actions={<Link className="workspace-primary-action" to="/matters/new"><Plus size={18} /> 新建事项</Link>} />
+      <section className="relay-command-hero" aria-labelledby="workspace-hero-title">
+        <div className="relay-hero-grid" aria-hidden="true" />
+        <div className="relay-command-copy">
+          <p className="relay-online-chip"><i /> 责任信号在线</p>
+          <p className="micro-label">今天 · {user.role} · {visible.length} 个相关事项</p>
+          <h1 id="workspace-hero-title">早上好，{user.name}</h1>
+          <h2><em>下一步</em>，清楚地<br />交给对的人。</h2>
+          <p className="relay-command-intro">同一件事会根据当前视角显示不同状态，但负责人、下一步和完成结果始终来自同一份共享数据。</p>
+          <div className="relay-hero-actions">
+            <Link className="workspace-primary-action" to="/matters/new"><span>新建一件事项</span><Plus size={18} /></Link>
+            <Link className="workspace-secondary-action" to="/handoffs">查看协作进度 <ArrowRight size={16} /></Link>
+          </div>
 
-      <section className="workspace-stat-grid" aria-label={`${user.name}的事项概览`}>
-        <article><span>待我处理</span><strong>{mine.length}</strong><small>下一步轮到我</small></article>
-        <article className="is-incoming"><span>等我确认</span><strong>{incoming.length}</strong><small>接受或说明不方便</small></article>
-        <article><span>等待回复</span><strong>{waiting.length}</strong><small>邀请已经发出</small></article>
-        <article className="is-relayed"><span>对方处理中</span><strong>{relayed.length}</strong><small>负责人已经明确</small></article>
-        <article><span>最近完成</span><strong>{completed.length}</strong><small>双方都能看到结果</small></article>
+          <section className="workspace-stat-grid" aria-label={`${user.name}的事项概览`}>
+            <article><span>待我处理</span><strong>{mine.length}</strong><small>下一步由我处理</small></article>
+            <article className="is-incoming"><span>等我确认</span><strong>{incoming.length}</strong><small>接受或说明不方便</small></article>
+            <article><span>等待回复</span><strong>{waiting.length}</strong><small>邀请已经发出</small></article>
+            <article className="is-relayed"><span>对方处理中</span><strong>{relayed.length}</strong><small>负责人已经明确</small></article>
+            <article><span>最近完成</span><strong>{completed.length}</strong><small>双方都能看到结果</small></article>
+          </section>
+        </div>
+
+        <div className="relay-signal-stage" aria-label={`正在展示 ${user.name} 与相关协作者之间的责任信号`}>
+          <div className="relay-orbit relay-orbit--outer" aria-hidden="true" />
+          <div className="relay-orbit relay-orbit--middle" aria-hidden="true" />
+          <div className="relay-orbit relay-orbit--inner" aria-hidden="true" />
+          <div className="relay-signal-beam relay-signal-beam--a" aria-hidden="true"><i /></div>
+          <div className="relay-signal-beam relay-signal-beam--b" aria-hidden="true"><i /></div>
+          <div className={`relay-person-node relay-person-node--center tone-${user.tone}`}>
+            <span>{user.initial}</span><strong>{user.name}</strong><small>当前视角</small>
+          </div>
+          {relatedUsers.map((related, index) => (
+            <div key={related.id} className={`relay-person-node relay-person-node--${index + 1} tone-${related.tone}`}>
+              <span>{related.initial}</span><strong>{related.name}</strong><small>{related.role}</small>
+            </div>
+          ))}
+          {next && (
+            <Link className="relay-floating-matter" to={`/matters/${next.id}`}>
+              <small>下一信号</small>
+              <strong>{next.title}</strong>
+              <span><Radio size={13} /> {workspaceStatus[getPerspectiveStatus(next, user.id)].label}</span>
+            </Link>
+          )}
+          <div className="relay-readiness" aria-label={`可见事项完成度 ${completion}%`}>
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="44" />
+              <circle className="is-progress" cx="50" cy="50" r="44" style={{ strokeDashoffset: 276 - 276 * completion / 100 }} />
+            </svg>
+            <strong>{completion}</strong><span>% 已完成</span>
+          </div>
+          <p className="relay-signal-caption"><Sparkles size={14} /> 视角切换会重新解释位置，不会复制数据</p>
+        </div>
       </section>
 
-      <div className="workspace-overview-grid">
+      <div className="workspace-overview-grid relay-operations-grid">
         <section className="workspace-panel workspace-panel--next">
-          <div className="workspace-panel__heading"><div><p className="micro-label">当前视角最靠近的下一步</p><h2>接下来</h2></div><Link to="/matters">查看全部 <ArrowRight size={15} /></Link></div>
+          <div className="workspace-panel__heading"><div><p className="micro-label">01 · 当前任务队列</p><h2>接下来</h2></div><Link to="/matters">查看全部 <ArrowRight size={15} /></Link></div>
           {next ? <WorkspaceMatterCard matter={next} /> : <p className="workspace-empty-copy">当前没有需要处理的事项。</p>}
-          <div className="workspace-gentle-note"><Feather size={18} /><p><strong>正在查看 {user.name} 的数据。</strong>切换角色后，同一事项会按对方的责任位置重新解释。</p></div>
+          <div className="relay-queue-list">
+            {open.filter((matter) => matter.id !== next?.id).slice(0, 3).map((matter, index) => (
+              <Link key={matter.id} to={`/matters/${matter.id}`}>
+                <span>0{index + 2}</span><strong>{matter.title}</strong><small>{workspaceStatus[getPerspectiveStatus(matter, user.id)].label}</small><ArrowRight size={14} />
+              </Link>
+            ))}
+          </div>
         </section>
 
         <section className="workspace-panel workspace-panel--handoffs">
-          <div className="workspace-panel__heading"><div><p className="micro-label">跨角色共享事项</p><h2>协作进度</h2></div><Handshake size={21} /></div>
+          <div className="workspace-panel__heading"><div><p className="micro-label">02 · 共享信号</p><h2>协作进度</h2></div><span className="relay-panel-pulse" aria-hidden="true" /></div>
           <div className="workspace-handoff-summary">
             {collaboration.slice(0, 3).map((matter) => <WorkspaceMatterCard key={matter.id} matter={matter} compact />)}
             {collaboration.length === 0 && <p className="workspace-empty-copy">当前没有需要别人参与的事项。</p>}

@@ -71,6 +71,23 @@ test('mobile workspace uses bottom navigation without horizontal overflow', asyn
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
 })
 
+test('Relay Signal OS is original, responsive, and motion-safe', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+
+  await expect(page.locator('.workspace-system-rail')).toBeVisible()
+  await expect(page.getByText('责任信号在线')).toBeVisible()
+  await expect(page.locator('.relay-signal-cursor')).toBeHidden()
+  await expect(page.locator('.workspace-route-scan')).toHaveCSS('animation-name', 'none')
+  await expect(page.getByText('PICO', { exact: true })).toHaveCount(0)
+  await expect(page.getByText('NL/OS', { exact: true })).toHaveCount(0)
+
+  await page.setViewportSize({ width: 375, height: 812 })
+  await expect(page.locator('.workspace-system-rail')).toBeHidden()
+  await expect(page.getByRole('navigation', { name: '移动端产品导航' })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
 test('four perspectives expose distinct seeded datasets from the same workspace state', async ({ page }) => {
   await page.goto('/matters')
   await expect(page.getByText('10 个事项')).toBeVisible()

@@ -2,16 +2,17 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — green multi-perspective Calm Tech Glass checkpoint
+> Status: complete — green Relay Signal OS checkpoint
 > Last updated: 2026-08-29
 
 ## Outcome contract
 
 Deliver a deterministic, mobile-first React + TypeScript + Vite demo that makes
 the bounded responsibility transfer from Lin Ran to Xiaoyu immediately clear.
-The current approved visual system is Calm Tech Glass: a restrained blue-gray
-product interface with high-opacity glass reserved for navigation and key
-layers, clear text hierarchy, and no neon or generic AI motifs. The golden path must work
+The current approved visual system is Relay Signal OS: a reference-driven,
+original interface with floating system navigation, strict grid and data
+structure, a responsibility-signal hero, and purposeful interaction feedback.
+The golden path must work
 offline, require no typing or network, synchronize same-origin tabs, and pass
 the repository's single `npm run verify` quality gate.
 
@@ -120,6 +121,19 @@ the repository's single `npm run verify` quality gate.
 - [x] Add complete multi-perspective flow, responsive, offline, sync, and visual
   test evidence.
 - [x] Run `npm run verify`, ten golden runs, visual QA, and leave a green commit.
+
+### M9 — Reference-driven Relay Signal OS
+
+- [x] Read the referenced Codex task, live V2 page, and its final design guides.
+- [x] Record the new visual decision and originality boundary in ADR-004.
+- [x] Replace the desktop sidebar with a floating system rail and status bar.
+- [x] Build the responsibility-signal hero, mission queue, and operational
+  activity panel without copying reference brands or assets.
+- [x] Apply the visual system across all workspace modules and mobile layouts.
+- [x] Add purposeful cursor, magnetic, route-scan, and responsibility motion
+  with touch/reduced-motion fallbacks.
+- [x] Regenerate and inspect 375×812 and 1440×900 evidence.
+- [x] Run `npm run verify`, ten golden runs, and leave a green commit.
 
 ## Checkpoints
 
@@ -316,6 +330,45 @@ the repository's single `npm run verify` quality gate.
   green checkpoint until deployment or real cross-device data is separately
   authorized.
 
+### 2026-08-29 — Reference-driven Relay Signal OS
+
+- Completed outcome: rebuilt the complete workspace around the supplied
+  `NEON LOOP OS / V2` quality reference. Desktop now uses a floating module
+  rail and local-sync status bar; the overview uses large display typography,
+  an original responsibility-signal orbit, live user nodes, a task signal,
+  completion ring, operational metrics, task queue, and shared-progress panel.
+- Originality outcome: reused design grammar rather than assets. Relay contains
+  no PICO, NL/OS brand, event copy, game module, generated image, remote font,
+  or reference-specific illustration. ADR-004 records this boundary.
+- Interaction outcome: fine-pointer devices receive a precise signal cursor,
+  low-amplitude magnetic primary controls, route-scan transitions, moving
+  responsibility signals, and slow orbit motion. Touch devices keep native
+  interaction; reduced-motion disables the cursor, scanning, orbit rotation,
+  and moving signals while preserving labels and final responsibility state.
+- Responsive outcome: mobile is independently directed with a compact header,
+  bottom navigation, acid-lime create action, horizontally scannable metric
+  strip, vertically staged responsibility visual, and single-column modules.
+  Empty collaboration columns no longer inherit desktop height.
+- Evidence: final `npm run verify` passed lint, strict typecheck, 18 unit tests,
+  production build, and 19 Chromium E2E tests. New coverage asserts the Signal
+  OS shell, reference-asset absence, reduced-motion fallback, mobile navigation,
+  and zero horizontal overflow. `npm run test:golden` passed 10/10.
+- Visual evidence: regenerated and manually inspected nine baselines at
+  1440×900 and 375×812 for 林然/小雨 overview, matter lists, helper request,
+  and both demo states. Browser inspection also covered desktop matters and
+  people, mobile matters and collaboration, cursor state, and magnetic motion.
+- Changed files: `src/app/AppShell.tsx`, new
+  `src/app/SignalInteractionLayer.tsx`, `src/screens/WorkspaceOverview.tsx`,
+  the Relay Signal OS section in `src/styles.css`, workspace/visual tests and
+  baselines, ADR-004, context pack, docs index, and this plan.
+- Unresolved risk: the visual system is intentionally more expressive and adds
+  CSS weight, but uses no remote/runtime assets and preserves the local P0
+  architecture. Real multi-device data and public deployment remain out of
+  scope.
+- Next concrete goal: none within this visual rebuild; preserve the green
+  checkpoint until the user separately authorizes deployment or production
+  infrastructure.
+
 ## Final P0 acceptance evidence
 
 | Acceptance item | Evidence |
@@ -333,15 +386,17 @@ the repository's single `npm run verify` quality gate.
 | Error, empty, decline, and completion states are clear | E2E covers safe invalid token, pre-share helper empty state, respectful decline returning responsibility, acceptance, and distinct completion. |
 | Four user perspectives share one state | Workspace E2E asserts distinct seeded counts for 林然、小雨、姐姐、陈宇, then proves acceptance and completion remain visible after switching back and forth. |
 | Top-right switcher works on desktop and mobile | Versioned 1440×900 and 375×812 screenshots include the current role control; E2E switches all four roles and checks the resulting headings and data. |
+| Reference quality without copied identity | ADR-004 and workspace E2E require the Relay Signal OS shell while asserting that PICO and NL/OS are absent; all runtime assets remain local. |
+| Signal motion degrades safely | Workspace E2E emulates reduced motion and verifies the signal cursor is hidden and route scan has no animation; touch layouts use native pointer behavior. |
 | Targets and zoom resilience | Product and presenter controls are asserted at ≥44px; a 720×450 CSS viewport (1440×900 at 200% equivalent) completes acceptance without horizontal overflow. |
 | Production/offline/local assets | E2E runs against `vite preview` after a production build; the loaded app completes offline and observed requests stay on the local origin. |
 | Direct routes and SPA fallback | Production-preview E2E opens `/`, `/demo`, `/r/demo-cat-checkup`, and an invalid token directly; `vercel.json` carries the SPA rewrite artifact. |
 
 ## Decision notes
 
-- The explicit 2026-08-29 user decision recorded in ADR-003 supersedes the
-  earlier warm-only direction. Calm Tech Glass uses a neutral blue-gray system
-  with restrained warmth and avoids generic AI-template styling.
+- The explicit reference-driven decision in ADR-004 supersedes ADR-003 as the
+  primary visual language. Relay Signal OS adopts the reference's layout and
+  interaction grammar through original product-specific components and assets.
 - `/demo` owns the formal presentation path; `/` and `/r/:token` remain truthful
   product views. The two phones share the same provider in one DOM.
 - Completion is distinct from acceptance. Acceptance moves execution ownership;

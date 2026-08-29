@@ -1,7 +1,8 @@
-import { Activity, BookOpenText, CircleUserRound, Handshake, LayoutDashboard, ListChecks, Plus, Settings } from 'lucide-react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Activity, BookOpenText, CircleUserRound, Handshake, LayoutDashboard, ListChecks, MonitorPlay, Plus, Settings } from 'lucide-react'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { BrandMark } from '../components/BrandMark'
 import { PerspectiveSwitcher } from './PerspectiveSwitcher'
+import { SignalInteractionLayer } from './SignalInteractionLayer'
 
 const links = [
   { to: '/', label: '总览', icon: LayoutDashboard, end: true },
@@ -12,33 +13,46 @@ const links = [
 ]
 
 export function AppShell() {
+  const location = useLocation()
+  const currentLabel = links.find((link) => link.end ? location.pathname === link.to : location.pathname.startsWith(link.to))?.label
+    ?? (location.pathname === '/about' ? '产品故事' : location.pathname === '/settings' ? '设置' : '事项详情')
+
   return (
     <div className="workspace-app">
-      <aside className="workspace-sidebar">
-        <BrandMark />
-        <p className="workspace-sidebar__caption">把事情说清楚，也把负责人定下来。</p>
+      <SignalInteractionLayer />
+      <div className="workspace-signal-field" aria-hidden="true" />
+
+      <header className="workspace-system-rail">
+        <div className="workspace-system-brand">
+          <BrandMark />
+          <span>R/OS<br /><small>版本 2.0</small></span>
+        </div>
         <nav aria-label="产品导航">
           {links.map(({ to, label, icon: Icon, end }) => (
             <NavLink key={to} to={to} end={end} className={({ isActive }) => isActive ? 'is-active' : ''}>
-              <Icon size={19} aria-hidden="true" />
+              <span className="workspace-system-icon"><Icon size={17} aria-hidden="true" /></span>
               <span>{label}</span>
+              <i className="workspace-system-state" aria-hidden="true" />
             </NavLink>
           ))}
         </nav>
-        <div className="workspace-sidebar__bottom">
-          <NavLink to="/about"><BookOpenText size={18} /> 产品故事</NavLink>
-          <NavLink to="/settings"><Settings size={18} /> 设置</NavLink>
-          <NavLink to="/demo" className="workspace-demo-link">打开路演舞台</NavLink>
+        <div className="workspace-system-actions">
+          <NavLink to="/about" aria-label="产品故事"><BookOpenText size={17} /></NavLink>
+          <NavLink to="/settings" aria-label="设置"><Settings size={17} /></NavLink>
+          <NavLink to="/demo" className="workspace-demo-link"><MonitorPlay size={16} /><span>路演</span></NavLink>
         </div>
-      </aside>
+      </header>
 
       <div className="workspace-main">
         <header className="workspace-topbar">
-          <div>
-            <span className="workspace-live-dot" />
-            <p><strong>共享演示状态</strong><small>切换视角不会复制或重置事项</small></p>
+          <div className="workspace-breadcrumb">
+            <span>RELAY</span><i>/</i><strong>{currentLabel}</strong>
           </div>
-          <PerspectiveSwitcher />
+          <div className="workspace-topbar__status">
+            <span className="workspace-local-status"><i /> 本地同步</span>
+            <span className="workspace-shared-state">同一份共享数据</span>
+            <PerspectiveSwitcher />
+          </div>
         </header>
         <header className="workspace-mobile-header">
           <BrandMark compact />

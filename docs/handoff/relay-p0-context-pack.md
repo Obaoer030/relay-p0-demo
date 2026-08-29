@@ -1,5 +1,35 @@
 # Relay P0 long-run context pack
 
+## 2026-08-29 reference-driven interface addendum
+
+The user rejected the first Calm Tech Glass implementation as visibly too
+plain and supplied `http://127.0.0.1:4180/v2/` plus the completed Codex task
+“设计并开发互动报名小游戏” as the quality and interaction reference. The
+new question is not “which blue should Relay use?” but “how can Relay inherit
+the reference's complete design grammar while remaining a truthful life-matter
+product?”
+
+The approved direction is **Relay Signal OS**:
+
+- use the reference's floating desktop navigation rail, secondary system-status
+  bar, precise grid, generous negative space, large black display typography,
+  cyan/violet energy signals, and one restrained acid-lime action accent;
+- translate the reference's character-led hero into an original
+  responsibility-signal visual. Do not copy its PICO character, event brand,
+  illustrations, wording, or game-specific modules;
+- combine a strict operational frame (indices, timestamps, local-sync state,
+  module markers) with one expressive asymmetric visual region;
+- use motion as system feedback: route signal sweep, responsibility pulse,
+  magnetic primary controls, card scan/tilt, and completion acknowledgement;
+- keep text, form fields, task ownership, decision boundaries, and mobile touch
+  behavior more important than spectacle;
+- provide system-cursor/static fallbacks for touch and `prefers-reduced-motion`.
+
+This explicit user decision supersedes Calm Tech Glass as the primary visual
+description. It does not change the deterministic local architecture or
+authorize remote fonts/assets, runtime AI, a backend, credentials, deployment,
+or production cross-device claims.
+
 ## 2026-08-29 multi-perspective and Calm Tech Glass addendum
 
 The user explicitly requires the complete workspace to demonstrate data moving
