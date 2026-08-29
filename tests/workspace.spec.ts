@@ -77,6 +77,17 @@ test('mobile workspace uses bottom navigation without horizontal overflow', asyn
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
 })
 
+test('overview headline keeps its two semantic lines without isolated characters', async ({ page }) => {
+  await page.setViewportSize({ width: 900, height: 900 })
+  await page.goto('/')
+  const lines = page.locator('.relay-command-headline > span')
+  await expect(lines).toHaveCount(2)
+  await expect(lines.nth(0)).toHaveText('下一步')
+  await expect(lines.nth(1)).toHaveText('交给对的人')
+  expect(await lines.evaluateAll((elements) => elements.every((element) => element.getClientRects().length === 1))).toBe(true)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+})
+
 test('Relay Signal OS is original, responsive, and motion-safe', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')

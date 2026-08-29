@@ -1010,11 +1010,12 @@ body {
 .relay-command-copy h2 {
   margin: 8px 0 22px;
   font-family: var(--signal-display);
-  font-size: clamp(3.3rem, 5.3vw, 5.7rem);
-  line-height: .91;
-  letter-spacing: -.085em;
+  font-size: clamp(3.2rem, 4.65vw, 5rem);
+  line-height: .94;
+  letter-spacing: -.075em;
 }
 .relay-command-copy h2 em { color: var(--signal-violet); font-style: normal; }
+.relay-command-headline > span { display: block; width: max-content; max-width: 100%; white-space: nowrap; }
 .relay-command-intro { max-width: 570px; margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.75; }
 .relay-hero-actions { display: flex; gap: 11px; margin-top: 28px; }
 .workspace-primary-action, .workspace-secondary-action {
@@ -1296,6 +1297,20 @@ body {
   .relay-command-hero { grid-template-columns: minmax(0, .9fr) minmax(430px, 1.1fr); padding: 44px; }
   .relay-command-hero .workspace-stat-grid { margin-right: -320px; }
   .workspace-handoff-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 761px) and (max-width: 1020px) {
+  .relay-command-hero {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding: 42px;
+  }
+  .relay-command-copy { max-width: 720px; }
+  .relay-command-copy h2 { font-size: clamp(3.35rem, 6.2vw, 4rem); }
+  .relay-command-intro { max-width: 650px; }
+  .relay-command-hero .workspace-stat-grid { margin-right: 0; }
+  .relay-signal-stage { height: 430px; margin-top: 16px; }
 }
 
 @media (max-width: 760px) {

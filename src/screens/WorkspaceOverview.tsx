@@ -33,7 +33,10 @@ export function WorkspaceOverview() {
           <p className="relay-online-chip"><i /> 责任信号在线</p>
           <p className="micro-label">今天 · {user.role} · {visible.length} 个相关事项</p>
           <h1 id="workspace-hero-title">早上好，{user.name}</h1>
-          <h2><em>下一步</em>，清楚地<br />交给对的人。</h2>
+          <h2 className="relay-command-headline">
+            <span><em>下一步</em></span>
+            <span>交给对的人</span>
+          </h2>
           <p className="relay-command-intro">同一件事会根据当前视角显示不同状态，但负责人、下一步和完成结果始终来自同一份共享数据。</p>
           <div className="relay-hero-actions">
             <Link className="workspace-primary-action" to="/matters/new"><span>新建一件事项</span><Plus size={18} /></Link>

@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — M15 Agent fidelity hardening
+> Status: complete — M16 overview headline responsive refinement
 > Last updated: 2026-08-30
 
 ## Outcome contract
@@ -218,6 +218,45 @@ shared demo room for phone/computer demonstrations.
   additions and assumptions that the user did not explicitly authorize.
 - [x] Add focused protocol, fidelity and granularity regression tests.
 - [x] Run the full quality gate and record the remaining concurrent latency risk.
+
+### M16 — Overview headline responsive refinement
+
+- [x] Audit the user-supplied broken-heading screenshot against the current
+  Relay Signal OS hero.
+- [x] Replace incidental browser wrapping with two intentional semantic lines.
+- [x] Add a dedicated intermediate-width layout so copy and the responsibility
+  signal do not compete when desktop zoom reduces the CSS viewport.
+- [x] Preserve the 1440×900 composition and the 375×812 touch layout.
+- [x] Add intermediate-width regression and screenshot evidence.
+- [x] Run the complete quality gate and leave a green local checkpoint.
+
+## M16 checkpoint — Overview headline responsive refinement
+
+- Completed outcome: the overview statement is now the restrained two-line
+  display “下一步 / 交给对的人”. Each line is a non-wrapping semantic unit, so
+  Chinese characters and punctuation cannot become isolated fragments.
+- Responsive outcome: widths from 761px through 1020px use a deliberate stacked
+  hero with a narrower type scale and a full-width status strip; normal desktop
+  retains the two-column responsibility signal and mobile keeps its compact
+  title, actions, horizontal metrics and bottom navigation.
+- Design-review influence: the screenshot was evaluated for first-glance focus,
+  reading order, hierarchy, consistency and accessibility. That review led to
+  removing display punctuation, lowering type scale and treating intermediate
+  desktop width as a distinct composition rather than only shrinking desktop.
+- Visual evidence: regenerated and inspected overview screenshots at 1440×900,
+  900×900 and 375×812. All three keep the headline intact, preserve the signal
+  stage as a secondary focus and show no horizontal clipping.
+- Automated evidence: final `npm run verify` passed ESLint, strict TypeScript,
+  25 unit tests, production build and all 55 Chromium E2E tests. The new browser
+  assertion verifies exactly two single-rect headline lines and no page overflow
+  at 900px.
+- Changed files: overview heading markup, Signal OS responsive CSS, workspace
+  and visual tests, updated overview baselines, and this execution plan.
+- Unresolved risk: none introduced. Browser text zoom beyond the tested layout
+  can still change surrounding density, but the headline itself cannot split
+  into isolated characters.
+- Publication status: local only; the public Vercel deployment was not changed.
+- Next concrete goal: none in this bounded UI correction.
 
 ## M15 checkpoint — Agent fidelity hardening
 

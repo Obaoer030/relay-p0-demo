@@ -55,6 +55,16 @@ test('complete workspace is visible at 1440x900', async ({ page }) => {
   })
 })
 
+test('overview keeps an intentional headline hierarchy at intermediate desktop width', async ({ page }) => {
+  await page.setViewportSize({ width: 900, height: 900 })
+  await page.goto('/')
+  await expect(page.locator('.relay-command-headline')).toContainText('下一步交给对的人')
+  await expect(page).toHaveScreenshot('workspace-overview-900x900.png', {
+    animations: 'disabled',
+    caret: 'hide',
+  })
+})
+
 test('complete workspace fits 375x812', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto('/')
