@@ -178,14 +178,14 @@ the repository's single `npm run verify` quality gate.
   captures of the live `/demo` initial and accepted states, preserving the
   Warm Editorial canvas, thin dark phone frames, real card hierarchy, restrained
   brick-coral accents, and the responsibility rail as the hero mechanism.
-- Evidence: the final PNG is 1586×992 and 1.1 MB; it visually presents the
-  accepted two-phone state without the demo controller or unrelated illustration
-  language.
+- Evidence: the final PNG is 1586×992 and 1.1 MB; the Vercel asset at
+  `https://relay-p0-demo.vercel.app/relay-cover-v3.png` has the same SHA-256 as
+  the workspace file, and GitHub `main` includes the cover publication commit.
 - Changed files: `public/relay-cover-v3.png`, `README.md`, and this plan.
 - Unresolved risk: the form's video URL remains the only intentionally missing
   required submission asset.
-- Next concrete goal: publish the new cover and use its stable Vercel URL in the
-  project submission form.
+- Next concrete goal: use the stable Vercel cover URL in the project submission
+  form; the video URL remains the only intentionally missing required field.
 
 ## Decision notes
 
