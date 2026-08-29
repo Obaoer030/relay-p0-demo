@@ -181,28 +181,43 @@ shared demo room for phone/computer demonstrations.
   browsers. LocalStorage, BroadcastChannel, storage events, and local-only
   fallback remain intact; active perspective and reduced-motion preference stay
   device-local.
-- Evidence: final `npm run verify` passed lint, strict TypeScript, 7 unit tests,
-  production build, and 20 Chromium E2E tests. Tests cover Agent clarification,
+- Evidence: final `npm run verify` passed lint, strict TypeScript, 10 unit tests,
+  production build, and 21 Chromium E2E tests. Tests cover Agent clarification,
   zero mutation before confirmation, three real created matters, human ownership
-  acceptance, and isolated phone/computer browser contexts sharing a room.
+  acceptance, isolated phone/computer browser contexts sharing a room, and LAN
+  HTTP browsers where `crypto.randomUUID` is unavailable.
+- Credentialed evidence: after the user configured `.env.local`, `/api/health`
+  reported `minimax`. Real MiniMax-M2.7 calls covered an incomplete pet request,
+  a completed pet request, hospital-report pickup, and home installation. The
+  browser path visibly entered its loading state, rendered the user's message
+  on the right and MiniMax on the left, produced three steps, published them,
+  and opened the reducer-backed matter detail.
+- Workflow-guard evidence: provider output is normalized without replacing the
+  model's plan. Relay asks only for the missing appointment time, never asks the
+  initiator to accept on behalf of an invitee, keeps explicit relative dates and
+  shared-place references executable, and canonicalizes owner names from the
+  local whitelist. These cases have dedicated unit coverage.
 - Reliability evidence: `npm run test:golden` passed both the complete product
   path and offline path across ten consecutive repetitions (20/20). The Agent
   creation plus isolated device synchronization suite also passed ten
   consecutive repetitions (20/20).
-- Visual evidence: regenerated and inspected the Agent composer at 1440×900 and
-  375×812. The desktop two-panel plan layout and mobile single-column capture
-  keep labels, manual fallback, starter prompts, bottom navigation, and publish
-  boundary readable with no horizontal overflow.
+- Visual evidence: regenerated and inspected the initial and populated chatbot
+  at 1440×900 and 375×812. User messages align right, Agent messages align left,
+  the message pane scrolls independently, and the structured plan remains beside
+  the desktop chat and below the mobile chat. Both viewports assert no horizontal
+  overflow.
 - Changed files: ADR-006, context pack, docs and environment template; Vite and
   standalone Node middleware; Agent protocol, UI and styles; workspace room
   synchronization and plan metadata; unit, E2E and visual tests/baselines.
-- Unresolved risk: no live MiniMax call can be verified until the user supplies
-  a key. The shared room is intentionally in-memory and single-process: it is
-  appropriate for one hackathon demo server, not production persistence,
-  authentication, access control, multi-instance deployment, or conflict
-  resolution.
-- Next concrete goal: after the user fills `.env.local`, restart the server and
-  run one credentialed MiniMax smoke test. Do not commit the key.
+- Unresolved risk: MiniMax-M2.7 took roughly 9–21 seconds in observed live calls;
+  the UI provides an explicit waiting state, while a high-speed model variant
+  remains a deployment-time latency option. The shared room is intentionally
+  in-memory and single-process: it is appropriate for one hackathon demo server,
+  not production persistence, authentication, access control, multi-instance
+  deployment, or conflict resolution.
+- Next concrete goal: none in the currently authorized scope. Preserve the
+  ignored `.env.local` credential and green checkpoint; production persistence
+  and access control remain a separate phase.
 
 ## M10 checkpoint — Single workspace and complete matter lifecycle
 

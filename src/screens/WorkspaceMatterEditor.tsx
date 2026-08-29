@@ -3,6 +3,7 @@ import { type FormEvent, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PageHeader } from '../app/PageHeader'
 import { useWorkspace } from '../workspace/WorkspaceContext'
+import { createLocalId } from '../lib/localId'
 import { getActiveUser } from '../workspace/perspective'
 import type { WorkspaceMatter, WorkspacePriority, WorkspaceUserId } from '../workspace/types'
 import { WorkspaceAgentComposer } from './WorkspaceAgentComposer'
@@ -36,7 +37,7 @@ export function WorkspaceMatterEditor() {
     const isInviting = !existing && assignment === 'invite' && Boolean(invitee)
     const participantIds = isInviting ? [creatorId, inviteeId] : (existing?.participantIds ?? [creatorId])
     const matter: WorkspaceMatter = {
-      id: existing?.id ?? `matter-${crypto.randomUUID()}`,
+      id: existing?.id ?? createLocalId('matter'),
       title: title.trim(), context: context.trim(), nextAction: nextAction.trim(), doneDefinition: doneDefinition.trim(), boundary: boundary.trim(),
       dueAt: dueDate ? new Date(`${dueDate}T09:00:00`).toISOString() : undefined,
       category, priority, status: isInviting ? 'waiting' : (existing?.status ?? 'mine'), creatorId,

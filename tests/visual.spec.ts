@@ -39,6 +39,18 @@ test('complete workspace is visible at 1440x900', async ({ page }) => {
     animations: 'disabled',
     caret: 'hide',
   })
+  await page.getByLabel('描述你想安排的事情').fill('请小雨周六上午 9:30 带布丁复诊。')
+  await page.getByLabel('描述你想安排的事情').press('Enter')
+  await expect(page.getByRole('button', { name: '确认并创建 3 个步骤' })).toBeEnabled()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+  await page.evaluate(() => {
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+    window.scrollTo(0, 0)
+  })
+  await expect(page).toHaveScreenshot('workspace-agent-conversation-1440x900.png', {
+    animations: 'disabled',
+    caret: 'hide',
+  })
 })
 
 test('complete workspace fits 375x812', async ({ page }) => {
@@ -69,6 +81,14 @@ test('complete workspace fits 375x812', async ({ page }) => {
   })
   await page.goto('/matters/new')
   await expect(page).toHaveScreenshot('workspace-agent-375x812.png', {
+    animations: 'disabled',
+    caret: 'hide',
+  })
+  await page.getByLabel('描述你想安排的事情').fill('请小雨周六上午 9:30 带布丁复诊。')
+  await page.getByLabel('描述你想安排的事情').press('Enter')
+  await expect(page.getByRole('button', { name: '确认并创建 3 个步骤' })).toBeEnabled()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
+  await expect(page).toHaveScreenshot('workspace-agent-conversation-375x812.png', {
     animations: 'disabled',
     caret: 'hide',
   })

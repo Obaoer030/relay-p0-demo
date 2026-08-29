@@ -77,3 +77,17 @@ test('reduced motion and mobile layouts retain meaning without overflow', async 
   const primary = await page.getByRole('button', { name: '可以，我来处理' }).boundingBox()
   expect(primary?.height).toBeGreaterThanOrEqual(44)
 })
+
+test('LAN HTTP browsers work when crypto.randomUUID is unavailable', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(globalThis.crypto, 'randomUUID', { value: undefined, configurable: true })
+  })
+  await page.goto('/matters/new')
+  await expect(page.getByRole('heading', { name: '把一件事说出来，Relay 帮你安排清楚' })).toBeVisible()
+  await expect(page.getByText('演示房间在线')).toBeVisible()
+  await page.getByLabel('描述你想安排的事情').fill('请小雨周六上午 9:30 带布丁复诊。')
+  await page.getByRole('button', { name: '发送给协作 Agent' }).click()
+  await expect(page.getByRole('button', { name: '确认并创建 3 个步骤' })).toBeEnabled()
+  await page.getByRole('button', { name: '确认并创建 3 个步骤' }).click()
+  await expect(page.getByText('Agent 计划第 1/3 步')).toBeVisible()
+})

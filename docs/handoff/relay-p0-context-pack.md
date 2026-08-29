@@ -9,6 +9,13 @@ information, and ask the user to complete that information before publishing.
 Voice capture/transcription is intentionally excluded because the user will use
 the device keyboard's built-in dictation.
 
+The capture surface follows a familiar chatbot conversation model: the current
+user speaks in right-aligned messages, Relay responds on the left, the thread
+scrolls upward as new turns arrive, and the composer stays at the bottom of the
+conversation. A structured live-plan card remains visible beside the chat on
+desktop and after it on mobile, because ownership, completion criteria and the
+publish boundary must stay easier to audit than prose bubbles alone.
+
 The Agent is not the source of truth and cannot create commitments by itself:
 
 - model output is an editable plan draft;

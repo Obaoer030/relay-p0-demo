@@ -1,7 +1,8 @@
 import { ArrowRight, CheckCircle2, CircleAlert, LoaderCircle, MessageSquareText, PenLine, Send, ShieldCheck, Workflow } from 'lucide-react'
-import { type FormEvent, useState } from 'react'
+import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { isAgentTurnResponse, type AgentPlanDraft, type AgentTranscriptMessage } from '../agent/types'
+import { createLocalId } from '../lib/localId'
 import { useWorkspace } from '../workspace/WorkspaceContext'
 import { getActiveUser } from '../workspace/perspective'
 import type { WorkspaceMatter, WorkspaceUserId } from '../workspace/types'
@@ -23,29 +24,37 @@ export function WorkspaceAgentComposer({ onManual }: { onManual: () => void }) {
   const [engine, setEngine] = useState<'minimax' | 'local-demo' | null>(null)
   const [notice, setNotice] = useState('')
   const [error, setError] = useState('')
+  const thread = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (transcript.length === 0 && status === 'idle') return
+    thread.current?.scrollTo({ top: thread.current.scrollHeight, behavior: state.reduceMotion ? 'auto' : 'smooth' })
+  }, [transcript, status, state.reduceMotion])
 
   const send = async (event: FormEvent) => {
     event.preventDefault()
     const value = input.trim()
     if (!value || status === 'loading') return
+    const requestTranscript = transcript
+    setTranscript((messages) => [...messages, { role: 'user', content: value }])
+    setInput('')
     setStatus('loading')
     setError('')
     try {
       const response = await fetch('/api/agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ input: value, transcript, currentUserId: currentUser.id, users: state.users.map(({ id, name, role }) => ({ id, name, role })) }),
+        body: JSON.stringify({ input: value, transcript: requestTranscript, currentUserId: currentUser.id, users: state.users.map(({ id, name, role }) => ({ id, name, role })) }),
       })
       if (!response.ok) throw new Error('agent-service-unavailable')
       const payload: unknown = await response.json()
       if (!isAgentTurnResponse(payload)) throw new Error('invalid-agent-response')
       const assistantContent = [payload.message, payload.question].filter(Boolean).join('\n')
-      setTranscript((messages) => [...messages, { role: 'user', content: value }, { role: 'assistant', content: assistantContent }])
+      setTranscript((messages) => [...messages, { role: 'assistant', content: assistantContent }])
       setDraft(payload.draft)
       setStatus(payload.status)
       setEngine(payload.engine)
       setNotice(payload.notice ?? '')
-      setInput('')
     } catch {
       setStatus('idle')
       setError('Agent 服务暂时没有响应。你可以重试，或切换到手动创建。')
@@ -61,11 +70,11 @@ export function WorkspaceAgentComposer({ onManual }: { onManual: () => void }) {
   const publish = () => {
     if (!draft || status !== 'ready') return
     const now = new Date().toISOString()
-    const planId = `plan-${crypto.randomUUID()}`
+    const planId = createLocalId('plan')
     const matters = draft.steps.map((step, index): WorkspaceMatter => {
       const isSelf = step.ownerId === currentUser.id
       return {
-        id: `matter-${crypto.randomUUID()}`,
+        id: createLocalId('matter'),
         title: step.title,
         context: draft.context,
         nextAction: step.nextAction,
@@ -99,14 +108,18 @@ export function WorkspaceAgentComposer({ onManual }: { onManual: () => void }) {
         <header><div className="workspace-agent-mark"><Workflow size={20} /><i /></div><div><p className="micro-label">RELAY COORDINATOR · TEXT</p><h2 id="agent-composer-title">先说清楚发生了什么</h2></div><button type="button" onClick={onManual}><PenLine size={16} /> 手动填写</button></header>
         <p className="workspace-agent-lead">不用先想字段。像发消息一样说明事情、相关的人和你担心的边界，我会先整理草案，再只追问真正影响执行的信息。</p>
 
-        {transcript.length === 0 && <div className="workspace-agent-starters">{starters.map((starter) => <button key={starter} type="button" onClick={() => setInput(starter)}>{starter}<ArrowRight size={14} /></button>)}</div>}
-        {transcript.length > 0 && <div className="workspace-agent-thread" aria-label="与协作 Agent 的对话">{transcript.map((message, index) => <article key={`${message.role}-${index}`} data-role={message.role}><span>{message.role === 'user' ? currentUser.name : 'Relay Agent'}</span><p>{message.content}</p></article>)}</div>}
+        <div ref={thread} className="workspace-agent-thread" aria-label="与协作 Agent 的对话" aria-live="polite">
+          <article data-role="assistant" className="workspace-agent-greeting"><span><MessageSquareText size={13} /> Relay Agent</span><p>先告诉我发生了什么、涉及谁，以及你最担心遗漏什么。我会边聊边整理成可以确认的行动计划。</p></article>
+          {transcript.map((message, index) => <article key={`${message.role}-${index}`} data-role={message.role}><span>{message.role === 'user' ? currentUser.name : <><MessageSquareText size={13} /> Relay Agent</>}</span><p>{message.content}</p></article>)}
+          {transcript.length === 0 && <div className="workspace-agent-starters">{starters.map((starter) => <button key={starter} type="button" onClick={() => setInput(starter)}>{starter}<ArrowRight size={14} /></button>)}</div>}
+          {status === 'loading' && <article data-role="assistant" data-state="loading"><span><MessageSquareText size={13} /> Relay Agent</span><p><LoaderCircle className="is-spinning" size={16} /> 正在整理信息和下一步…</p></article>}
+        </div>
 
         {error && <div className="workspace-agent-error"><CircleAlert size={18} /><span>{error}</span></div>}
         <form className="workspace-agent-input" onSubmit={(event) => { void send(event) }}>
           <label htmlFor="agent-input">{status === 'needs_input' ? '补充 Agent 询问的信息' : '描述你想安排的事情'}</label>
-          <div><textarea id="agent-input" value={input} onChange={(event) => setInput(event.target.value)} placeholder={status === 'needs_input' ? '直接回答上面的问题即可…' : '例如：我周五临时出差，想请小雨周六带布丁复诊…'} /><button type="submit" disabled={!input.trim() || status === 'loading'} aria-label="发送给协作 Agent">{status === 'loading' ? <LoaderCircle className="is-spinning" size={20} /> : <Send size={20} />}</button></div>
-          <small>Agent 只生成草案，不会替任何人接受或直接发布。</small>
+          <div><textarea id="agent-input" value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event: KeyboardEvent<HTMLTextAreaElement>) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit() } }} placeholder={status === 'needs_input' ? '直接回答上面的问题即可…' : '输入一件需要安排的事…'} /><button type="submit" disabled={!input.trim() || status === 'loading'} aria-label="发送给协作 Agent">{status === 'loading' ? <LoaderCircle className="is-spinning" size={20} /> : <Send size={20} />}</button></div>
+          <small><kbd>Enter</kbd> 发送 · <kbd>Shift</kbd> + <kbd>Enter</kbd> 换行 · Agent 只生成草案，不会替任何人接受或直接发布。</small>
         </form>
       </div>
 

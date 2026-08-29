@@ -6,10 +6,17 @@ import { WorkspaceContext } from './WorkspaceContext'
 
 type Message = { source: string; state: WorkspaceState }
 
+function createSyncSource() {
+  if (typeof globalThis.crypto?.randomUUID === 'function') {
+    return globalThis.crypto.randomUUID()
+  }
+  return `relay-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+}
+
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(workspaceReducer, undefined, readWorkspaceState)
   const [syncMode, setSyncMode] = useState<'connecting' | 'room' | 'local'>(() => typeof EventSource === 'undefined' ? 'local' : 'connecting')
-  const source = useRef(crypto.randomUUID())
+  const source = useRef(createSyncSource())
   const channel = useRef<BroadcastChannel | null>(null)
   const remote = useRef(false)
   const roomReady = useRef(false)

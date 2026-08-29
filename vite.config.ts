@@ -5,8 +5,9 @@ import { relayServerPlugin } from './server/relayServerPlugin.ts'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  const agentMode = process.env.RELAY_AGENT_MODE ?? env.RELAY_AGENT_MODE
   return {
-    plugins: [react(), relayServerPlugin({ apiKey: env.MINIMAX_API_KEY, baseUrl: env.MINIMAX_BASE_URL || 'https://api.minimaxi.com/v1', model: env.MINIMAX_MODEL || 'MiniMax-M2.7', agentMode: env.RELAY_AGENT_MODE === 'fallback' ? 'fallback' : 'auto' })],
+    plugins: [react(), relayServerPlugin({ apiKey: env.MINIMAX_API_KEY, baseUrl: env.MINIMAX_BASE_URL || 'https://api.minimaxi.com/v1', model: env.MINIMAX_MODEL || 'MiniMax-M2.7', agentMode: agentMode === 'fallback' ? 'fallback' : 'auto' })],
     test: {
       environment: 'jsdom',
       include: ['src/**/*.test.{ts,tsx}'],
