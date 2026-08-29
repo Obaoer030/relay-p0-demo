@@ -1,5 +1,15 @@
 # Relay P0 long-run context pack
 
+## 2026-08-29 interactive-full-demo addendum
+
+The user has explicitly expanded the desired outcome beyond the 90-second P0
+stage. Preserve the verified `/demo` path, but `/` must now become a complete,
+freely explorable application demo with real persisted sample data, matter CRUD,
+handoff management, trusted people, activity history, settings, product story,
+and responsive mobile/desktop layouts. ADR-002 is the newer contract for this
+expansion. It does not authorize deployment, credentials, real authentication,
+or a cloud database.
+
 > Status: Approved handoff baseline  
 > Date: 2026-08-29  
 > Product: Relay（接棒） / project codename She Nicest  
@@ -325,4 +335,3 @@ Read these repository documents for details rather than reconstructing them from
 Use this concise instruction rather than pasting the previous conversation:
 
 > Read `AGENTS.md` and `docs/handoff/relay-p0-context-pack.md`, then complete the Relay P0 hackathon demo under guarded autonomous execution. Initialize Git safely, maintain a live ExecPlan, use Warm Editorial as the sole design language, verify every milestone before committing, and continue until all P0 acceptance criteria pass. Do not deploy, use paid services, handle credentials, or begin Stretch Goals without explicit authorization.
-

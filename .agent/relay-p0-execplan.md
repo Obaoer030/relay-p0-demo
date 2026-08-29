@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete
+> Status: in progress — interactive full-demo expansion
 > Last updated: 2026-08-29
 
 ## Outcome contract
@@ -84,6 +84,17 @@ the repository's single `npm run verify` quality gate.
 - [x] Run same-origin sync timing and offline checks.
 - [x] Run the deterministic golden path ten consecutive times.
 - [x] Run final `npm run verify` and leave a green checkpoint commit.
+
+### M6 — Complete interactive product demo
+
+- [x] Record the expanded product contract and responsive-Web decision in ADR-002.
+- [x] Document the product background, difference from chat, and independent value.
+- [ ] Extend the persisted domain for matter CRUD, people, activity, and filters.
+- [ ] Replace the standalone phone home with a complete responsive application shell.
+- [ ] Add overview, matters, handoffs, people, activity, settings, and product-story surfaces.
+- [ ] Preserve the verified `/demo` and public helper routes.
+- [ ] Add interactive-system E2E and mobile/desktop visual evidence.
+- [ ] Run final verification and leave a green checkpoint.
 
 ## Checkpoints
 
