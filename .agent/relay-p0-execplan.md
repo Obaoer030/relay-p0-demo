@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: in progress  
+> Status: complete
 > Last updated: 2026-08-29
 
 ## Outcome contract
@@ -79,11 +79,11 @@ the repository's single `npm run verify` quality gate.
 
 ### M5 — QA and final reliability
 
-- [ ] Validate 375×812 and 1440×900 screenshots visually.
-- [ ] Check overflow, clipping, tap targets, projection readability, error/empty states, and reduced motion.
-- [ ] Run same-origin sync timing and offline checks.
-- [ ] Run the deterministic golden path ten consecutive times.
-- [ ] Run final `npm run verify` and leave a green checkpoint commit.
+- [x] Validate 375×812 and 1440×900 screenshots visually.
+- [x] Check overflow, clipping, tap targets, projection readability, error/empty states, and reduced motion.
+- [x] Run same-origin sync timing and offline checks.
+- [x] Run the deterministic golden path ten consecutive times.
+- [x] Run final `npm run verify` and leave a green checkpoint commit.
 
 ## Checkpoints
 
@@ -151,6 +151,52 @@ the repository's single `npm run verify` quality gate.
   path remain to be proven in M5.
 - Next concrete goal: replace the smoke E2E with acceptance-level browser tests
   and collect the responsive, offline, synchronization, and ten-run evidence.
+
+### 2026-08-29 — Final P0 reliability and visual QA
+
+- Completed outcome: replaced route smoke coverage with acceptance-level tests,
+  moved browser tests onto the production preview build, added durable visual
+  baselines, fixed the reduced-motion switch hit area and mobile helper header,
+  and raised all product and presenter controls to at least 44px targets.
+- Evidence: `npm run test:golden` passed 10/10 consecutive runs from reset;
+  final `npm run verify` passed lint, strict typecheck, 13 unit tests, production
+  build, and 10 Chromium E2E tests. The E2E suite proves same-origin acceptance
+  arrives within 500ms, the already-loaded production app completes while the
+  browser is offline with zero external requests, and reduced-motion semantics
+  remain complete.
+- Visual evidence: inspected four versioned screenshots at 375×812 and
+  1440×900 covering owner initial, helper shared, desktop initial, and desktop
+  accepted states. No clipping or horizontal overflow was visible; the mobile
+  helper's action and decision boundary remain in the first viewport, and both
+  desktop phones remain projection-readable.
+- Changed files: `package.json`, `playwright.config.ts`, `tsconfig.node.json`,
+  `src/styles.css`, `src/screens/HelperView.tsx`, `tests/acceptance.spec.ts`,
+  `tests/golden-path.spec.ts`, `tests/visual.spec.ts`, visual baselines, and this
+  execution plan.
+- Unresolved risk: none within the approved P0 contract. Real cross-device
+  collaboration, production security, deployment, and Stretch Goals remain
+  explicitly out of scope and were not started.
+- Next concrete goal: none within P0; preserve the green checkpoint until a
+  separately authorized deployment, recording, or Stretch Goal task exists.
+
+## Final P0 acceptance evidence
+
+| Acceptance item | Evidence |
+|---|---|
+| Initial → accepted in under 45 seconds | Golden-path E2E enforces the threshold; the full path including completion and reset ran in under one second per automated run. |
+| Helper can explain action and prohibited decisions | The 375×812 shared-helper baseline shows time, exact next action, required material, completion condition, and medical decision boundary together in the first viewport. |
+| Responsibility change is obvious within 5 seconds | Golden-path E2E enforces the threshold and finds two persistent `当前由小雨推进` rails plus Lin Ran's release copy. |
+| Same-origin synchronization within 500ms | Two-page production-build E2E measures helper acceptance to owner release state and fails at 500ms. |
+| 375px has no horizontal scrolling | Browser metric assertion passes for owner and helper routes; both versioned 375×812 screenshots were visually inspected. |
+| 1440×900 remains projection-readable | Initial and accepted double-phone baselines were visually inspected with all core copy, rails, controls, and boundaries visible. |
+| Formal path has no typing, network wait, or scrolling | Offline golden-path E2E finds zero textboxes, zero external requests, zero page scroll, and completes after offline mode is enabled. |
+| One reset restores the complete fixture | Unit tests verify five matters, one handoff, initial ownership, and recomputed relative date; every golden run ends with reset assertions. |
+| Reduced motion preserves meaning | E2E checks the controller toggle, near-zero animation duration, Xiaoyu ownership, both semantic rails, and persistent release copy. |
+| Golden path succeeds ten consecutive times | `npm run test:golden`: 10 passed with one worker and deterministic reset. |
+| Error, empty, decline, and completion states are clear | E2E covers safe invalid token, pre-share helper empty state, respectful decline returning responsibility, acceptance, and distinct completion. |
+| Targets and zoom resilience | Product and presenter controls are asserted at ≥44px; a 720×450 CSS viewport (1440×900 at 200% equivalent) completes acceptance without horizontal overflow. |
+| Production/offline/local assets | E2E runs against `vite preview` after a production build; the loaded app completes offline and observed requests stay on the local origin. |
+| Direct routes and SPA fallback | Production-preview E2E opens `/`, `/demo`, `/r/demo-cat-checkup`, and an invalid token directly; `vercel.json` carries the SPA rewrite artifact. |
 
 ## Decision notes
 

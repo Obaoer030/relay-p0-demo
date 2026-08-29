@@ -14,7 +14,10 @@ function HelperShell({ children }: { children: React.ReactNode }) {
     <div className="helper-screen">
       <header className="helper-header">
         <BrandMark compact />
-        <span>单事项邀请 · 无需账号</span>
+        <span className="helper-header__context" aria-label="单事项邀请，无需账号">
+          <span className="helper-header__context-full">单事项邀请 · 无需账号</span>
+          <span className="helper-header__context-short" aria-hidden="true">无需账号</span>
+        </span>
       </header>
       {children}
     </div>
