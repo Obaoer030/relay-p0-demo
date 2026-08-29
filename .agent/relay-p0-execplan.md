@@ -172,6 +172,21 @@ the repository's single `npm run verify` quality gate.
 - Next concrete goal: prepare and fill all non-video submission fields, then
   pause at the browser's representational-submission confirmation boundary.
 
+### 2026-08-30 — Demo-faithful submission cover
+
+- Completed outcome: the submission cover was regenerated from direct desktop
+  captures of the live `/demo` initial and accepted states, preserving the
+  Warm Editorial canvas, thin dark phone frames, real card hierarchy, restrained
+  brick-coral accents, and the responsibility rail as the hero mechanism.
+- Evidence: the final PNG is 1586×992 and 1.1 MB; it visually presents the
+  accepted two-phone state without the demo controller or unrelated illustration
+  language.
+- Changed files: `public/relay-cover-v3.png`, `README.md`, and this plan.
+- Unresolved risk: the form's video URL remains the only intentionally missing
+  required submission asset.
+- Next concrete goal: publish the new cover and use its stable Vercel URL in the
+  project submission form.
+
 ## Decision notes
 
 - The handoff context pack overrides the older PRD color direction: use warm
