@@ -582,6 +582,23 @@ shared demo room for phone/computer demonstrations.
   checkpoint until the user separately authorizes deployment or production
   infrastructure.
 
+### 2026-08-30 — Scoring-focused README
+
+- Completed outcome: rewrote the public README around the current Relay Signal
+  OS product capabilities, online entry points, local setup and verified quality
+  evidence; removed the standalone limitations section and negative exclusion
+  language from the scoring narrative.
+- Evidence: every retained capability maps to implemented behavior already
+  covered by the 53-test Playwright gate, 30-case scenario matrix or repeated
+  golden/offline paths; `git diff --check` passes; all three linked production
+  routes returned HTTP 200; GitHub `main` published the revised README in commit
+  `6a0219a`.
+- Changed files: `README.md` and this execution plan.
+- Unresolved risk: none introduced; implementation and safety boundaries remain
+  unchanged in the durable technical documentation.
+- Next concrete goal: continue the competition submission flow when the video
+  URL is available.
+
 ## Final P0 acceptance evidence
 
 | Acceptance item | Evidence |
