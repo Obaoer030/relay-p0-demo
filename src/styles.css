@@ -1,0 +1,64 @@
+:root {
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #3d2925;
+  background: #fff8f0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.placeholder-shell {
+  width: min(100% - 32px, 720px);
+  min-height: 100vh;
+  margin: 0 auto;
+  display: grid;
+  align-content: center;
+  gap: 16px;
+}
+
+.placeholder-shell h1,
+.placeholder-shell p {
+  margin: 0;
+}
+
+.placeholder-shell h1 {
+  max-width: 12ch;
+  font-family: "Songti SC", "STSong", Georgia, serif;
+  font-size: clamp(2.75rem, 10vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.placeholder-shell > p:last-child {
+  color: #846f68;
+  font-size: 1rem;
+}
+
+.eyebrow {
+  color: #b84f4b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}

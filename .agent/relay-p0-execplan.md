@@ -49,10 +49,10 @@ the repository's single `npm run verify` quality gate.
 
 ### M1 — Scaffold and quality gates
 
-- [ ] Scaffold Vite React TypeScript without remote runtime assets.
-- [ ] Configure ESLint, Vitest, Playwright, typecheck, build, and `npm run verify`.
-- [ ] Add SPA rewrite build artifact.
-- [ ] Prove a minimal production page through the gate.
+- [x] Scaffold Vite React TypeScript without remote runtime assets.
+- [x] Configure ESLint, Vitest, Playwright, typecheck, build, and `npm run verify`.
+- [x] Add SPA rewrite build artifact.
+- [x] Prove a minimal production page through the gate.
 
 ### M2 — Deterministic domain core
 
@@ -99,6 +99,20 @@ the repository's single `npm run verify` quality gate.
 - Next concrete goal: scaffold the smallest React/Vite app with the complete
   verification command before product behavior is added.
 
+### 2026-08-29 — Green application scaffold
+
+- Completed outcome: React/Vite/TypeScript app, required route shells, strict
+  lint/typecheck, Vitest, Playwright using the locally installed stable Chrome,
+  production build, and SPA rewrite are wired behind `npm run verify`.
+- Evidence: `npm run verify` passed 2026-08-29: lint, typecheck, 1 unit test,
+  production build, and 1 Chromium route-smoke E2E.
+- Changed files: `package.json`, `package-lock.json`, TypeScript/Vite/ESLint/
+  Playwright configs, `index.html`, `vercel.json`, `src/**`, `tests/**`.
+- Unresolved risk: the app is still a route shell; fixture, state transitions,
+  persistence, and synchronization are not implemented.
+- Next concrete goal: implement the complete deterministic domain core and its
+  unit-test suite before building product surfaces.
+
 ## Decision notes
 
 - The handoff context pack overrides the older PRD color direction: use warm
@@ -108,4 +122,3 @@ the repository's single `npm run verify` quality gate.
   product views. The two phones share the same provider in one DOM.
 - Completion is distinct from acceptance. Acceptance moves execution ownership;
   completion closes the action without erasing the recorded boundary.
-
