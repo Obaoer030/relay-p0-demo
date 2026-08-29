@@ -2,8 +2,8 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — M11 text coordination Agent
-> Last updated: 2026-08-29
+> Status: complete — M12 10-scenario user-journey QA
+> Last updated: 2026-08-30
 
 ## Outcome contract
 
@@ -165,6 +165,43 @@ shared demo room for phone/computer demonstrations.
 - [x] Add server-backed cross-browser/device demo-room synchronization while
   preserving local fallback and reducer guards.
 - [x] Add unit/E2E/visual evidence and leave a green checkpoint.
+
+### M12 — 10-scenario / 30-case user-journey QA
+
+- [x] Keep product behavior unchanged and define ten current-function scenarios.
+- [x] Add thirty independent Chrome cases using clicks, typing, selection,
+  refresh, dialogs, mobile viewports, isolated contexts and offline mode.
+- [x] Distinguish test-harness mistakes from product defects and rerun the full
+  matrix after correcting the two false failures.
+- [x] Record a durable QA report and add `npm run test:scenarios`.
+- [x] Run the complete matrix 30/30 and the repository-wide quality gate.
+
+## M12 checkpoint — 10 scenarios / 30 user cases
+
+- Completed outcome: added a test-only user-journey matrix without changing any
+  product feature. The matrix covers entry/navigation, four perspectives,
+  search/filter/empty state, manual creation, Agent creation, invitation
+  responses, completion/reopen, public collaboration, synchronization/offline,
+  and mobile/settings/reset.
+- Interaction evidence: Playwright drove stable Chrome through real clicks,
+  typing, selects, refresh, confirmation dialogs, a 375×812 viewport, two pages,
+  isolated desktop/phone contexts and offline mode. Each case checks the visible
+  result against the current Relay SOP.
+- First-run audit: 28/30 passed. The two failures were false negatives caused by
+  a missing post-navigation click and a test initializer that cleared storage on
+  refresh. No product code was changed; after correcting the harness, a complete
+  rerun passed 30/30 in 15.7 seconds.
+- Full-gate evidence: `npm run verify` passed lint, strict TypeScript, 10 unit
+  tests, production build and 51 Chromium E2E tests; the full 30-case matrix
+  passed again inside that repository-wide run.
+- Report: `docs/reviews/2026-08-30-30-case-user-journey-qa.md` records the full
+  matrix, methodology, failure triage and observed conclusions.
+- Unresolved risk: deterministic browser regression uses the labelled local
+  Agent engine by design; credentialed MiniMax response quality remains covered
+  by separate live smoke tests because nondeterministic provider output must not
+  control the regression gate.
+- Next concrete goal: none. Preserve this test matrix in `npm run verify` and
+  rerun it before the live judging session.
 
 ## M11 checkpoint — Text coordination Agent and shared demo room
 

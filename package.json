@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "test:unit": "vitest run",
     "test:e2e": "npm run build && playwright test",
+    "test:scenarios": "npm run build && playwright test tests/scenario-matrix.spec.ts",
     "test:golden": "npm run build && playwright test tests/golden-path.spec.ts --repeat-each=10 --workers=1",
     "verify": "npm run lint && npm run typecheck && npm run test:unit && npm run test:e2e"
   },
