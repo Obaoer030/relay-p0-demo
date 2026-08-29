@@ -1,4 +1,5 @@
 import { reviewPlanGranularity } from '../src/agent/granularity.js'
+import { guardAgentDueDates } from '../src/agent/dateGuard.js'
 import { isAgentTurnResponse, type AgentTurnRequest, type AgentTurnResponse } from '../src/agent/types.js'
 import { guardAgentTurn } from '../src/agent/workflowGuard.js'
 
@@ -78,7 +79,7 @@ export async function runMiniMax(config: ServerConfig, request: AgentTurnRequest
   if (!config.apiKey) throw new Error('minimax-not-configured')
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(new Error('minimax-timeout')), 55_000)
-  const context = JSON.stringify({ currentUserId: request.currentUserId, users: request.users, transcript: request.transcript, latestInput: request.input })
+  const context = JSON.stringify({ currentDate: new Date().toISOString().slice(0, 10), currentUserId: request.currentUserId, users: request.users, transcript: request.transcript, latestInput: request.input })
   const messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [
     { role: 'system', content: SYSTEM_PROMPT },
     { role: 'user', content: context },
@@ -95,7 +96,7 @@ export async function runMiniMax(config: ServerConfig, request: AgentTurnRequest
       violations = reviewPlanGranularity(request, response.draft.steps)
     }
     if (violations.length > 0) throw new Error('invalid-agent-granularity')
-    return guardAgentTurn(response, request)
+    return guardAgentTurn(guardAgentDueDates(response, request), request)
   } finally {
     clearTimeout(timer)
   }
