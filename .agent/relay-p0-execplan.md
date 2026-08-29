@@ -2,8 +2,8 @@
 
 > Owner: main implementation session  
 > Branch: `feat/relay-p0-demo`  
-> Status: in progress  
-> Last updated: 2026-08-29
+> Status: P0 green; publishing in progress
+> Last updated: 2026-08-30
 
 ## Outcome contract
 
@@ -64,26 +64,26 @@ the repository's single `npm run verify` quality gate.
 
 ### M3 — Bounded handoff experience
 
-- [ ] Build Lin Ran Today view with three scannable responsibility sections.
-- [ ] Build deterministic capture/confirmation and handoff preview surfaces.
-- [ ] Build no-account helper view, accept, decline, and invalid-token states.
-- [ ] Build accepted and completion loops with truthful persistent copy.
-- [ ] Keep the decision boundary visible on all core surfaces.
+- [x] Build Lin Ran Today view with three scannable responsibility sections.
+- [x] Build deterministic capture/confirmation and handoff preview surfaces.
+- [x] Build no-account helper view, accept, decline, and invalid-token states.
+- [x] Build accepted and completion loops with truthful persistent copy.
+- [x] Keep the decision boundary visible on all core surfaces.
 
 ### M4 — Warm Editorial demo stage
 
-- [ ] Build the two-phone `/demo` stage and presenter-only controller.
-- [ ] Make the responsibility rail the hero mechanism across all views.
-- [ ] Add purposeful 680ms transfer motion and reduced-motion equivalent.
-- [ ] Add close scenarios: moving, parent care, partner collaboration.
+- [x] Build the two-phone `/demo` stage and presenter-only controller.
+- [x] Make the responsibility rail the hero mechanism across all views.
+- [x] Add purposeful 680ms transfer motion and reduced-motion equivalent.
+- [x] Add close scenarios: moving, parent care, partner collaboration.
 
 ### M5 — QA and final reliability
 
-- [ ] Validate 375×812 and 1440×900 screenshots visually.
-- [ ] Check overflow, clipping, tap targets, projection readability, error/empty states, and reduced motion.
-- [ ] Run same-origin sync timing and offline checks.
-- [ ] Run the deterministic golden path ten consecutive times.
-- [ ] Run final `npm run verify` and leave a green checkpoint commit.
+- [x] Validate 375×812 and 1440×900 screenshots visually.
+- [x] Check overflow, clipping, tap targets, projection readability, error/empty states, and reduced motion.
+- [x] Run same-origin sync timing and offline checks.
+- [x] Run the deterministic golden path ten consecutive times.
+- [x] Run final `npm run verify` and leave a green checkpoint commit.
 
 ## Checkpoints
 
@@ -129,6 +129,28 @@ the repository's single `npm run verify` quality gate.
   contract is not yet proven; product UI still does not expose the flow.
 - Next concrete goal: build the shared responsibility components and complete
   both Lin Ran and Xiaoyu product surfaces against this state source.
+
+### 2026-08-30 — P0 interaction and acceptance green
+
+- Completed outcome: Warm Editorial owner/helper experiences, bounded handoff
+  confirmation and preview, no-account accept/decline/complete states, shared
+  responsibility rail, two-phone demo controller, responsive views, reduced
+  motion semantics, invalid-token privacy, and a public-ready cover image are
+  implemented.
+- Evidence: final `npm run verify` passed lint, strict typecheck, 13 unit tests,
+  production build, and 9/9 production-backed Playwright checks; the
+  deterministic golden-path command passed 10 consecutive runs; same-origin
+  owner/helper synchronization stayed within the 500ms assertion; 375×812 had
+  `scrollWidth === clientWidth === 375`; 1440×900 and mobile screenshots were
+  visually inspected; the loaded experience completed while browser networking
+  was disabled.
+- Changed files: `src/App.tsx`, `src/App.test.tsx`, `src/components/**`,
+  `src/screens/**`, `src/lib/**`, `src/styles.css`, `tests/**`, `package.json`,
+  `playwright.config.ts`, `public/relay-cover.png`, `README.md`, and this plan.
+- Unresolved risk: final all-in-one verification, GitHub publication, Vercel
+  production deployment, and submission-form transmission remain.
+- Next concrete goal: run the final gate, commit the green P0, then publish and
+  verify the two external URLs before filling the competition form.
 
 ## Decision notes
 
