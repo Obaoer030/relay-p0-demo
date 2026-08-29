@@ -13,8 +13,8 @@ test('desktop demo stage is legible at 1440x900', async ({ page }) => {
     caret: 'hide',
   })
 
-  await page.getByRole('button', { name: '已接住', exact: true }).click()
-  await expect(page.getByLabel('责任状态：当前由小雨推进')).toHaveCount(2)
+  await page.getByRole('button', { name: '已确认', exact: true }).click()
+  await expect(page.getByLabel('负责人状态：这一步由小雨负责')).toHaveCount(2)
   await expect(page).toHaveScreenshot('demo-accepted-1440x900.png', {
     animations: 'disabled',
     caret: 'hide',
@@ -49,12 +49,12 @@ test('complete workspace fits 375x812', async ({ page }) => {
   })
 
   await page.goto('/demo')
-  await page.getByRole('button', { name: '已分享', exact: true }).click()
+  await page.getByRole('button', { name: '已邀请', exact: true }).click()
   await expect.poll(() => page.evaluate(() =>
     window.localStorage.getItem('relay:p0-demo-state'),
   )).toContain('"demoStage":"shared"')
   await page.goto('/r/demo-cat-checkup')
-  await expect(page.getByRole('button', { name: '我愿意接住' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '可以，我来处理' })).toBeVisible()
   await expect(page).toHaveScreenshot('helper-shared-375x812.png', {
     animations: 'disabled',
     caret: 'hide',

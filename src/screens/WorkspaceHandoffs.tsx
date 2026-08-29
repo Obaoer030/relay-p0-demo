@@ -10,11 +10,11 @@ export function WorkspaceHandoffs() {
   const completed = state.matters.filter((matter) => matter.status === 'completed' && matter.handoffTargetId)
   return (
     <main className="workspace-page">
-      <PageHeader eyebrow="责任不是一句“帮我看看”" title="接棒管理" description="区分等待、已接受和已完成，发起者才能知道自己是否还需要行动。" />
+      <PageHeader eyebrow="一句“帮我看看”还不够" title="协作进度" description="把等待回复、对方确认负责和已经完成分开记录，你才能知道下一步还要不要行动。" />
       <section className="workspace-handoff-columns">
-        <div className="workspace-handoff-column"><header><Clock3 size={19} /><div><h2>等待回应</h2><p>{waiting.length} 件事还在等待决定</p></div></header>{waiting.map((matter) => <WorkspaceMatterCard key={matter.id} matter={matter} compact />)}{waiting.length === 0 && <p className="workspace-empty-copy">没有悬着的请求。</p>}</div>
-        <div className="workspace-handoff-column is-held"><header><Handshake size={19} /><div><h2>已有人接住</h2><p>{held.length} 件事由协作者推进</p></div></header>{held.map((matter) => <WorkspaceMatterCard key={matter.id} matter={matter} compact />)}{held.length === 0 && <p className="workspace-empty-copy">接棒后会在这里显示。</p>}</div>
-        <div className="workspace-handoff-column"><header><Check size={19} /><div><h2>协作完成</h2><p>{completed.length} 条可信记录</p></div></header>{completed.map((matter) => <WorkspaceMatterCard key={matter.id} matter={matter} compact />)}</div>
+        <div className="workspace-handoff-column"><header><Clock3 size={19} /><div><h2>等待回复</h2><p>{waiting.length} 件事还在等待确认</p></div></header>{waiting.map((matter) => <WorkspaceMatterCard key={matter.id} matter={matter} compact />)}{waiting.length === 0 && <p className="workspace-empty-copy">现在没有等待回复的邀请。</p>}</div>
+        <div className="workspace-handoff-column is-held"><header><Handshake size={19} /><div><h2>对方处理中</h2><p>{held.length} 件事已有明确负责人</p></div></header>{held.map((matter) => <WorkspaceMatterCard key={matter.id} matter={matter} compact />)}{held.length === 0 && <p className="workspace-empty-copy">对方确认负责后会在这里显示。</p>}</div>
+        <div className="workspace-handoff-column"><header><Check size={19} /><div><h2>已完成</h2><p>{completed.length} 条协作记录</p></div></header>{completed.map((matter) => <WorkspaceMatterCard key={matter.id} matter={matter} compact />)}</div>
       </section>
     </main>
   )

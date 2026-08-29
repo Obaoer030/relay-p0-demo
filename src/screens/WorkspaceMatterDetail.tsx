@@ -7,9 +7,9 @@ import { useWorkspace } from '../workspace/WorkspaceContext'
 import type { WorkspaceMatterStatus } from '../workspace/types'
 
 const actions: Array<{ status: WorkspaceMatterStatus; label: string }> = [
-  { status: 'mine', label: '由我推进' },
-  { status: 'waiting', label: '等待回应' },
-  { status: 'relayed', label: '交给对方' },
+  { status: 'mine', label: '由我处理' },
+  { status: 'waiting', label: '等待回复' },
+  { status: 'relayed', label: '由对方处理' },
   { status: 'completed', label: '标记完成' },
 ]
 
@@ -37,8 +37,8 @@ export function WorkspaceMatterDetail() {
       <PageHeader eyebrow={`${matter.category} · ${workspaceStatus[matter.status].label}`} title={matter.title} description={matter.context} actions={<Link className="workspace-secondary-action" to={`/matters/${matter.id}/edit`}><Pencil size={17} /> 编辑</Link>} />
 
       <section className="workspace-detail-hero" data-status={matter.status}>
-        <div className="workspace-detail-hero__owner"><span>当前责任</span><strong>{matter.ownerName}</strong><p>{workspaceStatus[matter.status].copy}</p></div>
-        <div className="workspace-detail-rail" aria-label={`当前责任人：${matter.ownerName}`}><span className={matter.ownerName === '林然' ? 'is-current' : ''}>林然</span><i /><b className={matter.ownerName === '林然' ? '' : 'is-right'} /><i /><span className={matter.ownerName !== '林然' ? 'is-current' : ''}>{matter.ownerName === '林然' ? '协作者' : matter.ownerName}</span></div>
+        <div className="workspace-detail-hero__owner"><span>当前负责人</span><strong>{matter.ownerName}</strong><p>{workspaceStatus[matter.status].copy}</p></div>
+        <div className="workspace-detail-rail" aria-label={`当前负责人：${matter.ownerName}`}><span className={matter.ownerName === '林然' ? 'is-current' : ''}>林然</span><i /><b className={matter.ownerName === '林然' ? '' : 'is-right'} /><i /><span className={matter.ownerName !== '林然' ? 'is-current' : ''}>{matter.ownerName === '林然' ? '协作者' : matter.ownerName}</span></div>
       </section>
 
       <div className="workspace-detail-grid">
@@ -46,9 +46,9 @@ export function WorkspaceMatterDetail() {
           <article><span><CheckCircle2 size={18} /> 下一步</span><p>{matter.nextAction}</p></article>
           <article><span><CalendarDays size={18} /> 时间</span><p>{matter.dueAt ? formatDueAt(matter.dueAt) : '没有固定日期'}</p></article>
           <article><span><UserRound size={18} /> 做到这里就完成</span><p>{matter.doneDefinition}</p></article>
-          <article className="workspace-boundary-block"><span><ShieldCheck size={18} /> 决策边界</span><p>{matter.boundary || '没有额外边界；遇到重要变化时联系林然。'}</p></article>
+          <article className="workspace-boundary-block"><span><ShieldCheck size={18} /> 需要先联系我的情况</span><p>{matter.boundary || '遇到重要变化时，请先联系林然。'}</p></article>
         </section>
-        <aside className="workspace-panel workspace-status-actions"><p className="micro-label">改变事项状态</p><h2>下一步由谁推进？</h2>{actions.map((action) => <button key={action.status} type="button" className={matter.status === action.status ? 'is-active' : ''} onClick={() => changeStatus(action.status)}>{action.label}<small>{workspaceStatus[action.status].copy}</small></button>)}<button className="workspace-delete-action" type="button" onClick={remove}><Trash2 size={17} /> 删除事项</button></aside>
+        <aside className="workspace-panel workspace-status-actions"><p className="micro-label">更新事项状态</p><h2>下一步由谁负责？</h2>{actions.map((action) => <button key={action.status} type="button" className={matter.status === action.status ? 'is-active' : ''} onClick={() => changeStatus(action.status)}>{action.label}<small>{workspaceStatus[action.status].copy}</small></button>)}<button className="workspace-delete-action" type="button" onClick={remove}><Trash2 size={17} /> 删除事项</button></aside>
       </div>
     </main>
   )

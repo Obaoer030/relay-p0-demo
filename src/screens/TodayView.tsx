@@ -58,14 +58,14 @@ export function TodayView({ state, onStart }: { state: RelayState; onStart: () =
 
       {state.demoStage === 'declined' && (
         <div className="gentle-alert" role="status">
-          小雨这次暂时无法帮忙。事情已回到“需要我推进”。
+          小雨这次不方便。这件事仍由你处理。
         </div>
       )}
 
       {state.demoStage === 'accepted' && (
         <div className="release-note" role="status">
           <Feather size={18} aria-hidden="true" />
-          <p><strong>这件事已经有人推进。</strong>除非超出约定边界，你不需要主动追问。</p>
+          <p><strong>这一步已经由小雨负责。</strong>只要没有超出约定范围，你不需要继续催问。</p>
         </div>
       )}
 
@@ -80,20 +80,20 @@ export function TodayView({ state, onStart }: { state: RelayState; onStart: () =
         <button className="capture-prompt" type="button" onClick={onStart}>
           <span>
             <small>先倒出来，不用现在就整理好</small>
-            周五出差，想请小雨接住布丁复诊
+            周五出差，想请小雨帮忙带布丁复诊
           </span>
           <ArrowUpRight size={20} aria-hidden="true" />
         </button>
       )}
 
       <div className="matter-sections">
-        <Section title="需要我推进" count={mine.length} empty="现在没有需要你继续推的事">
+        <Section title="待我处理" count={mine.length} empty="现在没有需要你处理的事">
           {renderCards(mine)}
         </Section>
-        <Section title="等待对方回应" count={waiting.length} empty="没有悬着的回应">
+        <Section title="等待回复" count={waiting.length} empty="现在没有等待回复的事">
           {renderCards(waiting)}
         </Section>
-        <Section title="已有人接住" count={relayed.length} empty="接棒后，会在这里清楚显示">
+        <Section title="对方处理中" count={relayed.length} empty="对方确认负责后，会在这里显示">
           {renderCards(relayed)}
         </Section>
       </div>

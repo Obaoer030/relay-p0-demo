@@ -5,7 +5,7 @@ import { BrandMark } from '../components/BrandMark'
 const links = [
   { to: '/', label: '总览', icon: LayoutDashboard, end: true },
   { to: '/matters', label: '事项', icon: ListChecks },
-  { to: '/handoffs', label: '接棒', icon: Handshake },
+  { to: '/handoffs', label: '协作', icon: Handshake },
   { to: '/people', label: '关系人', icon: CircleUserRound },
   { to: '/activity', label: '动态', icon: Activity },
 ]
@@ -15,7 +15,7 @@ export function AppShell() {
     <div className="workspace-app">
       <aside className="workspace-sidebar">
         <BrandMark />
-        <p className="workspace-sidebar__caption">把生活里的下一步，交给说好的人。</p>
+        <p className="workspace-sidebar__caption">把事情说清楚，也把负责人定下来。</p>
         <nav aria-label="产品导航">
           {links.map(({ to, label, icon: Icon, end }) => (
             <NavLink key={to} to={to} end={end} className={({ isActive }) => isActive ? 'is-active' : ''}>

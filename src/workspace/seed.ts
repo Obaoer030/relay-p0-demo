@@ -1,6 +1,6 @@
 import type { ActivityEntry, TrustedPerson, WorkspaceMatter, WorkspaceState } from './types'
 
-export const WORKSPACE_VERSION = 1
+export const WORKSPACE_VERSION = 2
 
 const localIso = (base: Date, days: number, hour: number, minute = 0) => {
   const result = new Date(base)
@@ -11,7 +11,7 @@ const localIso = (base: Date, days: number, hour: number, minute = 0) => {
 
 export const PEOPLE: TrustedPerson[] = [
   { id: 'xiaoyu', name: '小雨', initial: '雨', relationship: '朋友 · 宠物照护', note: '住得离宠物诊所近，曾两次帮忙照顾布丁。', completedCount: 6, tone: 'sand' },
-  { id: 'sister', name: '姐姐', initial: '姐', relationship: '家人 · 父母照护', note: '适合接住异地父母的线下手续。', completedCount: 11, tone: 'sage' },
+  { id: 'sister', name: '姐姐', initial: '姐', relationship: '家人 · 父母照护', note: '方便处理异地父母的线下手续。', completedCount: 11, tone: 'sage' },
   { id: 'chenyu', name: '陈屿', initial: '屿', relationship: '伴侣 · 共同生活', note: '共同处理采购、预约与住房事项。', completedCount: 9, tone: 'plum' },
   { id: 'mumu', name: '木木', initial: '木', relationship: '室友 · 搬家协作', note: '擅长现场确认、拍照和物品交接。', completedCount: 4, tone: 'coral' },
 ]
@@ -41,7 +41,7 @@ export function createWorkspaceState(now = new Date()): WorkspaceState {
   ]
 
   const activity: ActivityEntry[] = [
-    { id: 'activity-1', matterId: 'ws-cat-checkup', kind: 'status', title: '小雨接住了布丁复诊', detail: '当前执行责任已经从林然转移给小雨。', actor: '小雨', at: localIso(now, 0, 8, 40) },
+    { id: 'activity-1', matterId: 'ws-cat-checkup', kind: 'status', title: '小雨确认负责布丁复诊', detail: '这一步现在由小雨负责。', actor: '小雨', at: localIso(now, 0, 8, 40) },
     { id: 'activity-2', matterId: 'ws-heater', kind: 'status', title: '维修事项进入等待', detail: '正在等待房东确认具体上门时间。', actor: '林然', at: localIso(now, -1, 21) },
     { id: 'activity-3', matterId: 'ws-groceries', kind: 'status', title: '本周采购已完成', detail: '陈屿完成了清单中的 6 项采购。', actor: '陈屿', at: localIso(now, -1, 19) },
     { id: 'activity-4', kind: 'system', title: 'Relay 工作区已准备好', detail: '所有数据均为可交互的虚构演示数据。', actor: 'Relay', at: localIso(now, -2, 9) },

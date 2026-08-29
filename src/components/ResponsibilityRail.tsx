@@ -9,11 +9,11 @@ type ResponsibilityRailProps = {
 }
 
 const semanticCopy = (status: MatterStatus, stage?: DemoStage) => {
-  if (stage === 'declined') return '小雨这次暂时无法帮忙，下一步回到林然'
-  if (status === 'waiting') return '已发给小雨，等待她回应'
-  if (status === 'relayed') return '当前由小雨推进'
-  if (status === 'completed') return '小雨已完成本次执行'
-  return '下一步由林然推进'
+  if (stage === 'declined') return '小雨这次不方便，这一步仍由林然处理'
+  if (status === 'waiting') return '等待小雨确认'
+  if (status === 'relayed') return '这一步由小雨负责'
+  if (status === 'completed') return '小雨已完成这一步'
+  return '这一步由林然处理'
 }
 
 export function ResponsibilityRail({
@@ -31,7 +31,7 @@ export function ResponsibilityRail({
     <div
       className={`responsibility-rail ${compact ? 'responsibility-rail--compact' : ''}`}
       data-owner={heldByXiaoyu ? 'xiaoyu' : 'linran'}
-      aria-label={`责任状态：${copy}`}
+      aria-label={`负责人状态：${copy}`}
     >
       <div className="responsibility-rail__names" aria-hidden="true">
         <span className={!heldByXiaoyu ? 'is-current' : ''}>林然</span>

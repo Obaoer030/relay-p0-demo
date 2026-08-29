@@ -4,9 +4,9 @@ import type { ActivityEntry, WorkspaceAction, WorkspaceMatterStatus, WorkspaceSt
 const nowIso = (at?: string) => at ?? new Date().toISOString()
 
 const statusLabel: Record<WorkspaceMatterStatus, string> = {
-  mine: '需要我推进',
-  waiting: '等待回应',
-  relayed: '已有人接住',
+  mine: '待我处理',
+  waiting: '等待回复',
+  relayed: '对方处理中',
   completed: '已完成',
 }
 
@@ -26,7 +26,7 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
       return {
         ...state,
         matters: state.matters.map((item) => item.id === action.matter.id ? action.matter : item),
-        activity: [activity({ matterId: action.matter.id, kind: 'updated', title: `更新了“${action.matter.title}”`, detail: '事项上下文、下一步或边界已更新。', actor: '林然', at: action.matter.updatedAt }), ...state.activity],
+        activity: [activity({ matterId: action.matter.id, kind: 'updated', title: `更新了“${action.matter.title}”`, detail: '事情背景、下一步或联系说明已更新。', actor: '林然', at: action.matter.updatedAt }), ...state.activity],
       }
     case 'delete-matter': {
       const target = state.matters.find((item) => item.id === action.id)
@@ -53,7 +53,7 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
           updatedAt: at,
           completedAt: action.status === 'completed' ? at : undefined,
         } : item),
-        activity: [activity({ matterId: action.id, kind: 'status', title: `“${target.title}”进入${statusLabel[action.status]}`, detail: `当前责任：${ownerName}`, actor: '林然', at }), ...state.activity],
+        activity: [activity({ matterId: action.id, kind: 'status', title: `“${target.title}”进入${statusLabel[action.status]}`, detail: `当前负责人：${ownerName}`, actor: '林然', at }), ...state.activity],
       }
     }
     case 'set-reduce-motion':

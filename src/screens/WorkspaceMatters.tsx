@@ -9,9 +9,9 @@ import type { WorkspaceMatterStatus } from '../workspace/types'
 
 const filters: Array<{ value: 'all' | WorkspaceMatterStatus; label: string }> = [
   { value: 'all', label: '全部' },
-  { value: 'mine', label: '需要我推进' },
-  { value: 'waiting', label: '等待回应' },
-  { value: 'relayed', label: '已有人接住' },
+  { value: 'mine', label: '待我处理' },
+  { value: 'waiting', label: '等待回复' },
+  { value: 'relayed', label: '对方处理中' },
   { value: 'completed', label: '已完成' },
 ]
 
@@ -27,7 +27,7 @@ export function WorkspaceMatters() {
 
   return (
     <main className="workspace-page">
-      <PageHeader eyebrow="完整事项管理" title="所有事项" description="用状态、责任人和边界管理生活，而不是让事项沉进聊天记录。" actions={<Link className="workspace-primary-action" to="/matters/new"><Plus size={18} /> 新建事项</Link>} />
+      <PageHeader eyebrow="完整事项管理" title="所有事项" description="把下一步、负责人、完成标准和需要重新联系的情况放在一起，不让事情沉进聊天记录。" actions={<Link className="workspace-primary-action" to="/matters/new"><Plus size={18} /> 新建事项</Link>} />
       <section className="workspace-toolbar">
         <label className="workspace-search"><Search size={18} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索标题、下一步或场景" /></label>
         <div className="workspace-filter-chips" aria-label="筛选事项状态">

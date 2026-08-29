@@ -1,5 +1,32 @@
 # Relay P0 long-run context pack
 
+## 2026-08-29 plain-language product copy addendum
+
+User testing feedback rejected “接棒 / 接住” as invented product language that
+people would not naturally use when asking friends or family for help. The
+concept remains bounded transfer of the next-step responsibility, but all
+user-facing copy now uses ordinary Chinese:
+
+```text
+记录事情 → 说清下一步 → 发给对方 → 对方确认是否负责 → 完成
+
+待我处理 → 等待回复 → 对方处理中 → 已完成
+```
+
+- Product navigation uses “协作”, not “接棒”.
+- The initiator says “想请你帮忙处理” or “发给小雨”.
+- The collaborator responds “可以，我来处理” or “这次我不方便”.
+- Accepted-state copy says “这一步由小雨负责”; it does not say someone has
+  “接住” a matter.
+- Product explanations lead with “现在谁负责下一步、做到什么算完成、哪些
+  情况仍要联系发起者”.
+- `handoff`, `relayed`, and `ResponsibilityRail` may remain internal code names;
+  they are not exposed as vocabulary the user must learn.
+
+This addendum overrides older user-facing “接棒 / 接住” examples in the PRD,
+review notes, and the rest of this context pack. The product brand remains
+Relay without a forced Chinese translation.
+
 ## 2026-08-29 interactive-full-demo addendum
 
 The user has explicitly expanded the desired outcome beyond the 90-second P0

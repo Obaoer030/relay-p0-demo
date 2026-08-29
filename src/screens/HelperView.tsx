@@ -30,7 +30,7 @@ function NotSharedYet() {
       <div className="helper-empty">
         <span className="helper-empty__rings" aria-hidden="true"><i /><i /></span>
         <p className="micro-label">小雨的视角</p>
-        <h1>分享后，请求会在这里展开</h1>
+        <h1>发出邀请后，事情会在这里展开</h1>
         <p>只出现这一件事，不需要进入林然的生活空间。</p>
       </div>
     </HelperShell>
@@ -64,7 +64,7 @@ export function HelperView({ state, embedded = false }: { state: RelayState; emb
           <span className="result-icon result-icon--quiet"><HeartHandshake size={26} /></span>
           <p className="micro-label">已告诉林然</p>
           <h1>这次暂时无法帮忙</h1>
-          <p>事情已经回到林然那里。说清自己的边界，也是一种可靠。</p>
+          <p>事情仍由林然处理。直接说明这次不方便，也是一种可靠。</p>
         </div>
       </HelperShell>
     )
@@ -75,9 +75,9 @@ export function HelperView({ state, embedded = false }: { state: RelayState; emb
       <HelperShell>
         <div className="helper-result helper-result--complete">
           <span className="result-icon"><Check size={26} /></span>
-          <p className="micro-label">本次接棒已完成</p>
+          <p className="micro-label">本次协作已完成</p>
           <h1>布丁已经安全回家</h1>
-          <p>复诊结论已发给林然。该由你推进的部分，到这里就结束了。</p>
+          <p>复诊结论已发给林然。你负责的部分到这里就结束了。</p>
           <ResponsibilityRail status="completed" reduceMotion={state.reduceMotion} />
           <button className="secondary-button" type="button" onClick={() => setThanked(true)} disabled={thanked}>
             {thanked ? '心意已送达' : '收下林然的“谢谢你”'}
@@ -93,9 +93,9 @@ export function HelperView({ state, embedded = false }: { state: RelayState; emb
     <HelperShell>
       <main className={`helper-content ${accepted ? 'helper-content--accepted' : ''}`}>
         <div className="helper-intro">
-          <p className="micro-label">林然想问</p>
-          <h1>{accepted ? '谢谢你接住布丁的复诊' : '你是否愿意接住这件事？'}</h1>
-          <p>{accepted ? '你现在负责约定范围内的下一步。' : '你可以先看清时间、行动和边界，再决定。'}</p>
+          <p className="micro-label">林然想请你帮忙</p>
+          <h1>{accepted ? '已确认由你负责这次复诊' : '你愿意负责这次复诊吗？'}</h1>
+          <p>{accepted ? '请按约定完成下面这一步；超出范围时联系林然。' : '请先确认要做什么、何时完成，以及哪些情况要联系林然。'}</p>
         </div>
         <article className="helper-matter">
           <div className="helper-matter__title">
@@ -111,7 +111,7 @@ export function HelperView({ state, embedded = false }: { state: RelayState; emb
             reduceMotion={state.reduceMotion}
           />
           <div className="detail-stack detail-stack--helper">
-            <DetailRow icon={<ArrowRight size={18} />} label="你接住的下一步">
+            <DetailRow icon={<ArrowRight size={18} />} label="你需要做">
               {matter.nextAction}
             </DetailRow>
             <DetailRow icon={<FileText size={18} />} label="需要带上">
@@ -125,15 +125,15 @@ export function HelperView({ state, embedded = false }: { state: RelayState; emb
         <BoundaryNotice boundary={matter.boundary!} compact={embedded} />
         {accepted ? (
           <button className="primary-button" type="button" onClick={() => dispatch({ type: 'complete' })}>
-            我已完成本次执行
+            这一步已完成
           </button>
         ) : (
           <div className="helper-actions">
             <button className="primary-button" type="button" onClick={() => dispatch({ type: 'accept' })}>
-              我愿意接住
+              可以，我来处理
             </button>
             <button className="text-button" type="button" onClick={() => dispatch({ type: 'decline' })}>
-              这次暂时无法帮忙
+              这次我不方便
             </button>
           </div>
         )}

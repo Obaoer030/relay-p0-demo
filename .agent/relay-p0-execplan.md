@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — interactive full-demo expansion
+> Status: complete — plain-language workflow and copy revision
 > Last updated: 2026-08-29
 
 ## Outcome contract
@@ -95,6 +95,15 @@ the repository's single `npm run verify` quality gate.
 - [x] Preserve the verified `/demo` and public helper routes.
 - [x] Add interactive-system E2E and mobile/desktop visual evidence.
 - [x] Run final verification and leave a green checkpoint.
+
+### M7 — Plain-language workflow and copy
+
+- [x] Record the user rejection of “接棒 / 接住” in the durable context pack.
+- [x] Replace invented user-facing vocabulary with ordinary request, reply,
+  responsibility, and completion language across the workspace and demo.
+- [x] Update automated expectations and versioned visual baselines.
+- [x] Verify the revised workflow at 375×812 and 1440×900.
+- [x] Run `npm run verify` and leave a green checkpoint.
 
 ## Checkpoints
 
@@ -224,6 +233,35 @@ the repository's single `npm run verify` quality gate.
 - Next concrete goal: deploy the static build when the user authorizes a host,
   or begin a separately scoped cloud-account architecture if real shared data
   across devices is required.
+
+### 2026-08-29 — Plain-language workflow and copy
+
+- Completed outcome: removed “接棒 / 接住” and related invented vocabulary from
+  every user-facing product and demo surface. The canonical flow is now “记录事情
+  → 说清下一步 → 发给对方 → 对方确认是否负责 → 完成”, with visible states
+  “待我处理 / 等待回复 / 对方处理中 / 已完成”. The collaborator responds with
+  “可以，我来处理” or “这次我不方便”, and accepted copy says exactly who is
+  responsible for the next step.
+- Product-story outcome: the in-app explanation now distinguishes Relay from
+  chat using ordinary questions: what needs doing, who is responsible, what
+  counts as done, and when the initiator must be contacted again. The context
+  pack and demo spec record this language decision as the newest contract.
+- Evidence: `npm run verify` passed lint, strict typecheck, 16 unit tests,
+  production build, and 15 Chromium E2E tests. Same-origin synchronization,
+  offline behavior, reduced motion, invalid tokens, responsive navigation, and
+  matter CRUD remain green. `npm run test:golden` passed 10/10 consecutive runs.
+- Visual evidence: regenerated and inspected seven versioned baselines at
+  375×812 and 1440×900. The longer natural-language headings and buttons remain
+  readable without clipping or horizontal overflow; the mobile helper page
+  keeps the request, exact action, contact condition, and response buttons in
+  one clear view.
+- Changed files: user-facing workspace/demo screens and shared components,
+  workspace seed/reducer copy, acceptance/golden/visual tests, visual baselines,
+  product documentation, and this execution plan.
+- Unresolved risk: none introduced by the copy revision. Internal TypeScript
+  names such as `handoff` and `relayed` remain intentionally unchanged because
+  they are not exposed to users.
+- Next concrete goal: none within this revision; preserve the green checkpoint.
 
 ## Final P0 acceptance evidence
 

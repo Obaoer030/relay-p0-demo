@@ -4,7 +4,7 @@ async function startFromReset(page: Page) {
   await page.goto('/demo')
   await page.getByRole('button', { name: '重置' }).click()
   await expect(page.getByRole('heading', { name: '早上好，林然' })).toBeVisible()
-  await expect(page.getByLabel('责任状态：下一步由林然推进')).toBeVisible()
+  await expect(page.getByLabel('负责人状态：这一步由林然处理')).toBeVisible()
 }
 
 export async function runGoldenPath(page: Page, alreadyReset = false) {
@@ -12,32 +12,32 @@ export async function runGoldenPath(page: Page, alreadyReset = false) {
   const pathStartedAt = Date.now()
 
   await page.getByRole('button', { name: /先倒出来/ }).click()
-  await expect(page.getByRole('dialog', { name: '确认事项包' })).toBeVisible()
-  await expect(page.getByText('决定仍在林然这里')).toBeVisible()
+  await expect(page.getByRole('dialog', { name: '确认事项内容' })).toBeVisible()
+  await expect(page.getByText('遇到这些情况，请先联系林然')).toBeVisible()
 
-  await page.getByRole('button', { name: '继续看接棒预览' }).click()
-  await expect(page.getByRole('dialog', { name: '接棒预览' })).toBeVisible()
+  await page.getByRole('button', { name: '下一步：确认发给小雨的内容' }).click()
+  await expect(page.getByRole('dialog', { name: '邀请预览' })).toBeVisible()
   await expect(page.getByText('对方只会看到这一件事')).toBeVisible()
 
-  await page.getByRole('button', { name: '请小雨接住' }).click()
-  await expect(page.getByRole('heading', { name: '你是否愿意接住这件事？' })).toBeVisible()
-  await expect(page.getByLabel('责任状态：已发给小雨，等待她回应')).toHaveCount(2)
+  await page.getByRole('button', { name: '发给小雨' }).click()
+  await expect(page.getByRole('heading', { name: '你愿意负责这次复诊吗？' })).toBeVisible()
+  await expect(page.getByLabel('负责人状态：等待小雨确认')).toHaveCount(2)
 
   const transferStartedAt = Date.now()
-  await page.getByRole('button', { name: '我愿意接住' }).click()
-  await expect(page.getByText('这件事已经有人推进。')).toBeVisible()
-  await expect(page.getByLabel('责任状态：当前由小雨推进')).toHaveCount(2)
-  await expect(page.getByText('除非超出约定边界，你不需要主动追问。')).toBeVisible()
+  await page.getByRole('button', { name: '可以，我来处理' }).click()
+  await expect(page.getByText('这一步已经由小雨负责。')).toBeVisible()
+  await expect(page.getByLabel('负责人状态：这一步由小雨负责')).toHaveCount(2)
+  await expect(page.getByText('只要没有超出约定范围，你不需要继续催问。')).toBeVisible()
   expect(Date.now() - transferStartedAt).toBeLessThan(5_000)
   expect(Date.now() - pathStartedAt).toBeLessThan(45_000)
 
-  await page.getByRole('button', { name: '我已完成本次执行' }).click()
+  await page.getByRole('button', { name: '这一步已完成' }).click()
   await expect(page.getByRole('heading', { name: '布丁已经安全回家' })).toBeVisible()
   await expect(page.getByText('布丁已完成复诊并安全回家。')).toBeVisible()
 
   await page.getByRole('button', { name: '重置' }).click()
   await expect(page.getByRole('heading', { name: '早上好，林然' })).toBeVisible()
-  await expect(page.getByLabel('责任状态：下一步由林然推进')).toBeVisible()
+  await expect(page.getByLabel('负责人状态：这一步由林然处理')).toBeVisible()
 }
 
 test.beforeEach(async ({ page }) => {

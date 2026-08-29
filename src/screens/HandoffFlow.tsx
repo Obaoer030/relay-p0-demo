@@ -29,10 +29,10 @@ function ConfirmSurface({ state, onBack, onNext }: { state: RelayState; onBack: 
 
   return (
     <ProductChrome hideNavigation>
-      <SurfaceHeader label="把事情说清楚" onBack={onBack} />
-      <div className="sheet-content" role="dialog" aria-label="确认事项包" aria-modal="true">
+      <SurfaceHeader label="确认事情和下一步" onBack={onBack} />
+      <div className="sheet-content" role="dialog" aria-label="确认事项内容" aria-modal="true">
         <div className="sheet-title">
-          <p className="micro-label">Relay 已替你整理好</p>
+          <p className="micro-label">已整理成一件可执行的事</p>
           <h1>{matter.title}</h1>
           <p>{matter.context}</p>
         </div>
@@ -52,7 +52,7 @@ function ConfirmSurface({ state, onBack, onNext }: { state: RelayState; onBack: 
         </div>
         <BoundaryNotice boundary={matter.boundary!} compact />
         <button className="primary-button" type="button" onClick={onNext}>
-          继续看接棒预览
+          下一步：确认发给小雨的内容
         </button>
       </div>
     </ProductChrome>
@@ -64,13 +64,13 @@ function PreviewSurface({ state, onBack, onShare }: { state: RelayState; onBack:
 
   return (
     <ProductChrome hideNavigation>
-      <SurfaceHeader label="小雨将看到" onBack={onBack} />
-      <div className="sheet-content sheet-content--preview" role="dialog" aria-label="接棒预览" aria-modal="true">
+      <SurfaceHeader label="发给小雨的内容" onBack={onBack} />
+      <div className="sheet-content sheet-content--preview" role="dialog" aria-label="邀请预览" aria-modal="true">
         <div className="preview-recipient">
           <span className="preview-recipient__avatar" aria-hidden="true">雨</span>
           <div>
             <p className="micro-label">发给朋友 · 无需账号</p>
-            <h1>想请小雨接住这件事</h1>
+            <h1>想请小雨帮忙完成这次复诊</h1>
           </div>
         </div>
         <p className="privacy-copy">对方只会看到这一件事，以及完成它所需的信息。</p>
@@ -86,7 +86,7 @@ function PreviewSurface({ state, onBack, onShare }: { state: RelayState; onBack:
         </article>
         <BoundaryNotice boundary={matter.boundary!} compact />
         <button className="primary-button" type="button" onClick={onShare}>
-          请小雨接住
+          发给小雨
         </button>
       </div>
     </ProductChrome>

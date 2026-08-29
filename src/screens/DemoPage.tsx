@@ -8,17 +8,17 @@ import { LinRanExperience } from './HandoffFlow'
 
 const stageLabels: Array<{ stage: Exclude<DemoStage, 'declined'>; label: string }> = [
   { stage: 'initial', label: '初始' },
-  { stage: 'shared', label: '已分享' },
-  { stage: 'accepted', label: '已接住' },
+  { stage: 'shared', label: '已邀请' },
+  { stage: 'accepted', label: '已确认' },
   { stage: 'completed', label: '已完成' },
 ]
 
 const narration: Record<DemoStage, string> = {
-  initial: '最累的不只是做，而是一直记着谁该推进。',
-  shared: '请求已经说清楚；决定权和执行责任没有混在一起。',
-  accepted: '责任点移动了：现在由小雨推进，林然不需要继续追问。',
-  declined: '接棒可以被温和拒绝，责任明确回到林然。',
-  completed: '接受不等于完成；现在，这次执行才真正闭环。',
+  initial: '最累的不只是做，而是一直记着下一步轮到谁。',
+  shared: '邀请里已经写清要做什么，以及哪些情况仍要联系林然。',
+  accepted: '负责人变了：这一步由小雨负责，林然不需要继续追问。',
+  declined: '小雨可以说这次不方便，这件事仍由林然处理。',
+  completed: '答应处理不等于已经完成；现在，这件事才真正结束。',
 }
 
 function DemoController() {
@@ -81,12 +81,12 @@ function DemoController() {
 
 function ScenarioClose() {
   return (
-    <div className="scenario-close" aria-label="更多接棒场景">
-      <p><Sparkles size={15} aria-hidden="true" /> 同一条责任轨道，也能接住——</p>
+    <div className="scenario-close" aria-label="更多协作场景">
+      <p><Sparkles size={15} aria-hidden="true" /> 同一套协作方式，也适用于——</p>
       <div>
-        <span>搬家交接 <small>室友接住验房</small></span>
-        <span>父母照护 <small>姐姐接住取报告</small></span>
-        <span>伴侣协作 <small>明确下一步由谁推进</small></span>
+        <span>搬家交接 <small>室友负责验房</small></span>
+        <span>父母照护 <small>姐姐负责取报告</small></span>
+        <span>伴侣协作 <small>明确下一步由谁负责</small></span>
       </div>
     </div>
   )
@@ -101,7 +101,7 @@ export function DemoPage() {
         <BrandMark />
         <div className="demo-header__context">
           <span>女性黑客松 · 交互原型</span>
-          <strong>一次有边界的责任接棒</strong>
+          <strong>一次说清范围的生活协作</strong>
         </div>
       </header>
       <DemoController />
@@ -115,11 +115,11 @@ export function DemoPage() {
         </div>
         <div className="handoff-bridge" aria-hidden="true">
           <span />
-          <i>责任</i>
+          <i>负责人</i>
           <span />
         </div>
         <div className="phone-column phone-column--xiaoyu">
-          <div className="phone-label"><span>02</span> 小雨 · 接棒者</div>
+          <div className="phone-label"><span>02</span> 小雨 · 协作者</div>
           <div className={`phone-frame ${state.demoStage === 'initial' ? 'phone-frame--waiting' : ''}`}>
             <div className="phone-frame__speaker" aria-hidden="true" />
             <HelperView state={state} embedded />
