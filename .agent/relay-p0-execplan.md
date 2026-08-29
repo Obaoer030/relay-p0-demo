@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: in progress — M14 MiniMax atomic planning and online publication
+> Status: complete — M14 MiniMax atomic planning and online publication
 > Last updated: 2026-08-30
 
 ## Outcome contract
@@ -15,7 +15,7 @@ original interface with floating system navigation, strict grid and data
 structure, a responsibility-signal hero, and purposeful interaction feedback.
 The original golden path must work offline, require no typing or network,
 synchronize same-origin tabs, and pass the repository's single
-`npm run verify` quality gate. The separately authorized text Agent adds an
+`npm run verify` quality gate. The separately authorized text Agent adds a
 MiniMax-backed, human-confirmed planning path and a single-process
 shared demo room for phone/computer demonstrations.
 
@@ -160,11 +160,11 @@ shared demo room for phone/computer demonstrations.
   demo-room decisions in the context pack and ADR-006.
 - [x] Define and validate the Agent plan/clarification protocol.
 - [x] Add the MiniMax server proxy, `.env.example`, timeout/error handling and
-  deterministic labelled fallback.
+  explicit provider failure behavior; M14 later removed the Agent plan fallback.
 - [x] Replace new-matter-first forms with typed Agent capture, clarification,
   editable multi-step review and explicit publish confirmation.
 - [x] Add server-backed cross-browser/device demo-room synchronization while
-  preserving local fallback and reducer guards.
+  preserving browser-local state and reducer guards.
 - [x] Add unit/E2E/visual evidence and leave a green checkpoint.
 
 ### M12 — 10-scenario / 30-case user-journey QA
@@ -203,10 +203,50 @@ shared demo room for phone/computer demonstrations.
   a server-only credential.
 - [x] Run full verification, ten golden repetitions, live MiniMax smoke and
   375×812 / 1440×900 visual QA.
-- [ ] Merge the latest publication collateral, preserve the actual workspace
+- [x] Merge the latest publication collateral, preserve the actual workspace
   screenshot `relay-cover-v4.png`, and leave a green commit.
-- [ ] Push the green version to GitHub, deploy to Vercel, and verify the stable
+- [x] Push the green version to GitHub, deploy to Vercel, and verify the stable
   production URL plus its Agent endpoint.
+
+## M14 checkpoint — MiniMax atomic planning and latest-online publication
+
+- Completed outcome: the production Agent now uses MiniMax only. A complex
+  request is decomposed into independently confirmable checkpoints; coarse
+  output receives up to two model re-split passes, malformed protocol receives
+  one clean retry, and provider failure preserves the original input without
+  generating a simplified template.
+- Safety outcome: schema validation accepts at most ten whitelisted-owner
+  steps; availability questions and assumptions cannot accept on behalf of an
+  invitee. Model dates are written to `dueDate` only when they exactly match an
+  ISO date supplied by the user, so relative dates remain truthful prose rather
+  than hallucinated calendar values.
+- Production architecture: Vercel functions `/api/agent` and `/api/health`
+  read the configured MiniMax secret server-side. The Vercel workspace reports
+  `browser-local` and skips the unavailable SSE room, while the local Node
+  server retains the explicit in-memory phone/computer room.
+- Automated evidence: final `npm run verify` passed ESLint, strict TypeScript,
+  20 unit tests, production build and all 53 Chromium E2E tests. The 10-scenario
+  / 30-case matrix, 500ms same-origin assertion, offline flow, reduced motion,
+  failure/retry UI and seven-checkpoint healthcare regression are included.
+- Reliability evidence: `npm run test:golden` passed 20/20 executions: the
+  complete product path and the already-loaded offline path each ran ten times
+  from deterministic reset.
+- Visual evidence: regenerated and inspected Agent conversation baselines at
+  1440×900 and 375×812. Live production checks at both sizes found HTTP 200,
+  no horizontal overflow, readable navigation and no page/console errors.
+- Live MiniMax evidence: the stable production UI generated exactly seven
+  visible steps—materials, registration, consultation, medicine, testing tool,
+  organization and result feedback—and enabled “确认并创建 7 个步骤”. The
+  response contained no availability assumption or unverified structured date.
+- Publication evidence: GitHub `main` includes code commit `5f12ca3`; Vercel
+  deployment `dpl_GZeR63sN6Mp4rqtThGKS5ZQdigiK` is Ready and aliased to
+  `https://relay-p0-demo.vercel.app`. `/api/health` reports `minimax`; the live
+  `relay-cover-v4.png` SHA-256 matches the checked-in actual-workspace capture
+  `60e2cccffc26516d437a06bf848d1c34feee42e3b52ab12015f1060566b805f6`.
+- Unresolved risk: MiniMax latency and output remain provider-dependent. The
+  UI exposes a waiting state and truthful retry path; production identity,
+  persistent cross-device data and access control remain deliberately absent.
+- Next concrete goal: none within the authorized implementation scope.
 
 ## M12 checkpoint — 10 scenarios / 30 user cases
 
@@ -228,10 +268,10 @@ shared demo room for phone/computer demonstrations.
   passed again inside that repository-wide run.
 - Report: `docs/reviews/2026-08-30-30-case-user-journey-qa.md` records the full
   matrix, methodology, failure triage and observed conclusions.
-- Unresolved risk: deterministic browser regression uses the labelled local
-  Agent engine by design; credentialed MiniMax response quality remains covered
-  by separate live smoke tests because nondeterministic provider output must not
-  control the regression gate.
+- Unresolved risk: deterministic browser regression uses a test-only MiniMax
+  protocol fixture at the network boundary; credentialed response quality is
+  covered by separate live smoke tests because provider output must not control
+  the regression gate.
 - Next concrete goal: none. Preserve this test matrix in `npm run verify` and
   rerun it before the live judging session.
 
@@ -268,9 +308,9 @@ shared demo room for phone/computer demonstrations.
   editable multi-step plan with real seeded owners, and creates actual matters
   only after explicit human confirmation. Manual creation remains available.
 - Trust boundary: the browser never receives the MiniMax credential and never
-  treats a draft as accepted work. Server output is schema-validated; provider
-  timeout, malformed output, and missing credentials use a visibly labelled
-  deterministic local demo engine rather than pretending AI succeeded.
+  treats a draft as accepted work. Server output is schema-validated. This
+  checkpoint originally included a labelled plan fallback; M14 supersedes that
+  behavior, and the current build preserves input plus retry without a fake plan.
 - Shared-room outcome: a single running Relay Node server now shares the same
   reducer-valid workspace over SSE and HTTP between separate phone and computer
   browsers. LocalStorage, BroadcastChannel, storage events, and local-only
@@ -622,16 +662,16 @@ shared demo room for phone/computer demonstrations.
 | Production/offline/local assets | E2E runs against `vite preview` after a production build; the loaded app completes offline and observed requests stay on the local origin. |
 | Direct routes and SPA fallback | Production-preview E2E opens `/`, `/demo`, `/r/demo-cat-checkup`, and an invalid token directly; `vercel.json` carries the SPA rewrite artifact. |
 | Text Agent preserves human control | E2E proves incomplete text causes a focused clarification, no matter is created before confirmation, the editable plan then publishes three reducer-backed matters, and another person must still accept her invitation. |
-| Missing/failed MiniMax stays truthful | Unit/API tests validate the response schema; the server reports `local-demo` and the UI labels the deterministic fallback instead of presenting it as a live provider result. |
-| Phone and computer share the demo room | Ten repeated E2E runs use isolated browser contexts, accept an invitation from the phone context, and observe the owner change from the computer context within one second. |
-| MiniMax credential stays server-side | `.env.example` contains only names/defaults, `.env.local` is ignored, browser code contains no API key, and the provider call is implemented only in server middleware. |
+| Missing/failed MiniMax stays truthful | Unit/API/E2E tests validate the protocol; failure preserves the original input, shows retry copy and creates no local plan. |
+| Phone and computer share the local demo room | Repeated E2E uses isolated contexts against one Node process and observes the owner change within one second; Vercel truthfully uses browser-local state. |
+| MiniMax credential stays server-side | `.env.example` contains only names/defaults, `.env.local` is ignored, browser code contains no API key, and provider calls live in Node/Vercel server modules. |
 
 ## Decision notes
 
 - The explicit reference-driven decision in ADR-004 supersedes ADR-003 as the
   primary visual language. Relay Signal OS adopts the reference's layout and
   interaction grammar through original product-specific components and assets.
-- `/demo` owns the formal presentation path; `/` and `/r/:token` remain truthful
-  product views. The two phones share the same provider in one DOM.
+- `/demo` redirects into the same complete workspace as `/`; `/r/:token`
+  remains a focused projection of one workspace matter, not a second runtime.
 - Completion is distinct from acceptance. Acceptance moves execution ownership;
   completion closes the action without erasing the recorded boundary.
