@@ -58,20 +58,29 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       return
     }
     let cancelled = false
-    const events = new EventSource('/api/workspace/events')
-    events.onopen = () => { if (!cancelled) setSyncMode('room') }
-    events.onerror = () => { if (!cancelled && !roomReady.current) setSyncMode('local') }
-    events.onmessage = (event) => {
-      try {
-        const eventData: unknown = event.data
-        if (typeof eventData !== 'string') return
-        const message = JSON.parse(eventData) as Partial<Message>
-        if (message.source === source.current || !isWorkspaceState(message.state)) return
-        hydrateRemote(message.state)
-      } catch { /* ignore malformed room events */ }
-    }
+    let events: EventSource | null = null
+    const connectRoom = async () => {
+      const health = await fetch('/api/health', { headers: { Accept: 'application/json' } })
+      const capability = health.ok ? await health.json() as { room?: unknown } : null
+      if (cancelled) return
+      if (capability?.room !== 'memory-demo') {
+        setSyncMode('local')
+        return
+      }
+      events = new EventSource('/api/workspace/events')
+      events.onopen = () => { if (!cancelled) setSyncMode('room') }
+      events.onerror = () => { if (!cancelled && !roomReady.current) setSyncMode('local') }
+      events.onmessage = (event) => {
+        try {
+          const eventData: unknown = event.data
+          if (typeof eventData !== 'string') return
+          const message = JSON.parse(eventData) as Partial<Message>
+          if (message.source === source.current || !isWorkspaceState(message.state)) return
+          hydrateRemote(message.state)
+        } catch { /* ignore malformed room events */ }
+      }
 
-    void fetch('/api/workspace', { headers: { Accept: 'application/json' } }).then(async (response) => {
+      const response = await fetch('/api/workspace', { headers: { Accept: 'application/json' } })
       if (cancelled) return
       if (response.status === 204) {
         roomReady.current = true
@@ -84,11 +93,12 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       if (isWorkspaceState(payload.state)) hydrateRemote(payload.state)
       roomReady.current = true
       setSyncMode('room')
-    }).catch(() => { if (!cancelled) setSyncMode('local') })
+    }
+    void connectRoom().catch(() => { if (!cancelled) setSyncMode('local') })
 
     return () => {
       cancelled = true
-      events.close()
+      events?.close()
     }
   }, [])
 

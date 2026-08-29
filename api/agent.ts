@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { isAgentRequest, runMiniMax, type ServerConfig } from '../server/agentService.js'
 
-export const maxDuration = 60
+export const maxDuration = 120
 
 type VercelRequest = IncomingMessage & { body?: unknown }
 

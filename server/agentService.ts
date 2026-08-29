@@ -78,16 +78,23 @@ async function requestMiniMax(config: ServerConfig, messages: Array<{ role: 'sys
 export async function runMiniMax(config: ServerConfig, request: AgentTurnRequest): Promise<AgentTurnResponse> {
   if (!config.apiKey) throw new Error('minimax-not-configured')
   const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(new Error('minimax-timeout')), 55_000)
+  const timer = setTimeout(() => controller.abort(new Error('minimax-timeout')), 105_000)
   const context = JSON.stringify({ currentDate: new Date().toISOString().slice(0, 10), currentUserId: request.currentUserId, users: request.users, transcript: request.transcript, latestInput: request.input })
   const messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [
     { role: 'system', content: SYSTEM_PROMPT },
     { role: 'user', content: context },
   ]
   try {
-    let response = await requestMiniMax(config, messages, controller.signal)
+    let response: AgentTurnResponse
+    try {
+      response = await requestMiniMax(config, messages, controller.signal)
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : ''
+      if (!['missing-json', 'invalid-agent-shape'].includes(reason)) throw error
+      response = await requestMiniMax(config, [...messages, { role: 'user', content: '上一次输出不是有效协议。请重新输出完整 JSON 对象，不能包含 Markdown、解释、占位日期或 JSON 之外的文字。' }], controller.signal)
+    }
     let violations = reviewPlanGranularity(request, response.draft.steps)
-    if (violations.length > 0) {
+    for (let repairAttempt = 0; violations.length > 0 && repairAttempt < 2; repairAttempt += 1) {
       response = await requestMiniMax(config, [
         ...messages,
         { role: 'assistant', content: JSON.stringify(modelResponseShape(response)) },
