@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: complete — M12 10-scenario user-journey QA
+> Status: complete — M13 matters console visual refinement
 > Last updated: 2026-08-30
 
 ## Outcome contract
@@ -176,6 +176,18 @@ shared demo room for phone/computer demonstrations.
 - [x] Record a durable QA report and add `npm run test:scenarios`.
 - [x] Run the complete matrix 30/30 and the repository-wide quality gate.
 
+### M13 — Matters console visual refinement
+
+- [x] Audit the existing matters tab at 1440×900 and 375×812.
+- [x] Replace the generic toolbar with a status-count console and visible result
+  feedback while preserving exact search and filter behavior.
+- [x] Recompose matter cards around status signal, next action, due time and
+  current owner without relying on color alone.
+- [x] Preserve 44px mobile targets, keyboard focus, reduced-motion behavior and
+  zero horizontal overflow.
+- [x] Regenerate and inspect both matters-page visual baselines.
+- [x] Run `npm run verify` and ten consecutive golden/offline repetitions.
+
 ## M12 checkpoint — 10 scenarios / 30 user cases
 
 - Completed outcome: added a test-only user-journey matrix without changing any
@@ -202,6 +214,32 @@ shared demo room for phone/computer demonstrations.
   control the regression gate.
 - Next concrete goal: none. Preserve this test matrix in `npm run verify` and
   rerun it before the live judging session.
+
+## M13 checkpoint — Matters console visual refinement
+
+- Completed outcome: the matters tab now reads as an action console instead of
+  a generic card catalogue. A role-specific hero explains the page, six status
+  filters expose live counts, the result total updates with search/filtering,
+  and every card presents the next action and current owner in a consistent
+  scan order.
+- Interaction evidence: in-app browser checks at 375×812 selected “等待回复”,
+  found exactly four matching cards with zero wrong-status cards, then searched
+  “布丁” and found the single expected checkup. Browser console contained no
+  warnings or errors and document width remained 375px.
+- Responsive/visual evidence: regenerated and manually inspected
+  `workspace-matters-1440x900` and `workspace-matters-375x812`. Desktop keeps
+  all six states comparable in one row; mobile uses a complete 3×2 filter
+  matrix, 44px targets, one-column cards and no horizontal clipping.
+- Full-gate evidence: `npm run verify` passed lint, strict TypeScript, 10 unit
+  tests, production build and all 51 Chromium E2E tests. `npm run test:golden`
+  then passed 20/20 executions: the complete product path and offline path each
+  succeeded ten consecutive times.
+- Changed files: matters screen/card composition, Relay Signal OS matters CSS,
+  the two versioned matters-page visual baselines, and this execution plan.
+- Unresolved risk: none introduced within the deterministic demo boundary.
+  Status counts are projections of the existing single state and add no second
+  data model.
+- Next concrete goal: none. Keep the app on this green checkpoint for review.
 
 ## M11 checkpoint — Text coordination Agent and shared demo room
 
