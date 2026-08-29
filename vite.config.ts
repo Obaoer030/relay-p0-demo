@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
       include: ['src/**/*.test.{ts,tsx}'],
       setupFiles: ['./src/test/setup.ts'],
     },
-    server: { host: '127.0.0.1' },
-    preview: { host: '127.0.0.1' },
+    server: { host: '0.0.0.0' },
+    preview: { host: '0.0.0.0' },
   }
 })
