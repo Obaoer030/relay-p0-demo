@@ -1,7 +1,7 @@
 # Relay P0 execution plan
 
 > Owner: main implementation session  
-> Branch: `feat/relay-p0-demo`  
+> Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
 > Status: in progress  
 > Last updated: 2026-08-29
 
@@ -64,18 +64,18 @@ the repository's single `npm run verify` quality gate.
 
 ### M3 — Bounded handoff experience
 
-- [ ] Build Lin Ran Today view with three scannable responsibility sections.
-- [ ] Build deterministic capture/confirmation and handoff preview surfaces.
-- [ ] Build no-account helper view, accept, decline, and invalid-token states.
-- [ ] Build accepted and completion loops with truthful persistent copy.
-- [ ] Keep the decision boundary visible on all core surfaces.
+- [x] Build Lin Ran Today view with three scannable responsibility sections.
+- [x] Build deterministic capture/confirmation and handoff preview surfaces.
+- [x] Build no-account helper view, accept, decline, and invalid-token states.
+- [x] Build accepted and completion loops with truthful persistent copy.
+- [x] Keep the decision boundary visible on all core surfaces.
 
 ### M4 — Warm Editorial demo stage
 
-- [ ] Build the two-phone `/demo` stage and presenter-only controller.
-- [ ] Make the responsibility rail the hero mechanism across all views.
-- [ ] Add purposeful 680ms transfer motion and reduced-motion equivalent.
-- [ ] Add close scenarios: moving, parent care, partner collaboration.
+- [x] Build the two-phone `/demo` stage and presenter-only controller.
+- [x] Make the responsibility rail the hero mechanism across all views.
+- [x] Add purposeful 680ms transfer motion and reduced-motion equivalent.
+- [x] Add close scenarios: moving, parent care, partner collaboration.
 
 ### M5 — QA and final reliability
 
@@ -129,6 +129,28 @@ the repository's single `npm run verify` quality gate.
   contract is not yet proven; product UI still does not expose the flow.
 - Next concrete goal: build the shared responsibility components and complete
   both Lin Ran and Xiaoyu product surfaces against this state source.
+
+### 2026-08-29 — Bounded handoff and Warm Editorial stage
+
+- Completed outcome: built Lin Ran's three-section Today view, deterministic
+  confirmation and preview surfaces, the no-account Xiaoyu flow, accept,
+  decline, complete and invalid-token outcomes, the shared responsibility rail,
+  and the two-phone Warm Editorial `/demo` stage with presenter controls and
+  expansion scenarios.
+- Evidence: `npm run verify` passed after recovery with lint, strict typecheck,
+  13 unit tests, production build, and route E2E. Browser walkthrough at
+  1440×900 covered initial → confirm → preview → shared → accepted, plus decline
+  and invalid-token states; the decision boundary remained visible and the
+  accepted state showed both responsibility endpoints, Xiaoyu's filled point,
+  and persistent copy that Lin Ran no longer needs to chase.
+- Changed files: `src/App.tsx`, `src/App.test.tsx`, `src/styles.css`,
+  `src/components/**`, `src/lib/**`, `src/screens/**`, and this execution plan.
+- Unresolved risk: existing E2E is still route-level smoke coverage; the 500ms
+  same-origin synchronization contract, production-build offline behavior,
+  reduced-motion rendering, responsive screenshots, and ten-run deterministic
+  path remain to be proven in M5.
+- Next concrete goal: replace the smoke E2E with acceptance-level browser tests
+  and collect the responsive, offline, synchronization, and ten-run evidence.
 
 ## Decision notes
 
