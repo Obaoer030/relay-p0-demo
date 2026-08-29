@@ -10,9 +10,9 @@ Relay 是一个面向女性黑客松的移动优先交互原型。它把一件�
 
 ## 体验入口
 
-- `/demo`：双手机路演舞台与确定性控制器
-- `/`：林然的移动端“今天”视图
-- `/r/demo-cat-checkup`：小雨的无账号单事项视图
+- [双手机路演舞台](https://relay-p0-demo.vercel.app/demo)：双手机视图与确定性控制器
+- [林然的“今天”视图](https://relay-p0-demo.vercel.app/)：移动端发起者体验
+- [小雨的单事项视图](https://relay-p0-demo.vercel.app/r/demo-cat-checkup)：无账号协作者体验
 
 ## P0 能力
 

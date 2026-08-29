@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `feat/relay-p0-demo`  
-> Status: P0 green; publishing in progress
+> Status: P0 green and published; submission form in progress
 > Last updated: 2026-08-30
 
 ## Outcome contract
@@ -151,6 +151,26 @@ the repository's single `npm run verify` quality gate.
   production deployment, and submission-form transmission remain.
 - Next concrete goal: run the final gate, commit the green P0, then publish and
   verify the two external URLs before filling the competition form.
+
+### 2026-08-30 — GitHub and Vercel publication
+
+- Completed outcome: the verified P0 is fast-forwarded to `main`, published as
+  a public GitHub repository, tagged with the required `shenicest-fission`
+  topic, and deployed to a stable Vercel production alias.
+- Evidence: GitHub reports public `main` at
+  `https://github.com/Obaoer030/relay-p0-demo` with topics `hackathon`, `react`,
+  `shenicest-fission`, `typescript`, and `vite`; Vercel inspection reports
+  deployment `dpl_3RfnPPxcsLLERk5r4PPAaa1jtWCs` Ready at
+  `https://relay-p0-demo.vercel.app`; the live `/demo` DOM rendered the complete
+  two-phone stage in Chrome.
+- Security evidence: `.env.local` and `.vercel/` are ignored and untracked; a
+  non-printing scan of all reachable Git history found no OpenAI, GitHub,
+  Vercel, Supabase, or AWS credential-shaped values.
+- Changed files: `.gitignore`, `README.md`, and this plan.
+- Unresolved risk: the competition form still requires a video URL before final
+  submission; remaining form fields have not yet been transmitted.
+- Next concrete goal: prepare and fill all non-video submission fields, then
+  pause at the browser's representational-submission confirmation boundary.
 
 ## Decision notes
 
