@@ -2,7 +2,7 @@
 
 > Owner: main implementation session  
 > Branch: `codex/relay-p0-demo-recovery` (recovery worktree; based on `feat/relay-p0-demo`)
-> Status: in progress — interactive full-demo expansion
+> Status: complete — interactive full-demo expansion
 > Last updated: 2026-08-29
 
 ## Outcome contract
@@ -89,12 +89,12 @@ the repository's single `npm run verify` quality gate.
 
 - [x] Record the expanded product contract and responsive-Web decision in ADR-002.
 - [x] Document the product background, difference from chat, and independent value.
-- [ ] Extend the persisted domain for matter CRUD, people, activity, and filters.
-- [ ] Replace the standalone phone home with a complete responsive application shell.
-- [ ] Add overview, matters, handoffs, people, activity, settings, and product-story surfaces.
-- [ ] Preserve the verified `/demo` and public helper routes.
-- [ ] Add interactive-system E2E and mobile/desktop visual evidence.
-- [ ] Run final verification and leave a green checkpoint.
+- [x] Extend the persisted domain for matter CRUD, people, activity, and filters.
+- [x] Replace the standalone phone home with a complete responsive application shell.
+- [x] Add overview, matters, handoffs, people, activity, settings, and product-story surfaces.
+- [x] Preserve the verified `/demo` and public helper routes.
+- [x] Add interactive-system E2E and mobile/desktop visual evidence.
+- [x] Run final verification and leave a green checkpoint.
 
 ## Checkpoints
 
@@ -189,6 +189,41 @@ the repository's single `npm run verify` quality gate.
   explicitly out of scope and were not started.
 - Next concrete goal: none within P0; preserve the green checkpoint until a
   separately authorized deployment, recording, or Stretch Goal task exists.
+
+### 2026-08-29 — Complete interactive product demo
+
+- Completed outcome: `/` is now a complete responsive Relay workspace rather
+  than a phone-shaped stage. It includes overview, searchable and filterable
+  matter management, create/edit/delete/detail/status workflows, handoff
+  columns, trusted people, activity history, settings, and an in-product design
+  background/comparison with chat. Eight seeded matters, four trusted people,
+  and activity records are real application state persisted in localStorage.
+- Mobile outcome: 375×812 uses a compact header, fixed four-tab navigation,
+  touch-sized controls, a floating create action, vertically scrollable content,
+  and no horizontal page overflow. Desktop uses a persistent sidebar and
+  multi-column information layout. The same deployable Web build serves both.
+- Evidence: `npm run verify` passed lint, strict typecheck, 16 unit tests,
+  production build, and 15 Chromium E2E tests. New E2E proves module navigation,
+  seeded data, matter creation, refresh persistence, editing, responsibility
+  transfer, search, activity history, product story, and mobile navigation.
+- Regression evidence: `npm run test:golden` again passed 10/10 after the
+  expansion; `/demo`, helper sharing, 500ms same-origin synchronization,
+  reduced motion, offline flow, invalid token, and existing P0 visual baselines
+  remain green.
+- Visual evidence: versioned 1440×900 overview/matters/demo screenshots and
+  375×812 overview/matters/helper screenshots were inspected. Navigation,
+  content hierarchy, controls, cards, and fixed mobile navigation remain clear.
+- Changed files: `src/app/**`, `src/screens/Workspace*.tsx`, `src/workspace/**`,
+  `src/App.tsx`, `src/main.tsx`, `src/styles.css`, `tests/workspace.spec.ts`,
+  `tests/visual.spec.ts`, visual baselines, ADR-002, product story, context pack,
+  and this execution plan.
+- Unresolved risk: online deployment still uses per-browser local data. Real
+  cross-device shared accounts require an authorized backend, identity,
+  permissions, and security phase; a WeChat Mini Program remains an optional
+  separate distribution project, not a requirement for phone browser use.
+- Next concrete goal: deploy the static build when the user authorizes a host,
+  or begin a separately scoped cloud-account architecture if real shared data
+  across devices is required.
 
 ## Final P0 acceptance evidence
 

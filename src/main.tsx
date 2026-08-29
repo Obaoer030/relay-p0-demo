@@ -3,13 +3,16 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { App } from './App'
 import { RelayProvider } from './store/RelayProvider'
+import { WorkspaceProvider } from './workspace/WorkspaceProvider'
 import './styles.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <RelayProvider>
-        <App />
+        <WorkspaceProvider>
+          <App />
+        </WorkspaceProvider>
       </RelayProvider>
     </BrowserRouter>
   </StrictMode>,
