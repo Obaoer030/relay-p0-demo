@@ -242,8 +242,12 @@ shared demo room for phone/computer demonstrations.
   remains provider-bound and two of five final calls timed out. Semantic
   inventions without a number or known high-risk phrase can still evade local
   heuristics; generated plans therefore remain drafts requiring human review.
-- Publication status: this checkpoint is local only; GitHub and the public
-  Vercel deployment were not changed in this task.
+- Publication evidence: code commit `354c37a` is on GitHub `main` and the
+  recovery branch. Vercel production deployment
+  `dpl_x8RPnScVinRAYo5ZCvD3AtKL4r9F` is Ready and aliased to
+  `https://relay-p0-demo.vercel.app`. Live checks returned HTTP 200 for `/` and
+  `/matters`; `/api/health` reported `minimax` / `browser-local`; a real
+  healthcare request returned seven correctly owned steps with no assumptions.
 - Next concrete goal: none in this bounded fix. A broader reliability redesign
   would require a separate decision about latency, retries and model evaluation.
 
